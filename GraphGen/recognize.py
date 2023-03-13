@@ -1,65 +1,48 @@
-import networkx as nx
-
+import numpy as np
 import utils
 
-def get_node_num(g: nx.graph.Graph):
-    return len(g.nodes)
+def get_node_num(adj: np.ndarray):
+    return adj.shape[0]
 
-def get_edge_num(g: nx.graph.Graph):
-    return len(g.edges)
+def get_edge_num(adj: np.ndarray):
+    n = get_node_num(adj)
+    for i in range(n):
+        for j in range(n):
+            if adj[i, j] != adj[j, i]:
+                raise ValueError('adj is not symmetric')
+    return np.sum(adj) // 2
 
-def get_connected_component_sizes(g: nx.graph.Graph):
-    assert not g.is_directed()
+def get_max_diameter(adj: np.ndarray):
+    n = get_node_num(adj)
+    dist = np.zeros((n, n))
+    for i in range(n):
+        for j in range(n):
+            dist[i, j] = 1 if adj[i, j] else np.inf
+
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                dist[i, j] = min(dist[i, j], dist[i, k] + dist[k, j])
+
+    if np.all(dist == np.inf):
+        return 0
+
+    return int(dist[dist < np.inf].max())
+
+def get_connected_component_num(adj: np.ndarray):
     dsu = utils.DSU()
 
-    for (u, v) in g.edges:
-        dsu.merge(u, v)
+    n = get_node_num(adj)
+    for i in range(n):
+        for j in range(n):
+            if adj[i][j]:
+                dsu.merge(i, j)
 
     cc = set()
-    for u in g.nodes:
-        cc.add(dsu.size(dsu.query(u)))
+    for i in range(n):
+        cc.add(dsu.size(dsu.query(i)))
 
-    return list(cc)
+    return len(list(cc))
 
-def get_degree(g: nx.graph.Graph):
-    assert not g.is_directed()
-    return [len(x[1]) for x in g.adjacency()]
-
-def get_is_tree(g: nx.graph.Graph):
-    assert not g.is_directed()
-
-    if len(get_connected_component_sizes(g)) == 1 and \
-            get_edge_num(g) == get_node_num(g) - 1:
-        return True
-    else:
-        return False
-
-def get_tree_depth(g: nx.graph.Graph):
-    assert not g.is_directed()
-    assert get_is_tree(g)
-
-    def dfs(u, dep, maxdep, vis):
-        vis[u] = 1
-        maxdep = max(maxdep, dep)
-
-        for v in g[u]:
-            if v not in vis:
-                maxdep = max(maxdep, dfs(v, dep + 1, maxdep, vis))
-
-        return maxdep
-
-    # assert 0 is root
-    return dfs(0, 0, 0, {})
-
-if __name__ == '__main__':
-    g = nx.graph.Graph()
-    g.add_nodes_from([0,1,2,3,4])
-    g.add_edges_from([(0,1),(1,2),(3,4)])
-    assert get_node_num(g) == 5
-    assert get_edge_num(g) == 3
-    assert len(get_connected_component_sizes(g)) == 2
-    g.add_edge(2,3)
-    assert len(get_connected_component_sizes(g)) == 1
-    assert get_degree(g) == [1,2,2,2,1]
-    assert get_is_tree(g) == True
-    assert get_tree_depth(g) == 4
+def get_degree_seq(adj: np.ndarray):
+    return sorted(np.sum(adj, axis=1), reverse=True)
