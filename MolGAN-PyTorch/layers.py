@@ -2,7 +2,122 @@ import math
 import torch
 import torch.nn as nn
 from torch.nn.parameter import Parameter
+from torch.autograd import Variable
 from torch.nn.modules.module import Module
+
+class PositionalEncoder(nn.Module):
+    # Abishek's code
+    def __init__(self, d_model, max_seq_len = 80):
+        super().__init__()
+        self.d_model = d_model
+        
+        # create constant 'pe' matrix with values dependant on 
+        # pos and i
+        pe = torch.zeros(max_seq_len, d_model)
+        for pos in range(max_seq_len):
+            for i in range(0, d_model, 2):
+                pe[pos, i] = \
+                math.sin(pos / (10000 ** ((2 * i)/d_model)))
+                pe[pos, i + 1] = \
+                math.cos(pos / (10000 ** ((2 * (i + 1))/d_model)))
+                
+        pe = pe.unsqueeze(0)
+        self.register_buffer('pe', pe)
+    
+    def forward(self, x):
+        # make embeddings relatively larger
+        x = x * math.sqrt(self.d_model)
+        #add constant to embedding
+        seq_len = x.size(1)
+        x = x + Variable(self.pe[:,:seq_len], \
+        requires_grad=False).cuda()
+        return x
+
+class GraphConvolutionLayer2(Module):
+    # Abishek's code
+    def __init__(self, in_features, u, activation, dropout_rate=0.):
+        super(GraphConvolutionLayer2, self).__init__()
+        self.u = u
+        self.adj_list = nn.Linear(in_features, u)
+        self.linear_2 = nn.Linear(in_features, u)
+        self.activation = activation
+        self.dropout = nn.Dropout(dropout_rate)
+
+    def forward(self, n_tensor, adj_tensor, h_tensor=None):
+        if h_tensor is not None:
+            annotations = n_tensor + h_tensor
+        else:
+            annotations = n_tensor
+
+        output = self.adj_list(annotations)
+        output = torch.matmul(adj_tensor, output)
+        out_linear_2 = self.linear_2(annotations)
+        output = output + out_linear_2
+        output = self.activation(output) if self.activation is not None else output
+        output = self.dropout(output)
+        return output
+
+    
+class MultiGraphConvolutionLayers2(Module):
+    # Abishek's code
+    def __init__(self, in_features, conv_hid_dims, activation, dropout_rate=0.):
+        super(MultiGraphConvolutionLayers2, self).__init__()
+        self.conv_nets = nn.ModuleList()
+        self.units = conv_hid_dims
+    
+        for u0, u1 in zip([in_features] + self.units[:-1], self.units):
+            self.conv_nets.append(GraphConvolutionLayer2(u0, u1, activation, dropout_rate))
+
+    def forward(self, n_tensor, adj_tensor, h_tensor=None):
+        hidden_tensor = h_tensor
+        for conv_idx in range(len(self.units)):
+            hidden_tensor = self.conv_nets[conv_idx](n_tensor, adj_tensor, hidden_tensor)
+        return hidden_tensor
+
+
+class GraphConvolution2(Module):
+    # Abishek's code
+    def __init__(self, in_features, graph_conv_units, dropout_rate=0.):
+        super(GraphConvolution2, self).__init__()
+        self.in_features = in_features
+        self.graph_conv_units = graph_conv_units
+        self.activation_f = torch.nn.Tanh()
+        self.multi_graph_convolution_layers = \
+            MultiGraphConvolutionLayers(in_features, self.graph_conv_units, self.activation_f, dropout_rate)
+
+    def forward(self, n_tensor, adj_tensor, h_tensor=None):
+        output = self.multi_graph_convolution_layers(n_tensor, adj_tensor, h_tensor)
+        return output
+
+class GraphAggregation2(Module):
+    # Abishek's code
+    def __init__(self, in_features, aux_units, activation, dropout_rate=0.):
+        super(GraphAggregation2, self).__init__()
+        self.activation = activation
+        self.i = nn.Sequential(nn.Linear(in_features, aux_units),
+                                nn.Sigmoid())
+        j_layers = [nn.Linear(in_features, aux_units)]
+        if self.activation is not None:
+            j_layers.append(self.activation)
+        self.j = nn.Sequential(*j_layers)
+        self.dropout = nn.Dropout(dropout_rate)
+
+    def forward(self, n_tensor, out_tensor, h_tensor=None):
+        out_tensor = out_tensor + n_tensor
+        if h_tensor is not None:
+            annotations = torch.cat((out_tensor, h_tensor), -1)
+        # The i here seems to be an attention.
+        i = self.i(annotations)
+        j = self.j(annotations)
+        output = torch.sum(torch.mul(i, j), 1)
+        if self.activation is not None:
+            output = self.activation(output)
+        output = self.dropout(output)
+
+        return output
+
+
+
 
 
 class GraphConvolutionLayer(Module):
@@ -32,7 +147,6 @@ class GraphConvolutionLayer(Module):
         output = self.dropout(output)
         return output
 
-
 class MultiGraphConvolutionLayers(Module):
     def __init__(self, in_features, units, activation, edge_type_num, with_features=False, f=0, dropout_rate=0.):
         super(MultiGraphConvolutionLayers, self).__init__()
@@ -56,7 +170,6 @@ class MultiGraphConvolutionLayers(Module):
             hidden_tensor = self.conv_nets[conv_idx](n_tensor, adj_tensor, hidden_tensor)
         return hidden_tensor
 
-
 class GraphConvolution(Module):
     def __init__(self, in_features, graph_conv_units, edge_type_num, with_features=False, f_dim=0, dropout_rate=0.):
         super(GraphConvolution, self).__init__()
@@ -72,9 +185,9 @@ class GraphConvolution(Module):
         return output
 
 
-class GraphConvolution2(Module):
+class GraphConvolution3(Module):
     def __init__(self, in_features, out_feature_list, b_dim, dropout):
-        super(GraphConvolution2, self).__init__()
+        super(GraphConvolution3, self).__init__()
         self.in_features = in_features
         self.out_feature_list = out_feature_list
 
@@ -140,10 +253,10 @@ class GraphAggregation(Module):
         return output
 
 
-class GraphAggregation2(Module):
+class GraphAggregation3(Module):
 
     def __init__(self, in_features, out_features, b_dim, dropout):
-        super(GraphAggregation2, self).__init__()
+        super(GraphAggregation3, self).__init__()
         self.sigmoid_linear = nn.Sequential(nn.Linear(in_features+b_dim, out_features),
                                             nn.Sigmoid())
         self.tanh_linear = nn.Sequential(nn.Linear(in_features+b_dim, out_features),
