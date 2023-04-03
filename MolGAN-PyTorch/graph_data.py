@@ -40,7 +40,7 @@ class SyntheticGraphDataset(data.Dataset):
         return adj_matrix, ids, attention_mask, tokens
 
 if __name__ == '__main__':
-    ds = SyntheticGraphDataset('../data/graphgen', 50, 128)
+    ds = SyntheticGraphDataset('./data', 50, 128)
     print('-'*10, 'test dataset', '-'*10)
     print(ds[0])
     print('-'*10, 'test dataloader', '-'*10)
