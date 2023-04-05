@@ -49,7 +49,7 @@ class GraphConvolutionLayer(Module):
         if h_tensor is not None:
             annotations = self.pe(h_tensor)
         else:
-            annotations = self.pe(torch.zeros(adj_tensor.shape[0], adj_tensor.shape[1], self.in_features, device=adj_tensor.device, dtype=adj_tensor.dtype))
+            annotations = self.pe(torch.zeros((adj_tensor.shape[0], adj_tensor.shape[1], self.in_features), device=adj_tensor.device, dtype=adj_tensor.dtype))
 
         output = self.adj_list(annotations)
         output = torch.matmul(adj_tensor, output)

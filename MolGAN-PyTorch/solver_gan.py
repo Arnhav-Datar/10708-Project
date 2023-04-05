@@ -187,7 +187,7 @@ class Solver(object):
                        for e_logits in listify(inputs)]
         
 
-        return [delistify(e) for e in (softmax)]
+        return delistify([e for e in (softmax)])
 
     def train_and_validate(self):
         self.start_time = time.time()
@@ -303,7 +303,7 @@ class Solver(object):
                 logits_fake, features_fake = self.D(adjM_hat, bert_out)
 
             # Compute losses for gradient penalty.
-            eps = torch.rand(logits_real.size(0), 1, 1, 1).to(self.device)
+            eps = torch.rand(logits_real.size(0), 1, 1).to(self.device)
             x_int0 = (eps * adj_mat + (1. - eps) * adjM_hat).requires_grad_(True)
             grad0, grad1 = self.D(x_int0, bert_out)
             grad_penalty = self.gradient_penalty(grad0, x_int0)

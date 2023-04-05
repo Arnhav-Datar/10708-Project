@@ -31,16 +31,18 @@ def score(descs, adj_mat_hat):
     }
     for desc, adj in zip(descs, adj_mat_hat):
         m = re.search(r'\b([0-9]+)\s+nodes', desc, re.IGNORECASE)
+        nodes = get_node_num(adj)
         if m is not None:
             n = int(m.group(1))
-            scores['nodes'].append(int(n == get_node_num(adj)))
+            scores['nodes'].append(int(n == nodes))
         else:
             scores['nodes'].append(-1)
         
+        edg = get_edge_num(adj)
         m = re.search(r'\b([0-9]+)\s+edges', desc, re.IGNORECASE)
         if m is not None:
             n = int(m.group(1))
-            scores['edges'].append(int(n == get_edge_num(adj)))
+            scores['edges'].append(int(n == edg))
         else:
             scores['edges'].append(-1)
         
@@ -54,7 +56,7 @@ def score(descs, adj_mat_hat):
         cc_num = get_connected_component_num(adj)
         degree_seq = get_degree_seq(adj)
 
-        have_cycle = m > n - cc_num
+        have_cycle = edg > nodes - cc_num
         max_deg = np.max(degree_seq)
         min_deg = np.min(degree_seq)
         

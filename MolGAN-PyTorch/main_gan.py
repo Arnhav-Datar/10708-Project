@@ -34,6 +34,9 @@ def get_date_postfix(time=False):
 def main(config):
     # For fast training.
     cudnn.benchmark = True
+    
+    # Tokenizer warning disable
+    os.environ['TOKENIZERS_PARALLELISM'] = 'true'
 
     # Timestamp
     config.saving_dir = os.path.join(config.saving_dir, get_date_postfix())

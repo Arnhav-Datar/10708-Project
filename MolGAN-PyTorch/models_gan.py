@@ -52,8 +52,8 @@ class Discriminator(nn.Module):
         h_1 = self.gcn_layer(adj)
         h = self.agg_layer(h_1)
         out = self.mha(h.view(h.shape[0], 1, -1), bert_out, bert_out)[0].view(h.shape[0], -1)
-        h = torch.cat(out, dim=1)
-        h = self.multi_dense_layer(h)
+        # h = torch.cat(out, dim=1)
+        h = self.multi_dense_layer(out)
 
         output = self.output_layer(h)
         output = activation(output) if activation is not None else output
