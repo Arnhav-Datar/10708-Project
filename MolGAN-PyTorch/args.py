@@ -15,14 +15,14 @@ def get_GAN_config():
     parser.add_argument('--z_dim', type=int, default=8, help='dimension of latent vector')
     parser.add_argument('--mha_dim', type=int, default=768, help='dimension of vectors uses in multi-head attentin')
     parser.add_argument('--n_heads', type=int, default=8, help='number of heads to be used in multi-head attention')
-    parser.add_argument('--hid_dims', default=[128, 256, 512], help='hidden dimensions of MLP layer in G before attention')
+    parser.add_argument('--hid_dims', default=[128, 256, 768], help='hidden dimensions of MLP layer in G before attention')
     parser.add_argument('--hid_dims_2', default=[512, 256, 128], help='hidden dimensions of MLP layer in G after attention')
-    parser.add_argument('--m_dim', default=128, help='positional encoding dimension')
-    parser.add_argument('--conv_dim', type=int, default=[[128, 128], 128, [128, 64]],
+    parser.add_argument('--m_dim', default=128, help='positional encoding dimension for input to first gcn in D')
+    parser.add_argument('--conv_dim', type=int, default=[[128, 256], 768, [256, 64]],
                         help='list of dimensions of gcn (list), output dimension of graph agg, hidden dimensions of linear (list) in D')
     parser.add_argument('--lambda_rec', type=float, default=10, help='weight for reconstruction loss')
     parser.add_argument('--lambda_gp', type=float, default=10, help='weight for gradient penalty')
-    parser.add_argument('--post_method', type=str, default='sigmoid', choices=['softmax', 'soft_gumbel', 'hard_gumbel'])
+    parser.add_argument('--post_method', type=str, default='sigmoid', choices=['sigmoid', 'softmax', 'soft_gumbel', 'hard_gumbel'])
 
     # Training configuration.
     parser.add_argument('--batch_size', type=int, default=32, help='mini-batch size')

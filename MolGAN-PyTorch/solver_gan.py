@@ -11,6 +11,7 @@ from score import score
 
 from models_gan import Generator, Discriminator
 from graph_data import get_loaders
+import numpy as np
 
 class Solver(object):
     """Solver for training and testing LIC-GAN."""
@@ -36,7 +37,7 @@ class Solver(object):
         self.n_heads = config.n_heads
         self.hid_dims = config.hid_dims
         self.hid_dims_2 = config.hid_dims_2
-        self.m_dim = self.data.atom_num_types
+        self.m_dim = config.m_dim
         self.conv_dim = config.conv_dim
         self.la = config.lambda_wgan
         self.lambda_rec = config.lambda_rec
@@ -49,7 +50,7 @@ class Solver(object):
         # Training configurations.
         self.batch_size = config.batch_size
         self.num_epochs = config.num_epochs
-        self.num_steps = (len(self.data) // self.batch_size)
+        self.num_steps = len(self.train_data)
         self.g_lr = config.g_lr
         self.d_lr = config.d_lr
         self.dropout = config.dropout
@@ -247,18 +248,20 @@ class Solver(object):
         the_step = self.num_steps
         if train_val_test == 'val':
             if self.mode == 'train':
-                the_step = 1
+                the_step = len(self.val_data)
             print('[Validating]')
+        if train_val_test == 'test':
+            the_step = len(self.test_data)
 
         for a_step in range(the_step):
             if train_val_test == 'val':
-                adj_mat, ids, mask, _ = next(iter(self.val_data))
+                adj_mat, ids, mask, desc = next(iter(self.val_data))
                 z = self.sample_z(adj_mat.shape[0])
             elif train_val_test == 'test':
-                adj_mat, ids, mask, _ = next(iter(self.test_data))
+                adj_mat, ids, mask, desc = next(iter(self.test_data))
                 z = self.sample_z(adj_mat.shape[0])
             elif train_val_test == 'train':
-                adj_mat, ids, mask, _ = next(iter(self.train_data))
+                adj_mat, ids, mask, desc = next(iter(self.train_data))
                 z = self.sample_z(self.batch_size)
             else:
                 raise NotImplementedError
@@ -383,7 +386,7 @@ class Solver(object):
             if train_val_test in ['val', 'test']:
                 
                 mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
-                results = score(mats, self.data, norm=True)
+                results = score(desc, mats.detach().cpu().numpy())
                 for k, v in results.items():
                     scores[k].append(v)
 

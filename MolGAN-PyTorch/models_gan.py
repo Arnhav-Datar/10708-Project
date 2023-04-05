@@ -23,7 +23,7 @@ class Generator(nn.Module):
 
     def forward(self, z, bert_out):
         out = self.multi_dense_layer(z)
-        out = self.mha(out, bert_out, bert_out)[0].view(z.shape[0], -1)
+        out = self.mha(out.view(out.shape[0], 1, -1), bert_out, bert_out)[0].view(z.shape[0], -1)
         out = self.multi_dense_layer_2(out)
         adjM_logits = self.adjM_layer(out).view(-1, self.N, self.N)
         adjM_logits = (adjM_logits + adjM_logits.permute(0, 2, 1)) / 2
@@ -51,7 +51,7 @@ class Discriminator(nn.Module):
         # adj = adj[:, :, :, 1:].permute(0, 3, 1, 2)
         h_1 = self.gcn_layer(adj)
         h = self.agg_layer(h_1)
-        out = self.mha(h, bert_out, bert_out)[0].view(h.shape[0], -1)
+        out = self.mha(h.view(h.shape[0], 1, -1), bert_out, bert_out)[0].view(h.shape[0], -1)
         h = torch.cat(out, dim=1)
         h = self.multi_dense_layer(h)
 

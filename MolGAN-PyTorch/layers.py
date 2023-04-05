@@ -30,7 +30,7 @@ class PositionalEncoder(nn.Module):
         #add constant to embedding
         seq_len = x.size(1)
         x = x + Variable(self.pe[:,:seq_len], \
-        requires_grad=False).cuda()
+        requires_grad=False).to(x.device)
         return x
 
 class GraphConvolutionLayer(Module):
@@ -49,7 +49,7 @@ class GraphConvolutionLayer(Module):
         if h_tensor is not None:
             annotations = self.pe(h_tensor)
         else:
-            annotations = self.pe(torch.zeros(adj_tensor.shape[0], adj_tensor.shape[1], self.in_features, device=adj_tensor.device))
+            annotations = self.pe(torch.zeros(adj_tensor.shape[0], adj_tensor.shape[1], self.in_features, device=adj_tensor.device, dtype=adj_tensor.dtype))
 
         output = self.adj_list(annotations)
         output = torch.matmul(adj_tensor, output)
@@ -106,7 +106,7 @@ class GraphAggregation(Module):
         self.pe = PositionalEncoder(in_features, N)
 
     def forward(self, out_tensor, h_tensor=None):
-        out_tensor = self.pe(out_tensor)
+        annotations = self.pe(out_tensor)
         if h_tensor is not None:
             annotations = torch.cat((out_tensor, h_tensor), -1)
         # The i here seems to be an attention.

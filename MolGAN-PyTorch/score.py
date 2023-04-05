@@ -1,5 +1,12 @@
-from ..GraphGen.recognize import *
+import sys
+import os
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(os.path.dirname(SCRIPT_DIR), 'GraphGen'))
+
+from recognize import *
 import re
+import numpy as np
 
 def process_scores(scores):
     results = []

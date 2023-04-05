@@ -26,18 +26,19 @@ class SyntheticGraphDataset(data.Dataset):
         self.encoded_text = self.tokenizer(self.desc, add_special_tokens=True, truncation=False, max_length=max_len, padding='max_length')
 
     def __getitem__(self, index):
-        return self.adj_matrix[index], self.encoded_text[index]
+        return self.adj_matrix[index], self.encoded_text[index], self.desc[index]
     
     def __len__(self):
         return len(self.adj_matrix)
 
     @staticmethod
     def collate_fn(batch):
-        adj_matrix = torch.from_numpy(np.stack([item[0] for item in batch]))
+        adj_matrix = torch.from_numpy(np.stack([item[0] for item in batch])).type(torch.FloatTensor)
         ids = torch.from_numpy(np.stack([item[1].ids for item in batch]))
         attention_mask = torch.from_numpy(np.stack([item[1].attention_mask for item in batch]))
-        tokens = [item[1].tokens for item in batch]
-        return adj_matrix, ids, attention_mask, tokens
+        desc = [item[2] for item in batch]
+        # tokens = [item[1].tokens for item in batch]
+        return adj_matrix, ids, attention_mask, desc
 
 def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers=1):
     """Build and return a data loader."""
@@ -45,15 +46,15 @@ def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers
     dataset = SyntheticGraphDataset(data_dir, max_node, max_len, model_name)
     train, val, test = torch.utils.data.random_split(dataset, [0.65, 0.15, 0.2])
     train_loader = data.DataLoader(dataset=train,
-                                  batch_size=batch_size,
-                                  shuffle=True,
-                                  num_workers=num_workers,
-                                  collate_fn=SyntheticGraphDataset.collate_fn)
+                                   batch_size=batch_size,
+                                   shuffle=True,
+                                   num_workers=num_workers,
+                                   collate_fn=SyntheticGraphDataset.collate_fn)
     val_loader = data.DataLoader(dataset=val,
-                                  batch_size=batch_size,
-                                  shuffle=False,
-                                  num_workers=num_workers,
-                                  collate_fn=SyntheticGraphDataset.collate_fn)
+                                 batch_size=batch_size,
+                                 shuffle=False,
+                                 num_workers=num_workers,
+                                 collate_fn=SyntheticGraphDataset.collate_fn)
     test_loader = data.DataLoader(dataset=test,
                                   batch_size=batch_size,
                                   shuffle=False,
