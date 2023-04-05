@@ -70,16 +70,16 @@ def score(descs, adj_mat_hat):
         m = re.search(r'min degree\s+([0-9]+)\b', desc, re.IGNORECASE)
         if m is not None:
             n = int(m.group(1))
-            scores['min_degree'].append(int(n == min_deg))
+            scores['min_deg'].append(int(n == min_deg))
         else:
-            scores['min_degree'].append(-1)
+            scores['min_deg'].append(-1)
         
         m = re.search(r'max degree\s+([0-9]+)\b', desc, re.IGNORECASE)
         if m is not None:
             n = int(m.group(1))
-            scores['max_degree'].append(int(n == max_deg))
+            scores['max_deg'].append(int(n == max_deg))
         else:
-            scores['max_degree'].append(-1)
+            scores['max_deg'].append(-1)
         
         m = re.search(r'\b([0-9]+)\s+cycle', desc, re.IGNORECASE)
         if m is not None:

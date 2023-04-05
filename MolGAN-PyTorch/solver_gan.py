@@ -12,6 +12,7 @@ from score import score
 from models_gan import Generator, Discriminator
 from graph_data import get_loaders
 import numpy as np
+from tqdm import tqdm
 
 class Solver(object):
     """Solver for training and testing LIC-GAN."""
@@ -253,7 +254,7 @@ class Solver(object):
         if train_val_test == 'test':
             the_step = len(self.test_data)
 
-        for a_step in range(the_step):
+        for a_step in tqdm(range(the_step)):
             if train_val_test == 'val':
                 adj_mat, ids, mask, desc = next(iter(self.val_data))
                 z = self.sample_z(adj_mat.shape[0])
