@@ -9,7 +9,7 @@ import pickle
 class SyntheticGraphDataset(data.Dataset):
     """Dataset Class for synthetic graph dataset."""
 
-    def __init__(self, data_dir, max_node, max_len):
+    def __init__(self, data_dir, max_node, max_len, model_name='bert-base-uncased'):
         self.data_dir = data_dir
         with open(os.path.join(data_dir, 'graphs.pkl'), 'rb') as f:
             self.adj_matrix = pickle.load(f)
@@ -22,7 +22,7 @@ class SyntheticGraphDataset(data.Dataset):
             if node_size > max_node:
                 raise Exception('Node size is larger than max_node')
             self.adj_matrix[i] = np.pad(self.adj_matrix[i], (0, max_node - node_size), 'constant', constant_values=0)
-        self.tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.encoded_text = self.tokenizer(self.desc, add_special_tokens=True, truncation=False, max_length=max_len, padding='max_length')
 
     def __getitem__(self, index):
@@ -38,6 +38,28 @@ class SyntheticGraphDataset(data.Dataset):
         attention_mask = torch.from_numpy(np.stack([item[1].attention_mask for item in batch]))
         tokens = [item[1].tokens for item in batch]
         return adj_matrix, ids, attention_mask, tokens
+
+def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers=1):
+    """Build and return a data loader."""
+
+    dataset = SyntheticGraphDataset(data_dir, max_node, max_len, model_name)
+    train, val, test = torch.utils.data.random_split(dataset, [0.65, 0.15, 0.2])
+    train_loader = data.DataLoader(dataset=train,
+                                  batch_size=batch_size,
+                                  shuffle=True,
+                                  num_workers=num_workers,
+                                  collate_fn=SyntheticGraphDataset.collate_fn)
+    val_loader = data.DataLoader(dataset=val,
+                                  batch_size=batch_size,
+                                  shuffle=False,
+                                  num_workers=num_workers,
+                                  collate_fn=SyntheticGraphDataset.collate_fn)
+    test_loader = data.DataLoader(dataset=test,
+                                  batch_size=batch_size,
+                                  shuffle=False,
+                                  num_workers=num_workers,
+                                  collate_fn=SyntheticGraphDataset.collate_fn)
+    return train_loader, val_loader, test_loader
 
 if __name__ == '__main__':
     ds = SyntheticGraphDataset('./data', 50, 128)

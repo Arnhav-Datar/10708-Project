@@ -108,6 +108,7 @@ def gen_text_desc(adjs: [np.ndarray]) -> [str]:
     descs = Parallel(n_jobs=8)(delayed(_gen)(adj) for adj in tqdm(adjs))
     
     return descs
+    
 
 def main():
     adjs = []

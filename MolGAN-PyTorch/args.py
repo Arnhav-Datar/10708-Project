@@ -9,20 +9,26 @@ def get_GAN_config():
     parser = argparse.ArgumentParser()
 
     # Model configuration.
-    parser.add_argument('--z_dim', type=int, default=8, help='dimension of domain labels')
-    parser.add_argument('--g_conv_dim', default=[128, 256, 512], help='number of conv filters in the first layer of G')
-    parser.add_argument('--d_conv_dim', type=int, default=[[128, 64], 128, [128, 64]],
-                        help='number of conv filters in the first layer of D')
-    parser.add_argument('--lambda_cls', type=float, default=1, help='weight for domain classification loss')
+    parser.add_argument('--lm_model', type=str, default='bert-base-uncased', help='LM model')
+    parser.add_argument('--N', type=int, default=50, help='max number of nodes')
+    parser.add_argument('--max_len', type=int, default=128, help='max number of tokens input to LM')
+    parser.add_argument('--z_dim', type=int, default=8, help='dimension of latent vector')
+    parser.add_argument('--mha_dim', type=int, default=768, help='dimension of vectors uses in multi-head attentin')
+    parser.add_argument('--n_heads', type=int, default=8, help='number of heads to be used in multi-head attention')
+    parser.add_argument('--hid_dims', default=[128, 256, 512], help='hidden dimensions of MLP layer in G before attention')
+    parser.add_argument('--hid_dims_2', default=[512, 256, 128], help='hidden dimensions of MLP layer in G after attention')
+    parser.add_argument('--m_dim', default=128, help='positional encoding dimension')
+    parser.add_argument('--conv_dim', type=int, default=[[128, 128], 128, [128, 64]],
+                        help='list of dimensions of gcn (list), output dimension of graph agg, hidden dimensions of linear (list) in D')
     parser.add_argument('--lambda_rec', type=float, default=10, help='weight for reconstruction loss')
     parser.add_argument('--lambda_gp', type=float, default=10, help='weight for gradient penalty')
-    parser.add_argument('--post_method', type=str, default='softmax', choices=['softmax', 'soft_gumbel', 'hard_gumbel'])
+    parser.add_argument('--post_method', type=str, default='sigmoid', choices=['softmax', 'soft_gumbel', 'hard_gumbel'])
 
     # Training configuration.
     parser.add_argument('--batch_size', type=int, default=32, help='mini-batch size')
     parser.add_argument('--num_epochs', type=int, default=100, help='number of epochs for training D')
-    parser.add_argument('--g_lr', type=float, default=0.001, help='learning rate for G')
-    parser.add_argument('--d_lr', type=float, default=0.001, help='learning rate for D')
+    parser.add_argument('--g_lr', type=float, default=1e-4, help='learning rate for G')
+    parser.add_argument('--d_lr', type=float, default=1e-4, help='learning rate for D')
     parser.add_argument('--dropout', type=float, default=0., help='dropout rate')
     parser.add_argument('--n_critic', type=int, default=5, help='number of D updates per each G update')
     parser.add_argument('--resume_epoch', type=int, default=None, help='resume training from this step')
@@ -35,11 +41,10 @@ def get_GAN_config():
     parser.add_argument('--mode', type=str, default='train', choices=['train', 'test'])
 
     # Use either of these two datasets.
-    parser.add_argument('--mol_data_dir', type=str, default='data/qm9_5k.sparsedataset')
-    # parser.add_argument('--mol_data_dir', type=str, default='data/gdb9_9nodes.sparsedataset')
+    parser.add_argument('--data_dir', type=str, default='data')
 
     # Directories.
-    parser.add_argument('--saving_dir', type=str, default='../exp_results/GAN/')
+    parser.add_argument('--saving_dir', type=str, default='results')
 
     # Step size.
     parser.add_argument('--log_step', type=int, default=10)
