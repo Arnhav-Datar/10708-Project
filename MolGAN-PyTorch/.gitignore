@@ -1,4 +1,5 @@
 data/*
+results
 !data/*.py
 !data/*.smi
 !data/*.sh

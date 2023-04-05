@@ -49,19 +49,17 @@ def get_GAN_config():
     # Step size.
     parser.add_argument('--log_step', type=int, default=10)
     parser.add_argument('--sample_step', type=int, default=1000)
-    parser.add_argument('--model_save_step', type=int, default=1)
+    parser.add_argument('--model_save_step', type=int, default=20)
     parser.add_argument('--lr_update_step', type=int, default=1000)
 
     # For training
     config = parser.parse_args()
-    config.mode = 'train'
-    config.lambda_wgan = 0.0
+    config.lambda_wgan = 1
     config.lambda_gp = 10.0
     config.g_lr = config.d_lr = 1e-4
     config.n_critic = 5
-    config.num_epochs = 150
+    config.num_epochs = 100
     config.log_step = 1
-    config.batch_size = 32
 
     # For testing
     # config.mode = 'test'

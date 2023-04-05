@@ -51,12 +51,12 @@ def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers
                                    num_workers=num_workers,
                                    collate_fn=SyntheticGraphDataset.collate_fn)
     val_loader = data.DataLoader(dataset=val,
-                                 batch_size=batch_size,
+                                 batch_size=batch_size*2,
                                  shuffle=False,
                                  num_workers=num_workers,
                                  collate_fn=SyntheticGraphDataset.collate_fn)
     test_loader = data.DataLoader(dataset=test,
-                                  batch_size=batch_size,
+                                  batch_size=batch_size*2,
                                   shuffle=False,
                                   num_workers=num_workers,
                                   collate_fn=SyntheticGraphDataset.collate_fn)
@@ -67,8 +67,10 @@ if __name__ == '__main__':
     print('-'*10, 'test dataset', '-'*10)
     print(ds[0])
     print('-'*10, 'test dataloader', '-'*10)
+    print('len', len(ds))
     dl = data.DataLoader(dataset=ds, batch_size=4, shuffle=True, num_workers=1
                          , collate_fn=SyntheticGraphDataset.collate_fn)
+    print('len', len(dl)) 
     batch = next(iter(dl))
     print('adj_matrix', batch[0].shape)
     print('ids', batch[1].shape)

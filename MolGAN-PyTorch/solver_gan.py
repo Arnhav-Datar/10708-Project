@@ -19,7 +19,7 @@ class Solver(object):
 
     def __init__(self, config, log=None):
         """Initialize configurations."""
-
+        print(config.batch_size)
         # Log
         self.log = log
 
@@ -113,7 +113,7 @@ class Solver(object):
         num_params = 0
         for p in model.parameters():
             num_params += p.numel()
-        print(model)
+        # print(model)
         print(name)
         print("The number of parameters: {}".format(num_params))
         if log is not None:
@@ -206,15 +206,17 @@ class Solver(object):
                 self.train_or_valid(epoch_i=i, train_val_test='train')
                 self.train_or_valid(epoch_i=i, train_val_test='val')
         elif self.mode == 'test':
-            assert self.resume_epoch is not None
+            # assert self.resume_epoch is not None
             self.train_or_valid(epoch_i=start_epoch, train_val_test='test')
         else:
             raise NotImplementedError
 
     def get_gen_adj_mat(self, adj_mat, method):
         adj_mat = self.postprocess(adj_mat, method)
+        adj_mat = torch.nan_to_num(adj_mat, nan=0., posinf=0., neginf=0.)
         adj_mat = (adj_mat + adj_mat.permute(0, 2, 1)) / 2
         adj_mat = torch.round(adj_mat)
+        assert torch.all(torch.eq(adj_mat, adj_mat.permute(0, 2, 1)))
         return adj_mat
 
     # def get_reward(self, n_hat, e_hat, method):
@@ -385,38 +387,41 @@ class Solver(object):
 
             # Get scores.
             if train_val_test in ['val', 'test']:
-                
-                mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
-                results = score(desc, mats.detach().cpu().numpy())
-                for k, v in results.items():
-                    scores[k].append(v)
+                # torch.cuda.empty_cache()
+                if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
+                    mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
+                    results = score(desc, mats.detach().cpu().numpy().astype(int))
+                    for k, v in results.items():
+                        scores[k].append(v)
 
-                # Save checkpoints.
-                if self.mode == 'train':
-                    if (epoch_i + 1) % self.model_save_step == 0:
-                        self.save_checkpoints(epoch_i=epoch_i)
+                if a_step + 1 == the_step:
+                    # Save checkpoints.
+                    if self.mode == 'train':
+                        if (epoch_i + 1) % self.model_save_step == 0:
+                            self.save_checkpoints(epoch_i=epoch_i)
 
-                # Print out training information.
-                et = time.time() - self.start_time
-                et = str(datetime.timedelta(seconds=et))[:-7]
-                log = "Elapsed [{}], Iteration [{}/{}]:".format(et, epoch_i + 1, self.num_epochs)
+                    # Print out training information.
+                    et = time.time() - self.start_time
+                    et = str(datetime.timedelta(seconds=et))[:-7]
+                    log = "Elapsed [{}], Iteration [{}/{}]:".format(et, epoch_i + 1, self.num_epochs)
 
-                is_first = True
-                for tag, value in losses.items():
-                    if is_first:
-                        log += "\n{}: {:.2f}".format(tag, np.mean(value))
-                        is_first = False
-                    else:
-                        log += ", {}: {:.2f}".format(tag, np.mean(value))
-                is_first = True
-                for tag, value in scores.items():
-                    if is_first:
-                        log += "\n{}: {:.2f}".format(tag, np.mean(value))
-                        is_first = False
-                    else:
-                        log += ", {}: {:.2f}".format(tag, np.mean(value))
-                print(log)
+                    is_first = True
+                    for tag, value in losses.items():
+                        if is_first:
+                            log += "\n{}: {:.2f}".format(tag, np.mean(value))
+                            is_first = False
+                        else:
+                            log += ", {}: {:.2f}".format(tag, np.mean(value))
+                    if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
+                        is_first = True
+                        for tag, value in scores.items():
+                            if is_first:
+                                log += "\n{}: {:.2f}".format(tag, np.mean(value))
+                                is_first = False
+                            else:
+                                log += ", {}: {:.2f}".format(tag, np.mean(value))
+                    print(log)
 
-                if self.log is not None:
-                    self.log.info(log)
+                    if self.log is not None:
+                        self.log.info(log)
 
