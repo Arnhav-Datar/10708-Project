@@ -41,7 +41,6 @@ class Solver(object):
         self.m_dim = config.m_dim
         self.conv_dim = config.conv_dim
         self.la = config.lambda_wgan
-        self.lambda_rec = config.lambda_rec
         self.la_gp = config.lambda_gp
         self.post_method = config.post_method
         
@@ -97,8 +96,16 @@ class Solver(object):
         for param in self.bert.parameters():
             param.requires_grad = False
 
-        self.g_optimizer = torch.optim.RMSprop(self.G.parameters(), self.g_lr)
-        self.d_optimizer = torch.optim.RMSprop(self.D.parameters(), self.d_lr)
+        self.g_optimizer = torch.optim.Adam(self.G.parameters(), self.g_lr, betas=(0, 0.9))
+        self.d_optimizer = torch.optim.Adam(self.D.parameters(), self.d_lr, betas=(0, 0.9))
+        self.g_scheduler = torch.optim.lr_scheduler.LinearLR(self.g_optimizer,
+                                                             1.,
+                                                             1./self.num_epochs,
+                                                             self.num_epochs)
+        self.d_scheduler = torch.optim.lr_scheduler.LinearLR(self.d_optimizer,
+                                                             1.,
+                                                             1./self.num_epochs,
+                                                             self.num_epochs)
         self.print_network(self.G, 'G', self.log)
         self.print_network(self.D, 'D', self.log)
         self.print_network(self.bert, self.lm_model, self.log)
@@ -205,6 +212,10 @@ class Solver(object):
             for i in range(start_epoch, self.num_epochs):
                 self.train_or_valid(epoch_i=i, train_val_test='train')
                 self.train_or_valid(epoch_i=i, train_val_test='val')
+                self.g_scheduler.step()
+                self.d_scheduler.step()
+                if i == start_epoch:
+                    self.la = 1
         elif self.mode == 'test':
             # assert self.resume_epoch is not None
             self.train_or_valid(epoch_i=start_epoch, train_val_test='test')
@@ -228,13 +239,13 @@ class Solver(object):
     #     return reward
 
     def save_checkpoints(self, epoch_i):
-        G_path = os.path.join(self.model_dir_path, '{}-G.ckpt'.format(epoch_i + 1))
-        D_path = os.path.join(self.model_dir_path, '{}-D.ckpt'.format(epoch_i + 1))
+        G_path = os.path.join(self.model_dir, '{}-G.ckpt'.format(epoch_i + 1))
+        D_path = os.path.join(self.model_dir, '{}-D.ckpt'.format(epoch_i + 1))
         torch.save(self.G.state_dict(), G_path)
         torch.save(self.D.state_dict(), D_path)
-        print('Saved model checkpoints into {}...'.format(self.model_dir_path))
+        print('Saved model checkpoints into {}...'.format(self.model_dir))
         if self.log is not None:
-            self.log.info('Saved model checkpoints into {}...'.format(self.model_dir_path))
+            self.log.info('Saved model checkpoints into {}...'.format(self.model_dir))
 
     def train_or_valid(self, epoch_i, train_val_test='val'):
         # The first several epochs using RL to purse stability (not used).
@@ -384,7 +395,6 @@ class Solver(object):
             # =================================================================================== #
             #                                 4. Miscellaneous                                    #
             # =================================================================================== #
-
             # Get scores.
             if train_val_test in ['val', 'test']:
                 # torch.cuda.empty_cache()
