@@ -20,7 +20,7 @@ def get_GAN_config():
     parser.add_argument('--m_dim', default=128, help='positional encoding dimension for input to first gcn in D')
     parser.add_argument('--conv_dim', type=int, default=[[128, 256], 768, [256, 64]],
                         help='list of dimensions of gcn (list), output dimension of graph agg, hidden dimensions of linear (list) in D')
-    parser.add_argument('--lambda_gp', type=float, default=10, help='weight for gradient penalty')
+    parser.add_argument('--lambda_gp', type=float, default=0, help='weight for gradient penalty')
     parser.add_argument('--post_method', type=str, default='sigmoid', choices=['sigmoid', 'softmax', 'soft_gumbel', 'hard_gumbel'])
 
     # Training configuration.
@@ -31,9 +31,6 @@ def get_GAN_config():
     parser.add_argument('--dropout', type=float, default=0., help='dropout rate')
     parser.add_argument('--n_critic', type=int, default=5, help='number of D updates per each G update')
     parser.add_argument('--resume_epoch', type=int, default=None, help='resume training from this step')
-
-    # Test configuration.
-    parser.add_argument('--test_epochs', type=int, default=100, help='test model from this step')
 
     # Miscellaneous.
     parser.add_argument('--num_workers', type=int, default=1)
@@ -50,14 +47,15 @@ def get_GAN_config():
     parser.add_argument('--sample_step', type=int, default=1000)
     parser.add_argument('--model_save_step', type=int, default=20)
     parser.add_argument('--lr_update_step', type=int, default=1000)
+    parser.add_argument('--val_step', type=int, default=100)
 
     # For training
     config = parser.parse_args()
     config.lambda_wgan = 0
-    config.lambda_gp = 10.0
-    config.n_critic = 5
-    config.num_epochs = 100
-    config.log_step = 1
+    # config.lambda_gp = 10.0
+    # config.n_critic = 5
+    # config.num_epochs = 100
+    # config.log_step = 1
 
     # For testing
     # config.mode = 'test'

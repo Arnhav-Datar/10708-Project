@@ -8,6 +8,7 @@ import torch
 import torch.nn.functional as F
 from transformers import BertModel
 from score import score
+from torch.utils.tensorboard import SummaryWriter
 
 from models_gan import Generator, Discriminator
 from graph_data import get_loaders
@@ -54,11 +55,13 @@ class Solver(object):
         self.g_lr = config.g_lr
         self.d_lr = config.d_lr
         self.dropout = config.dropout
-        if self.la > 0:
-            self.n_critic = config.n_critic
-        else:
-            self.n_critic = 1
+        # if self.la > 0:
+        #     self.n_critic = config.n_critic
+        # else:
+        #     self.n_critic = 1
+        self.n_critic = config.n_critic
         self.resume_epoch = config.resume_epoch
+        self.val_step = config.val_step
 
         # Training or testing.
         self.mode = config.mode
@@ -69,6 +72,7 @@ class Solver(object):
 
         # Directories.
         self.log_dir = config.log_dir
+        self.writer = SummaryWriter(config.log_dir)
         self.model_dir = config.model_dir
 
         # Step size.
@@ -214,8 +218,8 @@ class Solver(object):
                 self.train_or_valid(epoch_i=i, train_val_test='val')
                 self.g_scheduler.step()
                 self.d_scheduler.step()
-                if i == start_epoch:
-                    self.la = 1
+                # if i == start_epoch:
+                #     self.la = 1
         elif self.mode == 'test':
             # assert self.resume_epoch is not None
             self.train_or_valid(epoch_i=start_epoch, train_val_test='test')
@@ -249,10 +253,10 @@ class Solver(object):
 
     def train_or_valid(self, epoch_i, train_val_test='val'):
         # The first several epochs using RL to purse stability (not used).
-        if epoch_i < 0:
-            cur_la = 0
-        else:
-            cur_la = self.la
+        # if epoch_i < 0:
+        #     cur_la = 0
+        # else:
+        #     cur_la = self.la
 
         # Recordings
         losses = defaultdict(list)
@@ -326,13 +330,17 @@ class Solver(object):
             d_loss_fake = torch.mean(logits_fake)
             loss_D = -d_loss_real + d_loss_fake + self.la_gp * grad_penalty
 
-            if cur_la > 0:
-                losses['l_D/R'].append(d_loss_real.item())
-                losses['l_D/F'].append(d_loss_fake.item())
-                losses['l_D'].append(loss_D.item())
+            self.writer.add_scalar(f'{train_val_test}/loss_D', loss_D.item(), cur_step)
+            self.writer.add_scalar(f'{train_val_test}/loss_D_real', d_loss_real.item(), cur_step)
+            self.writer.add_scalar(f'{train_val_test}/loss_D_fake', d_loss_fake.item(), cur_step)
+            self.writer.add_scalar(f'{train_val_test}/loss_D_gp', self.la_gp * grad_penalty.item(), cur_step)
+
+            losses['l_D/R'].append(d_loss_real.item())
+            losses['l_D/F'].append(d_loss_fake.item())
+            losses['l_D'].append(loss_D.item())
 
             # Optimise discriminator.
-            if train_val_test == 'train' and cur_step % self.n_critic != 0 and cur_la > 0:
+            if train_val_test == 'train' and cur_step % self.n_critic != 0:
                 self.reset_grad()
                 loss_D.backward()
                 self.d_optimizer.step()
@@ -371,11 +379,13 @@ class Solver(object):
             # loss_V = torch.mean(loss_V)
             # loss_RL = torch.mean(loss_RL)
             losses['l_G'].append(loss_G.item())
+            self.writer.add_scalar('loss_G', loss_G.item(), cur_step)
             # losses['l_RL'].append(loss_RL.item())
             # losses['l_V'].append(loss_V.item())
 
             # alpha = torch.abs(loss_G.detach() / loss_RL.detach()).detach()
-            train_step_G = cur_la * loss_G
+            # train_step_G = cur_la * loss_G
+            self.writer.add_scalar(f'{train_val_test}/loss_G', loss_G.item(), cur_step)
 
             # train_step_V = loss_V
 
@@ -384,7 +394,7 @@ class Solver(object):
 
                 # Optimise generator.
                 if cur_step % self.n_critic == 0:
-                    train_step_G.backward(retain_graph=True)
+                    loss_G.backward(retain_graph=True)
                     self.g_optimizer.step()
 
                 # Optimise value network.
@@ -396,13 +406,23 @@ class Solver(object):
             #                                 4. Miscellaneous                                    #
             # =================================================================================== #
             # Get scores.
-            if train_val_test in ['val', 'test']:
-                # torch.cuda.empty_cache()
-                if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
-                    mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
-                    results = score(desc, mats.detach().cpu().numpy().astype(int))
+            # torch.cuda.empty_cache()
+            if self.mode == 'test' or a_step % self.val_step == 0:
+                mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
+                results = score(desc, mats.detach().cpu().numpy().astype(int))
+                for k, v in results.items():
+                    scores[k].append(v)
+            
+                scores_ = []
+                for i in range(len(desc)):
+                    ok, cnt = 0, 0
                     for k, v in results.items():
-                        scores[k].append(v)
+                        if v[i] == -1:
+                            continue
+                        cnt += 1
+                        ok += v[i]
+                    scores_.append(ok / cnt)
+                self.writer.add_scalar(f'{train_val_test}/score', np.mean(scores_), cur_step)
 
                 if a_step + 1 == the_step:
                     # Save checkpoints.
