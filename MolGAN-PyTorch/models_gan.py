@@ -8,15 +8,15 @@ class Generator(nn.Module):
     # Abishek's code
     """Generator network for NLP conditioned graph gen."""
 
-    def __init__(self, N, z_dim, hid_dims, hid_dims_2, mha_dim, n_heads, dropout_rate):
+    def __init__(self, N, z_dim, gen_dims, mha_dim, n_heads, dropout_rate):
         super(Generator, self).__init__()
         self.N = N
         self.activation_f = torch.nn.ReLU()
+        hid_dims, hid_dims_2 = gen_dims
+        
         self.multi_dense_layer = MultiDenseLayer(z_dim, hid_dims, self.activation_f)
-        
         self.mha = nn.MultiheadAttention(mha_dim, n_heads, batch_first=True)
-        
-        self.multi_dense_layer_2 = MultiDenseLayer(mha_dim, hid_dims_2, self.activation_f)
+        self.multi_dense_layer_2 = MultiDenseLayer(mha_dim, hid_dims_2, self.activation_f, dropout_rate=dropout_rate)
 
         self.adjM_layer = nn.Linear(hid_dims_2[-1], N*N)
         self.dropoout = nn.Dropout(p=dropout_rate)
@@ -35,27 +35,24 @@ class Discriminator(nn.Module):
     # Abishek's code
     """Discriminator network with PatchGAN NLP conditioned graph gen."""
 
-    def __init__(self, N, conv_dim, m_dim, mha_dim, n_heads, dropout_rate=0.):
+    def __init__(self, N, disc_dims, mha_dim, n_heads, dropout_rate=0.):
         super(Discriminator, self).__init__()
         self.activation_f = torch.nn.ReLU()
-        graph_conv_dim, aux_dim, linear_dim = conv_dim
-        # discriminator
-        self.gcn_layer = GraphConvolution(N, m_dim, graph_conv_dim, dropout_rate)
-        self.agg_layer = GraphAggregation(N, graph_conv_dim[-1], aux_dim, self.activation_f, dropout_rate)
+        hid_dims, hid_dims_2 = disc_dims
+        self.multi_dense_layer = MultiDenseLayer(N*N, hid_dims, self.activation_f)
         self.mha = nn.MultiheadAttention(mha_dim, n_heads, batch_first=True)
-        self.multi_dense_layer = MultiDenseLayer(mha_dim, linear_dim, self.activation_f, dropout_rate=dropout_rate)
+        self.multi_dense_layer_2 = MultiDenseLayer(mha_dim, hid_dims_2, self.activation_f, dropout_rate=dropout_rate)
 
-        self.output_layer = nn.Linear(linear_dim[-1], 1)
+        self.output_layer = nn.Linear(hid_dims_2[-1], 1)
 
     def forward(self, adj, bert_out, activation=None):
         # adj = adj[:, :, :, 1:].permute(0, 3, 1, 2)
-        h_1 = self.gcn_layer(adj)
-        h = self.agg_layer(h_1)
-        out = self.mha(h.view(h.shape[0], 1, -1), bert_out, bert_out)[0].view(h.shape[0], -1)
-        # h = torch.cat(out, dim=1)
-        h = self.multi_dense_layer(out)
+        inp = adj.view(adj.shape[0], -1)
+        out = self.multi_dense_layer(inp)
+        out = self.mha(out.view(out.shape[0], 1, -1), bert_out, bert_out)[0].view(out.shape[0], -1)
+        out = self.multi_dense_layer_2(out)
 
-        output = self.output_layer(h)
+        output = self.output_layer(out)
         output = activation(output) if activation is not None else output
 
-        return output, h
+        return output, out

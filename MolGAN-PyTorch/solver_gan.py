@@ -13,6 +13,8 @@ from models_gan import Generator, Discriminator
 from graph_data import get_loaders
 import numpy as np
 from tqdm import tqdm
+from recognize import *
+
 
 class Solver(object):
     """Solver for training and testing LIC-GAN."""
@@ -36,10 +38,8 @@ class Solver(object):
         self.z_dim = config.z_dim
         self.mha_dim = config.mha_dim
         self.n_heads = config.n_heads
-        self.hid_dims = config.hid_dims
-        self.hid_dims_2 = config.hid_dims_2
-        self.m_dim = config.m_dim
-        self.conv_dim = config.conv_dim
+        self.gen_dims = config.gen_dims
+        self.disc_dims = config.disc_dims
         self.la = config.lambda_wgan
         self.la_gp = config.lambda_gp
         self.post_method = config.post_method
@@ -83,14 +83,12 @@ class Solver(object):
         """Create a generator and a discriminator."""
         self.G = Generator(self.N,
                            self.z_dim,
-                           self.hid_dims,
-                           self.hid_dims_2,
+                           self.gen_dims,
                            self.mha_dim,
                            self.n_heads,
                            self.dropout)
         self.D = Discriminator(self.N,
-                               self.conv_dim, 
-                               self.m_dim, 
+                               self.disc_dims, 
                                self.mha_dim,
                                self.n_heads,
                                self.dropout)
@@ -418,7 +416,12 @@ class Solver(object):
                     for i in range(5):
                         log += '-'*50 + '\n'
                         log += 'Text: {}\n'.format(desc[i])
-                        log += 'Adjacency matrix:\n{}\n'.format(np_mats[i])
+                        nodes, edg = get_node_num(np_mats[i]), get_edge_num(np_mats[i])
+                        log += 'Num Nodes: {} | Num Edges: {}\n'.format(nodes, edg)
+                        cc_num = get_connected_component_num(np_mats[i])
+                        degree_seq = get_degree_seq(np_mats[i])
+                        have_cycle = edg > nodes - cc_num
+                        log += 'Conn Comp: {} | Max Deg: {} | Min Deg: {} | Has Cycle: {}\n'.format(cc_num, np.max(degree_seq), np.min(degree_seq), have_cycle)
                         log += '-'*50 + '\n'
                     if self.log is not None:
                         self.log.info(log)
