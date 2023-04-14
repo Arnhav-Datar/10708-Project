@@ -4,6 +4,9 @@ import logging
 from rdkit import RDLogger
 
 from args import get_GAN_config
+import wandb
+
+os.environ["WANDB_API_KEY"] = '12ad199333ec9dd0cb2697317b64dc3396dac0d1'
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512'
@@ -68,6 +71,7 @@ def main(config):
 
 
 if __name__ == '__main__':
+    wandb.login()
     config = get_GAN_config()
 
     # print(config)

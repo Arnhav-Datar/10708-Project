@@ -14,7 +14,7 @@ from graph_data import get_loaders
 import numpy as np
 from tqdm import tqdm
 from recognize import *
-
+import wandb
 
 class Solver(object):
     """Solver for training and testing LIC-GAN."""
@@ -54,12 +54,9 @@ class Solver(object):
         self.g_lr = config.g_lr
         self.d_lr = config.d_lr
         self.dropout = config.dropout
-        if self.la > 0:
-            self.n_critic = config.n_critic
-        else:
-            self.n_critic = 1
-        self.resume_epoch = config.resume_epoch
-
+        self.n_critic = config.n_critic
+        self.lr_update_step = config.lr_update_step
+        
         # Training or testing.
         self.mode = config.mode
 
@@ -78,6 +75,24 @@ class Solver(object):
         self.build_model()
         self.restore_G = config.restore_G
         self.restore_D = config.restore_D
+        
+        if self.mode == 'train':
+            self.run = wandb.init(
+            # Set the project where this run will be logged
+                name=config.name,
+                project="pgm-proj",
+                # Track hyperparameters and run metadata
+                config={
+                    key: val for key, val in config.__dict__.items() if not key.startswith('__') and not callable(key) and not key.endswith('dir')
+                }
+            )
+            for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp']:
+                self.run.define_metric(f'train/{metric}', step_metric="step")
+            for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp', 'property_match']:
+                self.run.define_metric(f'val/{metric}', step_metric="epoch")
+            
+            # for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp']:
+            #     self.run.define_metric(f'test/{metric}', step_metric="epoch")
 
     def build_model(self):
         """Create a generator and a discriminator."""
@@ -128,13 +143,13 @@ class Solver(object):
             log.info(name)
             log.info("The number of parameters: {}".format(num_params))
 
-    def restore_model(self, resume_iters):
-        """Restore the trained generator and discriminator."""
-        print('Loading the trained models from step {}...'.format(resume_iters))
-        G_path = os.path.join(self.model_dir, '{}-G.ckpt'.format(resume_iters))
-        D_path = os.path.join(self.model_dir, '{}-D.ckpt'.format(resume_iters))
-        self.G.load_state_dict(torch.load(G_path, map_location=lambda storage, loc: storage))
-        self.D.load_state_dict(torch.load(D_path, map_location=lambda storage, loc: storage))
+    # def restore_model(self, resume_iters):
+    #     """Restore the trained generator and discriminator."""
+    #     print('Loading the trained models from step {}...'.format(resume_iters))
+    #     G_path = os.path.join(self.model_dir, '{}-G.ckpt'.format(resume_iters))
+    #     D_path = os.path.join(self.model_dir, '{}-D.ckpt'.format(resume_iters))
+    #     self.G.load_state_dict(torch.load(G_path, map_location=lambda storage, loc: storage))
+    #     self.D.load_state_dict(torch.load(D_path, map_location=lambda storage, loc: storage))
 
     def update_lr(self, g_lr, d_lr):
         """Decay learning rates of the generator and discriminator."""
@@ -202,9 +217,6 @@ class Solver(object):
 
         # Start training from scratch or resume training.
         start_epoch = 0
-        if self.resume_epoch is not None:
-            start_epoch = self.resume_epoch
-            self.restore_model(self.resume_epoch)
         if self.restore_D:
             self.D.load_state_dict(torch.load(self.restore_D, map_location=lambda storage, loc: storage))
         if self.restore_G:
@@ -254,10 +266,10 @@ class Solver(object):
 
     def train_or_valid(self, epoch_i, train_val_test='val'):
         # The first several epochs using RL to purse stability (not used).
-        if epoch_i < 0:
-            cur_la = 0
-        else:
-            cur_la = self.la
+        # if epoch_i < 0:
+        #     cur_la = 0
+        # else:
+        #     cur_la = self.la
 
         # Recordings
         losses = defaultdict(list)
@@ -378,7 +390,20 @@ class Solver(object):
             loss_G = torch.mean(loss_G)
             # loss_V = torch.mean(loss_V)
             # loss_RL = torch.mean(loss_RL)
-            losses['l_G'].append(loss_G.item())
+            if cur_la > 0:
+                losses['l_G'].append(loss_G.item())
+            
+            if train_val_test == 'train' and cur_la > 0:
+                if train_val_test == 'train':
+                    wandb.log({
+                        f'step': cur_step+1,
+                        f'{train_val_test}/l_D/R': d_loss_real.item(), 
+                        f'{train_val_test}/l_D/F': d_loss_fake.item(), 
+                        f'{train_val_test}/l_D': loss_D.item(),
+                        f'{train_val_test}/l_G': loss_G.item(),
+                        f'{train_val_test}/l_D/GP': grad_penalty.item(),
+                    })
+                
             # losses['l_RL'].append(loss_RL.item())
             # losses['l_V'].append(loss_V.item())
 
@@ -426,7 +451,6 @@ class Solver(object):
                     if self.log is not None:
                         self.log.info(log)
 
-                if a_step + 1 == the_step:
                     # Save checkpoints.
                     if self.mode == 'train':
                         if (epoch_i + 1) % self.model_save_step == 0:
@@ -438,12 +462,16 @@ class Solver(object):
                     log = "Elapsed [{}], Iteration [{}/{}]:".format(et, epoch_i + 1, self.num_epochs)
 
                     is_first = True
+                    new_dict = {'epoch': epoch_i + 1}
                     for tag, value in losses.items():
                         if is_first:
                             log += "\n{}: {:.2f}".format(tag, np.mean(value))
                             is_first = False
                         else:
                             log += ", {}: {:.2f}".format(tag, np.mean(value))
+                        if self.mode == 'train':
+                            new_dict[f'{train_val_test}/{tag}'] = np.mean(value)
+    
                     if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
                         is_first = True
                         for tag, value in scores.items():
@@ -452,6 +480,10 @@ class Solver(object):
                                 is_first = False
                             else:
                                 log += ", {}: {:.2f}".format(tag, np.mean(value))
+                            if self.mode == 'train':
+                                new_dict[f'{train_val_test}/{tag}'] = np.mean(value)
+                    
+                    wandb.log(new_dict)
                     print(log)
 
                     if self.log is not None:

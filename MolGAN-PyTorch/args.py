@@ -18,6 +18,7 @@ def get_GAN_config():
     parser.add_argument('--gen_dims', default=[[128, 256, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in G before and after attention')
     parser.add_argument('--disc_dims', default=[[128, 128], [512, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in D before and after attention')
     parser.add_argument('--lambda_gp', type=float, default=10, help='weight for gradient penalty')
+    parser.add_argument('--lambda_wgan', type=float, default=1, help='whether or not to use wgan loss')
     parser.add_argument('--post_method', type=str, default='sigmoid', choices=['sigmoid', 'softmax', 'soft_gumbel', 'hard_gumbel'])
 
     # Training configuration.
@@ -27,7 +28,6 @@ def get_GAN_config():
     parser.add_argument('--d_lr', type=float, default=2e-4, help='learning rate for D')
     parser.add_argument('--dropout', type=float, default=0., help='dropout rate')
     parser.add_argument('--n_critic', type=int, default=5, help='number of D updates per each G update')
-    parser.add_argument('--resume_epoch', type=int, default=None, help='resume training from this step')
 
     # Test configuration.
     parser.add_argument('--test_epochs', type=int, default=100, help='test model from this step')
@@ -43,18 +43,14 @@ def get_GAN_config():
     parser.add_argument('--saving_dir', type=str, default='results')
 
     # Step size.
-    parser.add_argument('--log_step', type=int, default=10)
-    parser.add_argument('--sample_step', type=int, default=1000)
     parser.add_argument('--model_save_step', type=int, default=20)
     parser.add_argument('--lr_update_step', type=int, default=1000)
 
+    # Wandb
+    config.name = None
+    
     # For training
     config = parser.parse_args()
-    config.lambda_wgan = 1
-    config.lambda_gp = 10.0
-    config.n_critic = 5
-    config.num_epochs = 100
-    config.log_step = 1
     config.restore_G = None #'/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-G.ckpt'
     config.restore_D = None #'/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-D.ckpt'
 
