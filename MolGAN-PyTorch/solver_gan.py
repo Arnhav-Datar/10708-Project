@@ -76,6 +76,8 @@ class Solver(object):
 
         # Build the model.
         self.build_model()
+        self.restore_G = config.restore_G
+        self.restore_D = config.restore_D
 
     def build_model(self):
         """Create a generator and a discriminator."""
@@ -98,14 +100,14 @@ class Solver(object):
 
         self.g_optimizer = torch.optim.Adam(self.G.parameters(), self.g_lr, betas=(0, 0.9))
         self.d_optimizer = torch.optim.Adam(self.D.parameters(), self.d_lr, betas=(0, 0.9))
-        self.g_scheduler = torch.optim.lr_scheduler.LinearLR(self.g_optimizer,
-                                                             1.,
-                                                             1./self.num_epochs,
-                                                             self.num_epochs)
-        self.d_scheduler = torch.optim.lr_scheduler.LinearLR(self.d_optimizer,
-                                                             1.,
-                                                             1./self.num_epochs,
-                                                             self.num_epochs)
+        # self.g_scheduler = torch.optim.lr_scheduler.LinearLR(self.g_optimizer,
+        #                                                      1.,
+        #                                                      1./self.num_epochs,
+        #                                                      self.num_epochs)
+        # self.d_scheduler = torch.optim.lr_scheduler.LinearLR(self.d_optimizer,
+        #                                                      1.,
+        #                                                      1./self.num_epochs,
+        #                                                      self.num_epochs)
         self.print_network(self.G, 'G', self.log)
         self.print_network(self.D, 'D', self.log)
         self.print_network(self.bert, self.lm_model, self.log)
@@ -205,6 +207,11 @@ class Solver(object):
         if self.resume_epoch is not None:
             start_epoch = self.resume_epoch
             self.restore_model(self.resume_epoch)
+        if self.restore_D:
+            self.D.load_state_dict(torch.load(self.restore_D, map_location=lambda storage, loc: storage))
+        if self.restore_G:
+            self.G.load_state_dict(torch.load(self.restore_G, map_location=lambda storage, loc: storage))
+            
 
         # Start training.
         if self.mode == 'train':
@@ -212,13 +219,13 @@ class Solver(object):
             for i in range(start_epoch, self.num_epochs):
                 self.train_or_valid(epoch_i=i, train_val_test='train')
                 self.train_or_valid(epoch_i=i, train_val_test='val')
-                self.g_scheduler.step()
-                self.d_scheduler.step()
-                if i == start_epoch:
-                    self.la = 1
+                # self.g_scheduler.step()
+                # self.d_scheduler.step()
+                # if i == start_epoch:
+                #     self.la = 1
         elif self.mode == 'test':
             # assert self.resume_epoch is not None
-            self.train_or_valid(epoch_i=start_epoch, train_val_test='test')
+            self.train_or_valid(epoch_i=start_epoch, train_val_test='val')
         else:
             raise NotImplementedError
 
@@ -279,6 +286,9 @@ class Solver(object):
                 z = self.sample_z(self.batch_size)
             else:
                 raise NotImplementedError
+            
+            if train_val_test == 'train':
+                self.reset_grad()
 
             # =================================================================================== #
             #                             1. Preprocess input data                                #
@@ -332,20 +342,20 @@ class Solver(object):
                 losses['l_D'].append(loss_D.item())
 
             # Optimise discriminator.
-            if train_val_test == 'train' and cur_step % self.n_critic != 0 and cur_la > 0:
-                self.reset_grad()
-                loss_D.backward()
+            if train_val_test == 'train' and cur_la > 0:
+                loss_D.backward(retain_graph=True)
                 self.d_optimizer.step()
 
             # =================================================================================== #
             #                               3. Train the generator                                #
             # =================================================================================== #
-
-            # # Z-to-target
-            # edges_logits, nodes_logits = self.G(z)
-            # # Postprocess with Gumbel softmax
-            # (edges_hat, nodes_hat) = self.postprocess((edges_logits, nodes_logits), self.post_method)
-            # logits_fake, features_fake = self.D(edges_hat, None, nodes_hat)
+            self.reset_grad()
+            
+            # Z-to-target
+            adjM_logits = self.G(z, bert_out)
+            # Postprocess with Gumbel softmax
+            adjM_hat = self.postprocess(adjM_logits, self.post_method)
+            logits_fake, features_fake = self.D(adjM_hat, bert_out)
 
             # Value losses
             # value_logit_real, _ = self.V(a_tensor, None, x_tensor, torch.sigmoid)
@@ -375,17 +385,13 @@ class Solver(object):
             # losses['l_V'].append(loss_V.item())
 
             # alpha = torch.abs(loss_G.detach() / loss_RL.detach()).detach()
-            train_step_G = cur_la * loss_G
+            train_step_G = loss_G
 
             # train_step_V = loss_V
-
-            if train_val_test == 'train':
-                self.reset_grad()
-
+            if train_val_test == 'train' and cur_step % self.n_critic == 0 and cur_la > 0:
                 # Optimise generator.
-                if cur_step % self.n_critic == 0:
-                    train_step_G.backward(retain_graph=True)
-                    self.g_optimizer.step()
+                train_step_G.backward()
+                self.g_optimizer.step()
 
                 # Optimise value network.
                 # if cur_step % self.n_critic == 0:
@@ -400,9 +406,22 @@ class Solver(object):
                 # torch.cuda.empty_cache()
                 if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
                     mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
-                    results = score(desc, mats.detach().cpu().numpy().astype(int))
+                    np_mats = mats.detach().cpu().numpy().astype(int)
+                    results = score(desc, np_mats)
                     for k, v in results.items():
                         scores[k].append(v)
+                        
+                if a_step +1 == the_step:
+                    mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
+                    np_mats = mats.detach().cpu().numpy().astype(int)
+                    log = '5 sample adjacenecy matrices\n'
+                    for i in range(5):
+                        log += '-'*50 + '\n'
+                        log += 'Text: {}\n'.format(desc[i])
+                        log += 'Adjacency matrix:\n{}\n'.format(np_mats[i])
+                        log += '-'*50 + '\n'
+                    if self.log is not None:
+                        self.log.info(log)
 
                 if a_step + 1 == the_step:
                     # Save checkpoints.

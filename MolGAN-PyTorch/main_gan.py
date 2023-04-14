@@ -40,7 +40,7 @@ def main(config):
     os.environ['TOKENIZERS_PARALLELISM'] = 'true'
 
     # Timestamp
-    config.saving_dir = os.path.join(config.saving_dir, get_date_postfix())
+    config.saving_dir = os.path.join(config.saving_dir, get_date_postfix(True))
     config.log_dir = os.path.join(config.saving_dir, 'logs')
     config.model_dir = os.path.join(config.saving_dir, 'models')
 

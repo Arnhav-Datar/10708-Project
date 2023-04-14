@@ -1,0 +1,278 @@
+INFO:root:Namespace(lm_model='bert-base-uncased', N=50, max_len=128, z_dim=8, mha_dim=768, n_heads=8, hid_dims=[128, 256, 768], hid_dims_2=[512, 256, 128], m_dim=128, conv_dim=[[128, 256], 768, [256, 64]], lambda_gp=10.0, post_method='sigmoid', batch_size=128, num_epochs=100, g_lr=0.0002, d_lr=0.0002, dropout=0.0, n_critic=5, resume_epoch=None, test_epochs=100, num_workers=1, mode='train', data_dir='data', saving_dir='results/2023-04-09_03-13', log_step=1, sample_step=1000, model_save_step=20, lr_update_step=1000, lambda_wgan=1, log_dir='results/2023-04-09_03-13/logs', model_dir='results/2023-04-09_03-13/models')
+INFO:root:Generator(
+  (activation_f): Tanh()
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=8, out_features=128, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): Tanh()
+      (3): Linear(in_features=128, out_features=256, bias=True)
+      (4): Dropout(p=0.0, inplace=False)
+      (5): Tanh()
+      (6): Linear(in_features=256, out_features=768, bias=True)
+      (7): Dropout(p=0.0, inplace=False)
+      (8): Tanh()
+    )
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer_2): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=768, out_features=512, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): Tanh()
+      (3): Linear(in_features=512, out_features=256, bias=True)
+      (4): Dropout(p=0.0, inplace=False)
+      (5): Tanh()
+      (6): Linear(in_features=256, out_features=128, bias=True)
+      (7): Dropout(p=0.0, inplace=False)
+      (8): Tanh()
+    )
+  )
+  (adjM_layer): Linear(in_features=128, out_features=2500, bias=True)
+  (dropoout): Dropout(p=0.0, inplace=False)
+)
+INFO:root:G
+INFO:root:The number of parameters: 3474372
+INFO:root:Discriminator(
+  (activation_f): Tanh()
+  (gcn_layer): GraphConvolution(
+    (activation_f): Tanh()
+    (multi_graph_convolution_layers): MultiGraphConvolutionLayers(
+      (conv_nets): ModuleList(
+        (0): GraphConvolutionLayer(
+          (adj_list): Linear(in_features=128, out_features=128, bias=True)
+          (linear_2): Linear(in_features=128, out_features=128, bias=True)
+          (activation): Tanh()
+          (dropout): Dropout(p=0.0, inplace=False)
+          (pe): PositionalEncoder()
+        )
+        (1): GraphConvolutionLayer(
+          (adj_list): Linear(in_features=128, out_features=256, bias=True)
+          (linear_2): Linear(in_features=128, out_features=256, bias=True)
+          (activation): Tanh()
+          (dropout): Dropout(p=0.0, inplace=False)
+          (pe): PositionalEncoder()
+        )
+      )
+    )
+  )
+  (agg_layer): GraphAggregation(
+    (activation): Tanh()
+    (i): Sequential(
+      (0): Linear(in_features=256, out_features=768, bias=True)
+      (1): Sigmoid()
+    )
+    (j): Sequential(
+      (0): Linear(in_features=256, out_features=768, bias=True)
+      (1): Tanh()
+    )
+    (dropout): Dropout(p=0.0, inplace=False)
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=768, out_features=256, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): Tanh()
+      (3): Linear(in_features=256, out_features=64, bias=True)
+      (4): Dropout(p=0.0, inplace=False)
+      (5): Tanh()
+    )
+  )
+  (output_layer): Linear(in_features=64, out_features=1, bias=True)
+)
+INFO:root:D
+INFO:root:The number of parameters: 3069569
+INFO:root:BertModel(
+  (embeddings): BertEmbeddings(
+    (word_embeddings): Embedding(30522, 768, padding_idx=0)
+    (position_embeddings): Embedding(512, 768)
+    (token_type_embeddings): Embedding(2, 768)
+    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (encoder): BertEncoder(
+    (layer): ModuleList(
+      (0-11): 12 x BertLayer(
+        (attention): BertAttention(
+          (self): BertSelfAttention(
+            (query): Linear(in_features=768, out_features=768, bias=True)
+            (key): Linear(in_features=768, out_features=768, bias=True)
+            (value): Linear(in_features=768, out_features=768, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (output): BertSelfOutput(
+            (dense): Linear(in_features=768, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (intermediate): BertIntermediate(
+          (dense): Linear(in_features=768, out_features=3072, bias=True)
+          (intermediate_act_fn): GELUActivation()
+        )
+        (output): BertOutput(
+          (dense): Linear(in_features=3072, out_features=768, bias=True)
+          (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+  )
+  (pooler): BertPooler(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (activation): Tanh()
+  )
+)
+INFO:root:bert-base-uncased
+INFO:root:The number of parameters: 109482240
+INFO:root:Elapsed [0:05:49], Iteration [1/100]:
+l_D/R: 8.83, l_D/F: -9.63, l_D: -17.56
+INFO:root:Elapsed [0:11:43], Iteration [2/100]:
+l_D/R: 13.70, l_D/F: -14.98, l_D: -16.39
+INFO:root:Elapsed [0:17:37], Iteration [3/100]:
+l_D/R: 18.96, l_D/F: -17.31, l_D: -31.12
+INFO:root:Elapsed [0:23:32], Iteration [4/100]:
+l_D/R: 24.88, l_D/F: -23.91, l_D: -37.66
+INFO:root:Elapsed [0:29:26], Iteration [5/100]:
+l_D/R: 29.98, l_D/F: -22.20, l_D: -45.62
+INFO:root:Elapsed [0:35:21], Iteration [6/100]:
+l_D/R: 35.83, l_D/F: -33.51, l_D: -56.81
+INFO:root:Elapsed [0:41:16], Iteration [7/100]:
+l_D/R: 39.88, l_D/F: -40.33, l_D: -63.99
+INFO:root:Elapsed [0:47:11], Iteration [8/100]:
+l_D/R: 47.11, l_D/F: -48.16, l_D: -74.18
+INFO:root:Elapsed [0:53:06], Iteration [9/100]:
+l_D/R: 50.82, l_D/F: -16.71, l_D: -56.15
+INFO:root:Elapsed [0:59:01], Iteration [10/100]:
+l_D/R: 57.05, l_D/F: -54.64, l_D: -84.80
+INFO:root:Elapsed [1:04:55], Iteration [11/100]:
+l_D/R: 60.07, l_D/F: -40.99, l_D: -85.18
+INFO:root:Elapsed [1:10:50], Iteration [12/100]:
+l_D/R: 65.08, l_D/F: -60.21, l_D: -84.03
+INFO:root:Elapsed [1:16:45], Iteration [13/100]:
+l_D/R: 67.88, l_D/F: -46.79, l_D: -89.52
+INFO:root:Elapsed [1:22:39], Iteration [14/100]:
+l_D/R: 73.42, l_D/F: -36.99, l_D: -85.88
+INFO:root:Elapsed [1:28:33], Iteration [15/100]:
+l_D/R: 73.39, l_D/F: -45.48, l_D: -88.57
+INFO:root:Elapsed [1:34:28], Iteration [16/100]:
+l_D/R: 77.63, l_D/F: -63.09, l_D: -102.61
+INFO:root:Elapsed [1:40:23], Iteration [17/100]:
+l_D/R: 77.51, l_D/F: -68.62, l_D: -100.66
+INFO:root:Elapsed [1:46:17], Iteration [18/100]:
+l_D/R: 81.72, l_D/F: -72.02, l_D: -99.35
+INFO:root:Elapsed [1:52:13], Iteration [19/100]:
+l_D/R: 51.48, l_D/F: -49.35, l_D: -70.94
+INFO:root:Saved model checkpoints into results/2023-04-09_03-13/models...
+INFO:root:Elapsed [2:17:55], Iteration [20/100]:
+l_D/R: 29.92, l_D/F: -70.17, l_D: -84.10
+property_match: 0.14
+INFO:root:Elapsed [2:23:48], Iteration [21/100]:
+l_D/R: 62.95, l_D/F: -90.32, l_D: -99.35
+INFO:root:Elapsed [2:29:43], Iteration [22/100]:
+l_D/R: 94.01, l_D/F: -61.30, l_D: -98.35
+INFO:root:Elapsed [2:35:38], Iteration [23/100]:
+l_D/R: 85.06, l_D/F: -61.18, l_D: -95.91
+INFO:root:Elapsed [2:41:33], Iteration [24/100]:
+l_D/R: 82.23, l_D/F: -37.87, l_D: -96.38
+INFO:root:Elapsed [2:47:27], Iteration [25/100]:
+l_D/R: 90.76, l_D/F: -53.25, l_D: -99.00
+INFO:root:Elapsed [2:53:22], Iteration [26/100]:
+l_D/R: 71.13, l_D/F: -69.34, l_D: -93.79
+INFO:root:Elapsed [2:59:18], Iteration [27/100]:
+l_D/R: 83.57, l_D/F: -70.60, l_D: -102.62
+INFO:root:Elapsed [3:05:13], Iteration [28/100]:
+l_D/R: 88.15, l_D/F: -68.73, l_D: -98.55
+INFO:root:Elapsed [3:11:08], Iteration [29/100]:
+l_D/R: 93.64, l_D/F: -68.88, l_D: -93.69
+INFO:root:Elapsed [3:17:04], Iteration [30/100]:
+l_D/R: 92.57, l_D/F: -69.91, l_D: -100.64
+INFO:root:Elapsed [3:22:59], Iteration [31/100]:
+l_D/R: 85.06, l_D/F: -80.97, l_D: -102.73
+INFO:root:Elapsed [3:28:54], Iteration [32/100]:
+l_D/R: 93.02, l_D/F: -66.87, l_D: -91.99
+INFO:root:Elapsed [3:34:48], Iteration [33/100]:
+l_D/R: 82.65, l_D/F: -77.55, l_D: -99.49
+INFO:root:Elapsed [3:40:43], Iteration [34/100]:
+l_D/R: 74.88, l_D/F: -62.53, l_D: -98.45
+INFO:root:Elapsed [3:46:37], Iteration [35/100]:
+l_D/R: 77.17, l_D/F: -69.40, l_D: -104.10
+INFO:root:Elapsed [3:52:32], Iteration [36/100]:
+l_D/R: 82.50, l_D/F: -69.71, l_D: -102.36
+INFO:root:Elapsed [3:58:25], Iteration [37/100]:
+l_D/R: 76.00, l_D/F: -82.60, l_D: -97.23
+INFO:root:Elapsed [4:04:20], Iteration [38/100]:
+l_D/R: 87.21, l_D/F: -81.30, l_D: -98.52
+INFO:root:Elapsed [4:10:14], Iteration [39/100]:
+l_D/R: 80.24, l_D/F: -50.75, l_D: -97.71
+INFO:root:Saved model checkpoints into results/2023-04-09_03-13/models...
+INFO:root:Elapsed [4:35:52], Iteration [40/100]:
+l_D/R: 90.98, l_D/F: -66.20, l_D: -99.32
+property_match: 0.14
+INFO:root:Elapsed [4:41:43], Iteration [41/100]:
+l_D/R: 80.24, l_D/F: -64.79, l_D: -100.16
+INFO:root:Elapsed [4:47:36], Iteration [42/100]:
+l_D/R: 86.99, l_D/F: -49.06, l_D: -98.35
+INFO:root:Elapsed [4:53:30], Iteration [43/100]:
+l_D/R: 81.49, l_D/F: -68.67, l_D: -102.90
+INFO:root:Elapsed [4:59:24], Iteration [44/100]:
+l_D/R: 74.61, l_D/F: -71.37, l_D: -93.29
+INFO:root:Elapsed [5:05:16], Iteration [45/100]:
+l_D/R: 65.95, l_D/F: -61.62, l_D: -80.20
+INFO:root:Elapsed [5:11:10], Iteration [46/100]:
+l_D/R: 95.29, l_D/F: -46.16, l_D: -101.76
+INFO:root:Elapsed [5:17:04], Iteration [47/100]:
+l_D/R: 76.23, l_D/F: -88.20, l_D: -99.67
+INFO:root:Elapsed [5:22:58], Iteration [48/100]:
+l_D/R: 95.44, l_D/F: -53.94, l_D: -95.07
+INFO:root:Elapsed [5:28:51], Iteration [49/100]:
+l_D/R: 73.48, l_D/F: -50.55, l_D: -90.42
+INFO:root:Elapsed [5:34:44], Iteration [50/100]:
+l_D/R: 79.86, l_D/F: -103.80, l_D: -99.06
+INFO:root:Elapsed [5:40:43], Iteration [51/100]:
+l_D/R: 95.37, l_D/F: -60.15, l_D: -80.77
+INFO:root:Elapsed [5:46:37], Iteration [52/100]:
+l_D/R: 74.92, l_D/F: -47.01, l_D: -90.04
+INFO:root:Elapsed [5:52:41], Iteration [53/100]:
+l_D/R: 78.63, l_D/F: -82.76, l_D: -91.49
+INFO:root:Elapsed [5:58:42], Iteration [54/100]:
+l_D/R: 87.08, l_D/F: -66.98, l_D: -102.55
+INFO:root:Elapsed [6:04:50], Iteration [55/100]:
+l_D/R: 81.32, l_D/F: -63.30, l_D: -100.08
+INFO:root:Elapsed [6:10:55], Iteration [56/100]:
+l_D/R: 87.49, l_D/F: -47.64, l_D: -92.55
+INFO:root:Elapsed [6:16:54], Iteration [57/100]:
+l_D/R: 66.42, l_D/F: -94.39, l_D: -102.86
+INFO:root:Elapsed [6:22:48], Iteration [58/100]:
+l_D/R: 91.24, l_D/F: -87.64, l_D: -70.39
+INFO:root:Elapsed [6:28:43], Iteration [59/100]:
+l_D/R: 77.10, l_D/F: -51.96, l_D: -94.44
+INFO:root:Saved model checkpoints into results/2023-04-09_03-13/models...
+INFO:root:Elapsed [6:54:15], Iteration [60/100]:
+l_D/R: 92.75, l_D/F: -42.52, l_D: -95.68
+property_match: 0.14
+INFO:root:Elapsed [7:00:07], Iteration [61/100]:
+l_D/R: 68.27, l_D/F: -88.62, l_D: -104.59
+INFO:root:Elapsed [7:06:01], Iteration [62/100]:
+l_D/R: 62.96, l_D/F: -72.68, l_D: -99.80
+INFO:root:Elapsed [7:11:55], Iteration [63/100]:
+l_D/R: 98.05, l_D/F: -59.50, l_D: -105.01
+INFO:root:Elapsed [7:17:48], Iteration [64/100]:
+l_D/R: 63.67, l_D/F: -62.59, l_D: -88.68
+INFO:root:Elapsed [7:23:42], Iteration [65/100]:
+l_D/R: 67.96, l_D/F: -73.76, l_D: -99.35
+INFO:root:Elapsed [7:29:37], Iteration [66/100]:
+l_D/R: 101.45, l_D/F: -26.26, l_D: -91.66
+INFO:root:Elapsed [7:35:32], Iteration [67/100]:
+l_D/R: 96.87, l_D/F: -14.01, l_D: 333.15
+INFO:root:Elapsed [7:41:26], Iteration [68/100]:
+l_D/R: 86.98, l_D/F: -100.22, l_D: -98.11
+INFO:root:Elapsed [7:47:21], Iteration [69/100]:
+l_D/R: 78.34, l_D/F: -63.13, l_D: -100.63
+INFO:root:Elapsed [7:53:15], Iteration [70/100]:
+l_D/R: 94.93, l_D/F: -47.78, l_D: -97.47

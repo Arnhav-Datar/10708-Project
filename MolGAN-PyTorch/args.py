@@ -26,8 +26,8 @@ def get_GAN_config():
     # Training configuration.
     parser.add_argument('--batch_size', type=int, default=32, help='mini-batch size')
     parser.add_argument('--num_epochs', type=int, default=100, help='number of epochs for training D')
-    parser.add_argument('--g_lr', type=float, default=2e-4, help='learning rate for G')
-    parser.add_argument('--d_lr', type=float, default=2e-4, help='learning rate for D')
+    parser.add_argument('--g_lr', type=float, default=1e-4, help='learning rate for G')
+    parser.add_argument('--d_lr', type=float, default=2e-5, help='learning rate for D')
     parser.add_argument('--dropout', type=float, default=0., help='dropout rate')
     parser.add_argument('--n_critic', type=int, default=5, help='number of D updates per each G update')
     parser.add_argument('--resume_epoch', type=int, default=None, help='resume training from this step')
@@ -53,11 +53,13 @@ def get_GAN_config():
 
     # For training
     config = parser.parse_args()
-    config.lambda_wgan = 0
-    config.lambda_gp = 10.0
+    config.lambda_wgan = 1
+    config.lambda_gp = 5.0 #10.0
     config.n_critic = 5
     config.num_epochs = 100
     config.log_step = 1
+    config.restore_G = '/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-G.ckpt'
+    config.restore_D = '/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-D.ckpt'
 
     # For testing
     # config.mode = 'test'

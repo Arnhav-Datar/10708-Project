@@ -1,0 +1,1735 @@
+INFO:root:Namespace(lm_model='bert-base-uncased', N=50, max_len=128, z_dim=8, mha_dim=768, n_heads=8, hid_dims=[128, 256, 768], hid_dims_2=[512, 256, 128], m_dim=128, conv_dim=[[128, 256], 768, [256, 64]], lambda_gp=5.0, post_method='sigmoid', batch_size=128, num_epochs=100, g_lr=0.0001, d_lr=2e-05, dropout=0.0, n_critic=5, resume_epoch=None, test_epochs=100, num_workers=1, mode='train', data_dir='data', saving_dir='results/2023-04-13_20-21', log_step=1, sample_step=1000, model_save_step=20, lr_update_step=1000, lambda_wgan=1, restore_G='/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-G.ckpt', restore_D='/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-D.ckpt', log_dir='results/2023-04-13_20-21/logs', model_dir='results/2023-04-13_20-21/models')
+INFO:root:Generator(
+  (activation_f): ReLU()
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=8, out_features=128, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=256, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=768, bias=True)
+      (9): Dropout(p=0.0, inplace=False)
+      (10): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer_2): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=768, out_features=512, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=256, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=128, bias=True)
+      (9): Dropout(p=0.0, inplace=False)
+      (10): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (adjM_layer): Linear(in_features=128, out_features=2500, bias=True)
+  (dropoout): Dropout(p=0.0, inplace=False)
+)
+INFO:root:G
+INFO:root:The number of parameters: 3478468
+INFO:root:Discriminator(
+  (activation_f): ReLU()
+  (gcn_layer): GraphConvolution(
+    (activation_f): Tanh()
+    (multi_graph_convolution_layers): MultiGraphConvolutionLayers(
+      (conv_nets): ModuleList(
+        (0): GraphConvolutionLayer(
+          (adj_list): Linear(in_features=128, out_features=128, bias=True)
+          (linear_2): Linear(in_features=128, out_features=128, bias=True)
+          (activation): Tanh()
+          (dropout): Dropout(p=0.0, inplace=False)
+          (pe): PositionalEncoder()
+        )
+        (1): GraphConvolutionLayer(
+          (adj_list): Linear(in_features=128, out_features=256, bias=True)
+          (linear_2): Linear(in_features=128, out_features=256, bias=True)
+          (activation): Tanh()
+          (dropout): Dropout(p=0.0, inplace=False)
+          (pe): PositionalEncoder()
+        )
+      )
+    )
+  )
+  (agg_layer): GraphAggregation(
+    (activation): ReLU()
+    (i): Sequential(
+      (0): Linear(in_features=256, out_features=768, bias=True)
+      (1): Sigmoid()
+    )
+    (j): Sequential(
+      (0): Linear(in_features=256, out_features=768, bias=True)
+      (1): ReLU()
+    )
+    (dropout): Dropout(p=0.0, inplace=False)
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=768, out_features=256, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=256, out_features=64, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (output_layer): Linear(in_features=64, out_features=1, bias=True)
+)
+INFO:root:D
+INFO:root:The number of parameters: 3070209
+INFO:root:BertModel(
+  (embeddings): BertEmbeddings(
+    (word_embeddings): Embedding(30522, 768, padding_idx=0)
+    (position_embeddings): Embedding(512, 768)
+    (token_type_embeddings): Embedding(2, 768)
+    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (encoder): BertEncoder(
+    (layer): ModuleList(
+      (0-11): 12 x BertLayer(
+        (attention): BertAttention(
+          (self): BertSelfAttention(
+            (query): Linear(in_features=768, out_features=768, bias=True)
+            (key): Linear(in_features=768, out_features=768, bias=True)
+            (value): Linear(in_features=768, out_features=768, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (output): BertSelfOutput(
+            (dense): Linear(in_features=768, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (intermediate): BertIntermediate(
+          (dense): Linear(in_features=768, out_features=3072, bias=True)
+          (intermediate_act_fn): GELUActivation()
+        )
+        (output): BertOutput(
+          (dense): Linear(in_features=3072, out_features=768, bias=True)
+          (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+  )
+  (pooler): BertPooler(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (activation): Tanh()
+  )
+)
+INFO:root:bert-base-uncased
+INFO:root:The number of parameters: 109482240
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 0 1 ... 0 1 0]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 0 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]
+ [1 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 0 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 0 0 1]
+ ...
+ [0 1 0 ... 0 0 0]
+ [1 1 0 ... 0 0 0]
+ [0 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:07:08], Iteration [1/100]:
+l_D/R: -0.98, l_D/F: -5.54, l_D: -3.48, l_G: 5.54
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 0 1 0]
+ [1 0 1 ... 0 1 0]
+ [1 1 1 ... 1 0 1]
+ ...
+ [0 0 1 ... 0 0 0]
+ [1 1 0 ... 0 0 0]
+ [0 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 0 1 0]
+ [1 0 1 ... 1 1 1]
+ [1 1 1 ... 1 0 1]
+ ...
+ [0 1 1 ... 0 0 0]
+ [1 1 0 ... 0 0 0]
+ [0 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:14:16], Iteration [2/100]:
+l_D/R: -0.74, l_D/F: -5.27, l_D: -3.49, l_G: 5.27
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 0 1 ... 0 1 0]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 0 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]
+ [1 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 0]
+ [1 1 0 ... 1 0 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 0 ... 0 0 0]
+ [1 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:21:26], Iteration [3/100]:
+l_D/R: -1.15, l_D/F: -5.43, l_D: -3.40, l_G: 5.43
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 1 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 0 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 0 ... 0 0 1]
+ [1 1 1 ... 0 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:28:35], Iteration [4/100]:
+l_D/R: -1.03, l_D/F: -5.61, l_D: -3.53, l_G: 5.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 0 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 0 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 0 1 0]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 0 1 ... 0 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 0 1 ... 1 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:35:47], Iteration [5/100]:
+l_D/R: -1.05, l_D/F: -5.42, l_D: -3.50, l_G: 5.42
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 0 1 ... 0 1 0]
+ [1 1 0 ... 1 0 0]
+ ...
+ [1 0 1 ... 0 0 0]
+ [1 1 0 ... 0 0 0]
+ [1 0 0 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 0 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 1 0]
+ [1 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 0 1 ... 1 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:42:58], Iteration [6/100]:
+l_D/R: -0.76, l_D/F: -5.40, l_D: -3.60, l_G: 5.40
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 0 1 ... 0 1 0]
+ [1 1 0 ... 1 1 0]
+ ...
+ [1 0 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]
+ [1 0 0 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 1 0]
+ [1 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 0]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 0 1 ... 0 0 0]
+ [0 1 1 ... 0 1 1]
+ [1 0 1 ... 0 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:50:09], Iteration [7/100]:
+l_D/R: -0.90, l_D/F: -5.57, l_D: -3.59, l_G: 5.57
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 0 0]
+ [1 1 0 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 0 1 ... 0 0 0]
+ [1 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 1 0]
+ [1 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 0 1 0]
+ [1 1 1 ... 1 0 1]
+ ...
+ [1 0 1 ... 0 0 1]
+ [1 1 0 ... 0 1 1]
+ [1 0 1 ... 1 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 0 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [0 1 1 ... 1 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:57:20], Iteration [8/100]:
+l_D/R: -0.96, l_D/F: -5.38, l_D: -3.49, l_G: 5.38
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 0]
+ [1 1 0 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]
+ [0 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 0 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 0 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 0 1 ... 0 1 0]]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:04:29], Iteration [9/100]:
+l_D/R: -0.80, l_D/F: -5.48, l_D: -3.63, l_G: 5.48
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 0 0]
+ [1 1 0 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [0 0 1 ... 0 0 0]
+ [1 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 1 1 0]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 0 1 ... 0 0 0]
+ [1 0 0 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 0 ... 0 1 0]
+ [1 0 1 ... 1 1 1]
+ ...
+ [1 0 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 0 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:11:38], Iteration [10/100]:
+l_D/R: -0.96, l_D/F: -5.51, l_D: -3.57, l_G: 5.51
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 0 1]
+ [1 1 0 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [0 0 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 0]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]
+ [0 1 0 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 0 1 ... 0 1 0]]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:18:45], Iteration [11/100]:
+l_D/R: -0.76, l_D/F: -4.86, l_D: -3.27, l_G: 4.86
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 0 1]
+ [1 1 0 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 0 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]
+ [0 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:25:56], Iteration [12/100]:
+l_D/R: -1.00, l_D/F: -5.40, l_D: -3.50, l_G: 5.40
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 0 1 0]
+ [1 1 0 ... 0 0 1]
+ ...
+ [1 0 0 ... 0 0 0]
+ [1 1 0 ... 0 0 0]
+ [0 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 0 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 0 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 0 ... 0 0 1]
+ [1 1 1 ... 0 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 0]]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:33:06], Iteration [13/100]:
+l_D/R: -0.91, l_D/F: -5.47, l_D: -3.69, l_G: 5.47
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 0 1 0]
+ [1 1 0 ... 1 0 1]
+ ...
+ [1 0 1 ... 0 0 0]
+ [1 1 0 ... 0 0 0]
+ [1 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 0]
+ [1 1 0 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]
+ [1 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 0]]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:40:18], Iteration [14/100]:
+l_D/R: -0.82, l_D/F: -5.51, l_D: -3.54, l_G: 5.51
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 0 1 0]
+ [1 1 0 ... 0 0 1]
+ ...
+ [1 0 0 ... 0 0 0]
+ [1 1 0 ... 0 0 0]
+ [0 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 0 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 1]
+ [1 1 1 ... 0 1 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:47:26], Iteration [15/100]:
+l_D/R: -0.80, l_D/F: -5.43, l_D: -3.62, l_G: 5.43
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 0 0 0]
+ [1 1 0 ... 0 0 1]
+ ...
+ [1 0 0 ... 0 0 0]
+ [1 0 0 ... 0 0 0]
+ [1 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]
+ [1 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:54:33], Iteration [16/100]:
+l_D/R: -0.91, l_D/F: -5.42, l_D: -3.53, l_G: 5.42
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 0 1 0]
+ [1 1 0 ... 0 0 1]
+ ...
+ [1 0 0 ... 0 0 0]
+ [1 1 0 ... 0 0 0]
+ [0 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 0 0]
+ ...
+ [1 1 0 ... 0 0 0]
+ [1 0 0 ... 0 0 0]
+ [0 1 0 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:01:43], Iteration [17/100]:
+l_D/R: -0.86, l_D/F: -5.44, l_D: -3.62, l_G: 5.44
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 1]
+ ...
+ [1 0 0 ... 0 0 0]
+ [1 0 0 ... 0 0 0]
+ [1 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 0 1 1]
+ ...
+ [1 1 0 ... 0 0 0]
+ [1 1 1 ... 0 0 0]
+ [0 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:08:53], Iteration [18/100]:
+l_D/R: -0.95, l_D/F: -5.85, l_D: -3.47, l_G: 5.85
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 0 1 0]
+ [1 1 1 ... 0 0 1]
+ ...
+ [1 0 0 ... 0 0 0]
+ [1 1 0 ... 0 1 0]
+ [1 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ ...
+ [1 1 0 ... 0 0 0]
+ [0 0 1 ... 0 0 0]
+ [1 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:16:06], Iteration [19/100]:
+l_D/R: -0.90, l_D/F: -5.43, l_D: -3.48, l_G: 5.43
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 0 0 0]
+ [1 0 1 ... 0 1 0]
+ [1 1 1 ... 1 1 1]
+ ...
+ [0 0 1 ... 0 0 0]
+ [0 1 1 ... 0 0 0]
+ [0 0 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 0 0 1]
+ ...
+ [1 1 0 ... 0 0 0]
+ [0 1 0 ... 0 0 0]
+ [1 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 0 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 0 1 1]
+ ...
+ [1 1 0 ... 1 0 0]
+ [0 1 1 ... 0 1 1]
+ [0 1 1 ... 0 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [0 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-13_20-21/models...
+INFO:root:Elapsed [2:51:40], Iteration [20/100]:
+l_D/R: -0.85, l_D/F: -5.15, l_D: -3.40, l_G: 5.15
+property_match: 0.16
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 0 0 0]
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [0 1 1 ... 0 0 0]
+ [0 0 1 ... 0 0 0]
+ [0 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 0 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [0 1 1 ... 0 0 0]
+ [0 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [0 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:58:52], Iteration [21/100]:
+l_D/R: -0.98, l_D/F: -5.26, l_D: -3.27, l_G: 5.26
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 0 0 0]
+ [1 1 1 ... 1 0 1]
+ [1 1 0 ... 0 1 1]
+ ...
+ [0 1 0 ... 0 0 0]
+ [0 0 1 ... 0 0 0]
+ [0 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 0 0]
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [0 0 1 ... 0 0 0]
+ [0 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [0 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [0 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:06:17], Iteration [22/100]:
+l_D/R: -0.82, l_D/F: -5.50, l_D: -3.50, l_G: 5.50
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 0 0 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 0 0]
+ ...
+ [0 1 1 ... 0 0 0]
+ [0 1 0 ... 0 0 0]
+ [0 1 0 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [0 0 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [0 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 0 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [0 1 1 ... 0 1 1]
+ [0 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:14:41], Iteration [23/100]:
+l_D/R: -0.87, l_D/F: -4.97, l_D: -3.17, l_G: 4.97
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 0 0 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 0 ... 0 0 0]
+ ...
+ [0 1 0 ... 0 0 0]
+ [0 1 0 ... 0 0 0]
+ [0 1 0 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 0 1]
+ ...
+ [1 1 0 ... 0 0 0]
+ [1 0 0 ... 0 0 0]
+ [1 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 0 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [0 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:23:07], Iteration [24/100]:
+l_D/R: -1.20, l_D/F: -5.68, l_D: -3.47, l_G: 5.68
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 0 ... 1 1 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 1 ... 0 0 0]
+ [0 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 0 0]
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 0 0]
+ ...
+ [1 1 0 ... 0 0 0]
+ [0 0 0 ... 0 0 0]
+ [0 1 0 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 0 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 0 ... 0 1 1]
+ [0 1 1 ... 0 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [0 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:31:32], Iteration [25/100]:
+l_D/R: -0.83, l_D/F: -5.62, l_D: -3.81, l_G: 5.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[0 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 0 ... 0 0 1]
+ ...
+ [1 1 0 ... 0 0 0]
+ [1 1 0 ... 0 0 0]
+ [0 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 1 0 0]
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 0 1]
+ ...
+ [1 1 0 ... 0 0 0]
+ [0 0 0 ... 0 0 0]
+ [0 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 0 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [0 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:39:56], Iteration [26/100]:
+l_D/R: -0.91, l_D/F: -5.70, l_D: -3.71, l_G: 5.70
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 1 connected components, 5 nodes, max degree 3, max diameter 3, min degree 1, has cycle, 6 edges
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 0 1]
+ ...
+ [1 1 1 ... 0 0 0]
+ [1 1 0 ... 0 0 0]
+ [0 1 1 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with 1 connected components, has cycle, min degree 1, max diameter 3, max degree 5, 10 nodes, 11 edges
+Adjacency matrix:
+[[1 1 1 ... 0 0 1]
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 0 0]
+ ...
+ [0 1 0 ... 0 0 0]
+ [0 0 0 ... 0 0 0]
+ [1 0 0 ... 0 0 0]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 12, 117 edges, min degree 1, max degree 9, has cycle, 2 connected components, 50 nodes
+Adjacency matrix:
+[[1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [1 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with has cycle, 25 nodes, 32 edges, max diameter 4, min degree 1, max degree 6, 5 connected components
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 1]
+ [1 1 1 ... 0 1 1]
+ [0 1 1 ... 1 1 1]]
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 0, 25 nodes, 2 connected components, has cycle, 30 edges, max diameter 7, max degree 5
+Adjacency matrix:
+[[1 1 1 ... 1 1 0]
+ [1 1 1 ... 1 1 1]
+ [1 1 1 ... 1 1 1]
+ ...
+ [1 1 1 ... 1 0 0]
+ [1 1 1 ... 0 1 1]
+ [0 1 1 ... 0 1 1]]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:48:21], Iteration [27/100]:
+l_D/R: -0.92, l_D/F: -5.34, l_D: -3.58, l_G: 5.34

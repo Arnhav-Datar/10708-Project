@@ -47,7 +47,7 @@ class GraphConvolutionLayer(Module):
 
     def forward(self, adj_tensor, h_tensor=None):
         if h_tensor is not None:
-            annotations = self.pe(h_tensor)
+            annotations = h_tensor
         else:
             annotations = self.pe(torch.zeros((adj_tensor.shape[0], adj_tensor.shape[1], self.in_features), device=adj_tensor.device, dtype=adj_tensor.dtype))
 
@@ -103,10 +103,10 @@ class GraphAggregation(Module):
             j_layers.append(self.activation)
         self.j = nn.Sequential(*j_layers)
         self.dropout = nn.Dropout(dropout_rate)
-        self.pe = PositionalEncoder(in_features, N)
+        # self.pe = PositionalEncoder(in_features, N)
 
     def forward(self, out_tensor, h_tensor=None):
-        annotations = self.pe(out_tensor)
+        annotations = out_tensor
         if h_tensor is not None:
             annotations = torch.cat((out_tensor, h_tensor), -1)
         # The i here seems to be an attention.
@@ -126,6 +126,7 @@ class MultiDenseLayer(Module):
         for c0, c1 in zip([aux_unit] + linear_units[:-1], linear_units):
             layers.append(nn.Linear(c0, c1))
             layers.append(nn.Dropout(dropout_rate))
+            layers.append(nn.LayerNorm(c1))
             if activation is not None:
                 layers.append(activation)
         self.linear_layer = nn.Sequential(*layers)

@@ -11,7 +11,7 @@ class Generator(nn.Module):
     def __init__(self, N, z_dim, hid_dims, hid_dims_2, mha_dim, n_heads, dropout_rate):
         super(Generator, self).__init__()
         self.N = N
-        self.activation_f = torch.nn.Tanh()
+        self.activation_f = torch.nn.ReLU()
         self.multi_dense_layer = MultiDenseLayer(z_dim, hid_dims, self.activation_f)
         
         self.mha = nn.MultiheadAttention(mha_dim, n_heads, batch_first=True)
@@ -37,7 +37,7 @@ class Discriminator(nn.Module):
 
     def __init__(self, N, conv_dim, m_dim, mha_dim, n_heads, dropout_rate=0.):
         super(Discriminator, self).__init__()
-        self.activation_f = torch.nn.Tanh()
+        self.activation_f = torch.nn.ReLU()
         graph_conv_dim, aux_dim, linear_dim = conv_dim
         # discriminator
         self.gcn_layer = GraphConvolution(N, m_dim, graph_conv_dim, dropout_rate)
