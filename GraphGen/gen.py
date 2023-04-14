@@ -109,6 +109,20 @@ def gen_text_desc(adjs: [np.ndarray]) -> [str]:
     
     return descs
     
+def gen_text_desc_simple(adjs: [np.ndarray]) -> [str]:
+    def _gen(adj):
+        n = get_node_num(adj)
+        m = get_edge_num(adj)
+
+        properties = [f'{n} nodes', f'{m} edges']
+        
+        desc = f'Graph with ' + ', '.join(properties)
+
+        return desc
+
+    descs = Parallel(n_jobs=8)(delayed(_gen)(adj) for adj in tqdm(adjs))
+    
+    return descs
 
 def main():
     adjs = []
