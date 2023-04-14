@@ -233,6 +233,7 @@ class Solver(object):
                 # self.d_scheduler.step()
                 # if i == start_epoch:
                 #     self.la = 1
+            wandb.finish()
         elif self.mode == 'test':
             # assert self.resume_epoch is not None
             self.train_or_valid(epoch_i=start_epoch, train_val_test='val')

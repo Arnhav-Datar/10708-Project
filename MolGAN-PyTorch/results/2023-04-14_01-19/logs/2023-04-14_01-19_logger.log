@@ -3004,3 +3004,34 @@ Conn Comp: 1 | Max Deg: 49 | Min Deg: 29 | Has Cycle: True
 
 INFO:root:Elapsed [14:18:39], Iteration [99/100]:
 l_D/R: -0.41, l_D/F: -2.87, l_D: -2.04, l_G: 2.87
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1183
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 935
+Conn Comp: 1 | Max Deg: 47 | Min Deg: 9 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1145
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 40 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1181
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 40 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1154
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 28 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-14_01-19/models...
+INFO:root:Elapsed [15:35:06], Iteration [100/100]:
+l_D/R: -0.65, l_D/F: -3.01, l_D: -2.06, l_G: 3.01
+property_match: 0.16
