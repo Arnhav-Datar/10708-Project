@@ -38,19 +38,22 @@ class Discriminator(nn.Module):
     def __init__(self, N, disc_dims, mha_dim, n_heads, dropout_rate=0.):
         super(Discriminator, self).__init__()
         self.activation_f = torch.nn.ReLU()
-        hid_dims, hid_dims_2 = disc_dims
-        self.multi_dense_layer = MultiDenseLayer(N*N, hid_dims, self.activation_f)
+        hid_dims, hid_dims_2, hid_dims_3 = disc_dims
+        self.multi_dense_layer = MultiDenseLayer(N, hid_dims, self.activation_f)
+        self.multi_dense_layer_2 = MultiDenseLayer(N*hid_dims[-1], hid_dims_2, self.activation_f, dropout_rate=dropout_rate)
         self.mha = nn.MultiheadAttention(mha_dim, n_heads, batch_first=True)
-        self.multi_dense_layer_2 = MultiDenseLayer(mha_dim, hid_dims_2, self.activation_f, dropout_rate=dropout_rate)
+        self.multi_dense_layer_3 = MultiDenseLayer(mha_dim, hid_dims_3, self.activation_f, dropout_rate=dropout_rate)
 
-        self.output_layer = nn.Linear(hid_dims_2[-1], 1)
+        self.output_layer = nn.Linear(hid_dims_3[-1], 1)
 
     def forward(self, adj, bert_out, activation=None):
         # adj = adj[:, :, :, 1:].permute(0, 3, 1, 2)
-        inp = adj.view(adj.shape[0], -1)
+        inp = adj
         out = self.multi_dense_layer(inp)
-        out = self.mha(out.view(out.shape[0], 1, -1), bert_out, bert_out)[0].view(out.shape[0], -1)
+        out = out.view(out.shape[0], -1)
         out = self.multi_dense_layer_2(out)
+        out = self.mha(out.view(out.shape[0], 1, -1), bert_out, bert_out)[0].view(out.shape[0], -1)
+        out = self.multi_dense_layer_3(out)
 
         output = self.output_layer(out)
         output = activation(output) if activation is not None else output

@@ -5,7 +5,7 @@ from rdkit import RDLogger
 
 from args import get_GAN_config
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512'
 
 # Remove flooding logs.

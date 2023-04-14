@@ -2277,3 +2277,730 @@ Conn Comp: 1 | Max Deg: 50 | Min Deg: 44 | Has Cycle: True
 
 INFO:root:Elapsed [10:17:45], Iteration [74/100]:
 l_D/R: -0.41, l_D/F: -2.97, l_D: -2.30, l_G: 2.97
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1222
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 47 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1138
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 36 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1215
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 45 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1225
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 47 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1220
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [10:24:55], Iteration [75/100]:
+l_D/R: -0.87, l_D/F: -3.31, l_D: -2.25, l_G: 3.31
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1217
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1144
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 30 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1215
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 45 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1224
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 47 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1200
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 34 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [10:32:22], Iteration [76/100]:
+l_D/R: -0.20, l_D/F: -2.77, l_D: -2.27, l_G: 2.77
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1226
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 47 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1137
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 26 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1219
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1217
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1219
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 45 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [10:40:08], Iteration [77/100]:
+l_D/R: -0.70, l_D/F: -3.08, l_D: -2.18, l_G: 3.08
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1221
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1149
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 28 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1217
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 44 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1213
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 44 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1219
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 44 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [10:47:55], Iteration [78/100]:
+l_D/R: -0.64, l_D/F: -3.15, l_D: -2.17, l_G: 3.15
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1219
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1134
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 28 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1204
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 43 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1216
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 45 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1201
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [10:55:43], Iteration [79/100]:
+l_D/R: -0.46, l_D/F: -3.07, l_D: -2.22, l_G: 3.07
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1221
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 47 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1076
+Conn Comp: 1 | Max Deg: 48 | Min Deg: 19 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1218
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1213
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 43 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1202
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-14_01-19/models...
+INFO:root:Elapsed [11:35:21], Iteration [80/100]:
+l_D/R: -0.38, l_D/F: -2.78, l_D: -2.20, l_G: 2.78
+property_match: 0.16
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1221
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 45 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1042
+Conn Comp: 1 | Max Deg: 48 | Min Deg: 16 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1208
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1215
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 44 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1205
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 45 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [11:43:25], Iteration [81/100]:
+l_D/R: -0.29, l_D/F: -2.75, l_D: -2.17, l_G: 2.75
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1222
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1090
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 23 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1213
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1214
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1213
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 45 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [11:52:24], Iteration [82/100]:
+l_D/R: -0.42, l_D/F: -2.84, l_D: -2.13, l_G: 2.84
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1220
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1055
+Conn Comp: 1 | Max Deg: 48 | Min Deg: 13 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1215
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1212
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 45 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1207
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 42 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [12:01:19], Iteration [83/100]:
+l_D/R: -0.26, l_D/F: -3.04, l_D: -2.02, l_G: 3.04
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1215
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1077
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 30 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1199
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 44 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1197
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 44 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1204
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 43 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [12:10:14], Iteration [84/100]:
+l_D/R: -0.73, l_D/F: -2.94, l_D: -2.09, l_G: 2.94
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1220
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 47 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1076
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 17 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1195
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1208
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1198
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 39 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [12:19:11], Iteration [85/100]:
+l_D/R: -0.48, l_D/F: -2.98, l_D: -2.17, l_G: 2.98
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1217
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1081
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 22 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1186
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 42 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1206
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 44 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1196
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 40 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [12:28:06], Iteration [86/100]:
+l_D/R: -0.14, l_D/F: -2.36, l_D: -2.10, l_G: 2.36
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1218
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1058
+Conn Comp: 1 | Max Deg: 48 | Min Deg: 18 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1198
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 42 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1199
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 43 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1205
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 36 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [12:37:01], Iteration [87/100]:
+l_D/R: -0.16, l_D/F: -2.64, l_D: -2.03, l_G: 2.64
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1213
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 43 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1026
+Conn Comp: 1 | Max Deg: 48 | Min Deg: 10 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1200
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1186
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 43 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1197
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 42 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [12:45:58], Iteration [88/100]:
+l_D/R: -0.22, l_D/F: -2.65, l_D: -2.10, l_G: 2.65
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1212
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 44 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 981
+Conn Comp: 1 | Max Deg: 47 | Min Deg: 10 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1195
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 43 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1191
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 42 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1191
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 37 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [12:54:49], Iteration [89/100]:
+l_D/R: -0.60, l_D/F: -3.01, l_D: -2.02, l_G: 3.01
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1204
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 42 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 989
+Conn Comp: 1 | Max Deg: 47 | Min Deg: 14 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1201
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 44 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1199
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 42 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1194
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 36 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [13:03:25], Iteration [90/100]:
+l_D/R: -0.47, l_D/F: -2.98, l_D: -2.08, l_G: 2.98
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1201
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 993
+Conn Comp: 1 | Max Deg: 47 | Min Deg: 20 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1184
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1197
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1191
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 40 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [13:11:40], Iteration [91/100]:
+l_D/R: -0.82, l_D/F: -3.11, l_D: -2.08, l_G: 3.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1213
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 46 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1069
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 26 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1169
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 36 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1194
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 43 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1176
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 37 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [13:19:31], Iteration [92/100]:
+l_D/R: -0.62, l_D/F: -2.69, l_D: -1.93, l_G: 2.69
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1208
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 44 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1108
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 29 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1193
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1186
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 42 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1179
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 36 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [13:27:13], Iteration [93/100]:
+l_D/R: -0.43, l_D/F: -2.79, l_D: -2.09, l_G: 2.79
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1208
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 45 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1101
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 29 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1191
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 44 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1178
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 39 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1188
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 40 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [13:34:43], Iteration [94/100]:
+l_D/R: -0.07, l_D/F: -2.38, l_D: -2.00, l_G: 2.38
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1193
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 43 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1042
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 19 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1165
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1177
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1159
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 36 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [13:42:13], Iteration [95/100]:
+l_D/R: -0.50, l_D/F: -3.01, l_D: -2.02, l_G: 3.01
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1200
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1072
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 19 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1169
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 39 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1190
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 43 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1187
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 38 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [13:49:48], Iteration [96/100]:
+l_D/R: -0.85, l_D/F: -3.06, l_D: -2.05, l_G: 3.06
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1195
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1016
+Conn Comp: 1 | Max Deg: 48 | Min Deg: 21 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1165
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 38 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1171
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 40 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1179
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 37 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [13:58:44], Iteration [97/100]:
+l_D/R: -0.94, l_D/F: -3.27, l_D: -1.97, l_G: 3.27
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1194
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 43 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 1065
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 20 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1143
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 36 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1192
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 43 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1172
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 37 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [14:08:36], Iteration [98/100]:
+l_D/R: -0.81, l_D/F: -3.24, l_D: -1.99, l_G: 3.24
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Graph with 121 edges, min degree 0, max degree 10, 50 nodes, has cycle
+Num Nodes: 50 | Num Edges: 1191
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, 5 nodes, max diameter 3, 4 edges, 1 connected components
+Num Nodes: 50 | Num Edges: 989
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 13 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with min degree 1, has cycle, max degree 10, 1 connected components, max diameter 6, 33 edges, 25 nodes
+Num Nodes: 50 | Num Edges: 1155
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 39 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max degree 7, min degree 0, 3 connected components, has cycle, max diameter 10, 62 edges
+Num Nodes: 50 | Num Edges: 1171
+Conn Comp: 1 | Max Deg: 50 | Min Deg: 41 | Has Cycle: True
+--------------------------------------------------
+--------------------------------------------------
+Text: Graph with max diameter 6, min degree 0, 31 edges, 3 connected components, has cycle, 25 nodes, max degree 6
+Num Nodes: 50 | Num Edges: 1152
+Conn Comp: 1 | Max Deg: 49 | Min Deg: 29 | Has Cycle: True
+--------------------------------------------------
+
+INFO:root:Elapsed [14:18:39], Iteration [99/100]:
+l_D/R: -0.41, l_D/F: -2.87, l_D: -2.04, l_G: 2.87
