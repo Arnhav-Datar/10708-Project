@@ -36,6 +36,8 @@ class PositionalEncoder(nn.Module):
 class GraphConvolutionLayer(Module):
     # Abishek's code
     def __init__(self, N, in_features, u, activation, dropout_rate=0.):
+        # N: number of nodes, in_features: input features, u: number of hidden units in the graph conv
+        # This layer is essentially one graph convolution step
         super(GraphConvolutionLayer, self).__init__()
         self.u = u
         self.in_features = in_features
@@ -46,6 +48,8 @@ class GraphConvolutionLayer(Module):
         self.pe = PositionalEncoder(in_features, N)
 
     def forward(self, adj_tensor, h_tensor=None):
+        # The h_tensor is to support output from prev graph conv layers. If it is None, it is the first layer
+        # So we just pass positional encodings
         if h_tensor is not None:
             annotations = h_tensor
         else:
@@ -63,6 +67,8 @@ class GraphConvolutionLayer(Module):
 class MultiGraphConvolutionLayers(Module):
     # Abishek's code
     def __init__(self, N, in_features, conv_hid_dims, activation, dropout_rate=0.):
+        # N: number of nodes, in_features: input features, conv_hid_dims: number of hidden units in the graph conv
+        # Multiple graph convolution steps here, so conv_hid_dims is a list of hidden units
         super(MultiGraphConvolutionLayers, self).__init__()
         self.conv_nets = nn.ModuleList()
         self.units = conv_hid_dims
@@ -80,6 +86,8 @@ class MultiGraphConvolutionLayers(Module):
 class GraphConvolution(Module):
     # Abishek's code
     def __init__(self, N, in_features, graph_conv_units, dropout_rate=0.):
+        # N: number of nodes, in_features: input features, graph_conv_units: number of hidden units in the graph conv
+        # This is a weapper around the multi graph convolution layers (idk why this exists additionally, but fine)
         super(GraphConvolution, self).__init__()
         self.in_features = in_features
         self.graph_conv_units = graph_conv_units
@@ -94,6 +102,8 @@ class GraphConvolution(Module):
 class GraphAggregation(Module):
     # Abishek's code
     def __init__(self, N, in_features, aux_units, activation, dropout_rate=0.):
+        # N: number of nodes, in_features: input features (input is from graph convolution: B x N x D), aux_units: number of output units in projection
+        # Inputs are projected to aux_units and are summed together
         super(GraphAggregation, self).__init__()
         self.activation = activation
         self.i = nn.Sequential(nn.Linear(in_features, aux_units),
@@ -121,6 +131,7 @@ class GraphAggregation(Module):
 
 class MultiDenseLayer(Module):
     def __init__(self, aux_unit, linear_units, activation=None, dropout_rate=0.):
+        # aux_unit: input features, linear_units: hidden dims (list becuase there can be multiple mlp layers)
         super(MultiDenseLayer, self).__init__()
         layers = []
         for c0, c1 in zip([aux_unit] + linear_units[:-1], linear_units):
