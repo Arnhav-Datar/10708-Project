@@ -431,16 +431,16 @@ class Solver(object):
             # Get scores.
             if train_val_test in ['val', 'test']:
                 # torch.cuda.empty_cache()
-                if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
-                    mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
-                    np_mats = mats.detach().cpu().numpy().astype(int)
-                    results = score(props, np_mats)
-                    for k, v in results.items():
-                        scores[k].append(v)
+                # if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
+                mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
+                np_mats = mats.detach().cpu().numpy().astype(int)
+                results = score(props, np_mats)
+                for k, v in results.items():
+                    scores[k].append(v)
                         
                 if a_step +1 == the_step:
-                    mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
-                    np_mats = mats.detach().cpu().numpy().astype(int)
+                    # mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
+                    # np_mats = mats.detach().cpu().numpy().astype(int)
                     log = '5 sample adjacenecy matrices\n'
                     for i in range(5):
                         log += '-'*50 + '\n'
