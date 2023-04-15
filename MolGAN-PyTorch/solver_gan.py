@@ -88,7 +88,7 @@ class Solver(object):
             )
             for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp']:
                 self.run.define_metric(f'train/{metric}', step_metric="step")
-            for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp', 'property_match']:
+            for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp', 'property_match', 'closeness']:
                 self.run.define_metric(f'val/{metric}', step_metric="epoch")
             
             # for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp']:
@@ -225,6 +225,9 @@ class Solver(object):
 
         # Start training.
         if self.mode == 'train':
+            print('Validating before training...')
+            self.train_or_valid(epoch_i=-1, train_val_test='val')
+            
             print('Start training...')
             for i in range(start_epoch, self.num_epochs):
                 self.train_or_valid(epoch_i=i, train_val_test='train')
@@ -270,7 +273,7 @@ class Solver(object):
         # if epoch_i < 0:
         #     cur_la = 0
         # else:
-        #     cur_la = self.la
+        cur_la = self.la
 
         # Recordings
         losses = defaultdict(list)
@@ -287,13 +290,13 @@ class Solver(object):
 
         for a_step in tqdm(range(the_step)):
             if train_val_test == 'val':
-                adj_mat, ids, mask, desc = next(iter(self.val_data))
+                adj_mat, ids, mask, desc, props = next(iter(self.val_data))
                 z = self.sample_z(adj_mat.shape[0])
             elif train_val_test == 'test':
-                adj_mat, ids, mask, desc = next(iter(self.test_data))
+                adj_mat, ids, mask, desc, props = next(iter(self.test_data))
                 z = self.sample_z(adj_mat.shape[0])
             elif train_val_test == 'train':
-                adj_mat, ids, mask, desc = next(iter(self.train_data))
+                adj_mat, ids, mask, desc, props = next(iter(self.train_data))
                 z = self.sample_z(self.batch_size)
             else:
                 raise NotImplementedError
@@ -431,7 +434,7 @@ class Solver(object):
                 if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
                     mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
                     np_mats = mats.detach().cpu().numpy().astype(int)
-                    results = score(desc, np_mats)
+                    results = score(props, np_mats)
                     for k, v in results.items():
                         scores[k].append(v)
                         
@@ -444,10 +447,10 @@ class Solver(object):
                         log += 'Text: {}\n'.format(desc[i])
                         nodes, edg = get_node_num(np_mats[i]), get_edge_num(np_mats[i])
                         log += 'Num Nodes: {} | Num Edges: {}\n'.format(nodes, edg)
-                        cc_num = get_connected_component_num(np_mats[i])
-                        degree_seq = get_degree_seq(np_mats[i])
-                        have_cycle = edg > nodes - cc_num
-                        log += 'Conn Comp: {} | Max Deg: {} | Min Deg: {} | Has Cycle: {}\n'.format(cc_num, np.max(degree_seq), np.min(degree_seq), have_cycle)
+                        # cc_num = get_connected_component_num(np_mats[i])
+                        # degree_seq = get_degree_seq(np_mats[i])
+                        # have_cycle = edg > nodes - cc_num
+                        # log += 'Conn Comp: {} | Max Deg: {} | Min Deg: {} | Has Cycle: {}\n'.format(cc_num, np.max(degree_seq), np.min(degree_seq), have_cycle)
                         log += '-'*50 + '\n'
                     if self.log is not None:
                         self.log.info(log)
@@ -473,16 +476,16 @@ class Solver(object):
                         if self.mode == 'train':
                             new_dict[f'{train_val_test}/{tag}'] = np.mean(value)
     
-                    if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
-                        is_first = True
-                        for tag, value in scores.items():
-                            if is_first:
-                                log += "\n{}: {:.2f}".format(tag, np.mean(value))
-                                is_first = False
-                            else:
-                                log += ", {}: {:.2f}".format(tag, np.mean(value))
-                            if self.mode == 'train':
-                                new_dict[f'{train_val_test}/{tag}'] = np.mean(value)
+                    # if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
+                    is_first = True
+                    for tag, value in scores.items():
+                        if is_first:
+                            log += "\n{}: {:.2f}".format(tag, np.mean(value))
+                            is_first = False
+                        else:
+                            log += ", {}: {:.2f}".format(tag, np.mean(value))
+                        if self.mode == 'train':
+                            new_dict[f'{train_val_test}/{tag}'] = np.mean(value)
                     
                     wandb.log(new_dict)
                     print(log)

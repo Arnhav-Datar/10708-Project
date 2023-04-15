@@ -45,15 +45,15 @@ def get_GAN_config():
     # Step size.
     parser.add_argument('--model_save_step', type=int, default=20)
     parser.add_argument('--lr_update_step', type=int, default=1000)
-
-    # Wandb
-    config.name = None
     
     # For training
     config = parser.parse_args()
     config.restore_G = None #'/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-G.ckpt'
     config.restore_D = None #'/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-D.ckpt'
 
+    # Wandb
+    config.name = 'symm_fcn_simple_ds_1'
+    
     # For testing
     # config.mode = 'test'
     # config.saving_dir = 'exp_results/VAE/2020-06-03_13-38-00'

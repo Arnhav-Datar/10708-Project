@@ -15,7 +15,10 @@ class SimpleSyntheticGraphDataset(data.Dataset):
             self.adj_matrix = pickle.load(f)
         with open(os.path.join(data_dir, 'properties.pkl'), 'rb') as f:
             self.properties = pickle.load(f)
+        # with open(os.path.join(data_dir, 'descs.pkl'), 'rb') as f:
+        #     self.descs = pickle.load(f)
         assert len(self.adj_matrix) == len(self.properties)
+        # assert len(self.adj_matrix) == len(self.descs)
 
         for i in range(len(self.adj_matrix)):
             node_size = self.adj_matrix[i].shape[0]
@@ -30,7 +33,7 @@ class SimpleSyntheticGraphDataset(data.Dataset):
     def _gen_text(self, property):
         n = property['n']
         m = property['m']
-        text = f'Undirected graph with {n} nodes and {m} edges.'
+        text = f'Generate undirected graph with {n} nodes and {m} edges.'
         return text, {'n': n, 'm': m}
 
     def _encode_text(self, text):

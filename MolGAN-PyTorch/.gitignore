@@ -3,3 +3,4 @@ results/*/models
 !data/*.py
 !data/*.smi
 !data/*.sh
+wandb
