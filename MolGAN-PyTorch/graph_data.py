@@ -31,17 +31,17 @@ class SimpleSyntheticGraphDataset(data.Dataset):
         n = property['n']
         m = property['m']
         text = f'Undirected graph with {n} nodes and {m} edges.'
-        return text
+        return text, {'n': n, 'm': m}
 
     def _encode_text(self, text):
         return self.tokenizer(text, add_special_tokens=True, truncation=False, max_length=self.max_len, padding='max_length')
 
     def __getitem__(self, index):
         adj_matrix = self.adj_matrix[index]
-        test_desc = self._gen_text(self.properties[index])
-        encoded_text = self._encode_text(test_desc)
+        text_desc, properties = self._gen_text(self.properties[index])
+        encoded_text = self._encode_text(text_desc)
 
-        return adj_matrix, encoded_text, test_desc
+        return adj_matrix, encoded_text, text_desc, properties
     
     def __len__(self):
         return len(self.adj_matrix)
@@ -52,8 +52,9 @@ class SimpleSyntheticGraphDataset(data.Dataset):
         ids = torch.from_numpy(np.stack([item[1].input_ids for item in batch]))
         attention_mask = torch.from_numpy(np.stack([item[1].attention_mask for item in batch]))
         desc = [item[2] for item in batch]
+        properties = [item[3] for item in batch]
         # tokens = [item[1].tokens for item in batch]
-        return adj_matrix, ids, attention_mask, desc
+        return adj_matrix, ids, attention_mask, desc, properties
 
 def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers=1):
     """Build and return a data loader."""
@@ -91,3 +92,4 @@ if __name__ == '__main__':
     print('ids', batch[1].shape)
     print('attention_mask', batch[2].shape)
     print('tokens', batch[3])
+    print('properties', batch[4])
