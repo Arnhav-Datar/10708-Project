@@ -86,7 +86,7 @@ def gen_random_tree(count: int) -> [np.ndarray]:
     
     return adjs
 
-def gen_text_desc(adjs: [np.ndarray]) -> [str]:
+def gen_properties(adjs: [np.ndarray]) -> [dict[str, int]]:
     def _gen(adj):
         n = get_node_num(adj)
         m = get_edge_num(adj)
@@ -98,31 +98,21 @@ def gen_text_desc(adjs: [np.ndarray]) -> [str]:
         max_deg = np.max(degree_seq)
         min_deg = np.min(degree_seq)
 
-        properties = [f'{n} nodes', f'{m} edges', f'max diameter {max_diameter}', f'{cc_num} connected components', f'max degree {max_deg}', f'min degree {min_deg}', f'{"has" if have_cycle else "no"} cycle']
-        
-        cur_num_features = np.random.choice(num_features)
-        desc = f'Graph with ' + ', '.join(np.random.choice(properties, cur_num_features, replace=False).tolist())
+        properties = {
+            'n': n,
+            'm': m,
+            'max_diameter': max_diameter,
+            'cc_num': cc_num,
+            'max_deg': max_deg,
+            'min_deg': min_deg,
+            'cycle': have_cycle
+        }
 
-        return desc
-
-    descs = Parallel(n_jobs=8)(delayed(_gen)(adj) for adj in tqdm(adjs))
+        return properties
     
-    return descs
-    
-def gen_text_desc_simple(adjs: [np.ndarray]) -> [str]:
-    def _gen(adj):
-        n = get_node_num(adj)
-        m = get_edge_num(adj)
+    properties = Parallel(n_jobs=8)(delayed(_gen)(adj) for adj in tqdm(adjs))
 
-        properties = [f'{n} nodes', f'{m} edges']
-        
-        desc = f'Graph with ' + ', '.join(properties)
-
-        return desc
-
-    descs = Parallel(n_jobs=8)(delayed(_gen)(adj) for adj in tqdm(adjs))
-    
-    return descs
+    return properties
 
 def main():
     adjs = []
@@ -132,12 +122,12 @@ def main():
     adjs.extend(gen_random_tree(params['random_tree']['num']))
 
     np.random.shuffle(adjs)
-    descs = gen_text_desc(adjs)
+    properties = gen_properties(adjs)
 
     with open('../data/graphgen/graphs.pkl', 'wb') as f:
         pickle.dump(adjs, f)
-    with open('../data/graphgen/descs.pkl', 'wb') as f:
-        pickle.dump(descs, f)
+    with open('../data/graphgen/properties.pkl', 'wb') as f:
+        pickle.dump(properties, f)
 
 if __name__ == '__main__':
     np.random.seed(1)
