@@ -13,6 +13,8 @@ from models_gan import Generator, Discriminator, RewardNet
 from graph_data import get_loaders
 import numpy as np
 from tqdm import tqdm
+import sys
+sys.path.insert(0, '../GraphGen')
 from recognize import *
 import wandb
 
@@ -346,11 +348,11 @@ class Solver(object):
                 # Z-to-target
                 adjM_logits = self.G(z, bert_out)
 
-                node_est_real, edge_est_real = self.R(features_real)
-                # assume undirected graph adj_mat is symmetric
-                # `adj_mat` has shape [batch_size, self.N, self.N]
-                node_real = self.N - (adj_mat.sum(dim=2) == 0).sum(dim=1, keepdim=True).float()
-                edge_real = adj_mat.flatten(start_dim=1).sum(dim=1, keepdim=True).float()
+            node_est_real, edge_est_real = self.R(features_real) # in [0, 1], represent percentage
+            # assume undirected graph adj_mat is symmetric
+            # `adj_mat` has shape [batch_size, self.N, self.N]
+            node_real = (self.N - (adj_mat.sum(dim=2) == 0).sum(dim=1, keepdim=True).float()) / self.N
+            edge_real = (adj_mat.flatten(start_dim=1).sum(dim=1, keepdim=True).float() / 2) / (self.N * (self.N - 1) / 2)
         
             # Postprocess with Gumbel softmax
             adjM_hat = self.postprocess(adjM_logits, self.post_method)
@@ -360,11 +362,11 @@ class Solver(object):
             else:
                 logits_fake, features_fake = self.D(adjM_hat, bert_out)
 
-                node_est_fake, edge_est_fake = self.R(features_fake)
-                mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
-                # `mats` has shape [batch_size, self.N, self.N]
-                node_fake = self.N - (mats.sum(dim=2) == 0).sum(dim=1, keepdim=True).float()
-                edge_fake = mats.flatten(start_dim=1).sum(dim=1, keepdim=True).float()
+            node_est_fake, edge_est_fake = self.R(features_fake) # in [0, 1], represent percentage
+            mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
+            # `mats` has shape [batch_size, self.N, self.N]
+            node_fake = (self.N - (mats.sum(dim=2) == 0).sum(dim=1, keepdim=True).float()) / self.N
+            edge_fake = (mats.flatten(start_dim=1).sum(dim=1, keepdim=True).float() / 2) / (self.N * (self.N - 1) / 2)
 
             # Compute losses for gradient penalty.
             eps = torch.rand(logits_real.size(0), 1, 1).to(self.device)
@@ -376,8 +378,8 @@ class Solver(object):
             d_loss_fake = torch.mean(logits_fake)
             loss_D = -d_loss_real + d_loss_fake + self.la_gp * grad_penalty
 
-            r_loss = torch.functional.F.mse_loss(node_est_real, node_real) + torch.functional.F.mse_loss(edge_est_real, edge_real)
-            r_loss += torch.functional.F.mse_loss(node_est_fake, node_fake) + torch.functional.F.mse_loss(edge_est_fake, edge_fake)
+            r_loss = torch.functional.F.mse_loss(node_est_real, node_real) + torch.functional.F.l1_loss(edge_est_real, edge_real)
+            r_loss += torch.functional.F.mse_loss(node_est_fake, node_fake) + torch.functional.F.l1_loss(edge_est_fake, edge_fake)
             loss_R = r_loss
 
             losses['l_D/R'].append(d_loss_real.item())
@@ -439,6 +441,7 @@ class Solver(object):
                         f'{train_val_test}/l_D/F': d_loss_fake.item(), 
                         f'{train_val_test}/l_D': loss_D.item(),
                         f'{train_val_test}/l_G': loss_G.item(),
+                        f'{train_val_test}/l_R': loss_R.item(),
                         f'{train_val_test}/l_D/GP': grad_penalty.item(),
                     })
                 

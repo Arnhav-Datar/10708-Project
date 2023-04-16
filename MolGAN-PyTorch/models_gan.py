@@ -67,13 +67,15 @@ class RewardNet(nn.Module):
         self.node_cnt = nn.Sequential(
             nn.Linear(dim, 128),
             nn.ReLU(),
-            nn.Linear(128, 1)
+            nn.Linear(128, 1),
+            nn.Sigmoid()
         )
 
         self.edge_cnt = nn.Sequential(
             nn.Linear(dim, 128),
             nn.ReLU(),
-            nn.Linear(128, 1)
+            nn.Linear(128, 1),
+            nn.Sigmoid()
         )
 
     def forward(self, out):
