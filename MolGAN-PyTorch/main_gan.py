@@ -72,6 +72,7 @@ def main(config):
 
 if __name__ == '__main__':
     wandb.login()
+    wandb.init(project="pgm-proj", entity="cmu-abi")
     config = get_GAN_config()
 
     # print(config)

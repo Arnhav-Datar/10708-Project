@@ -59,3 +59,33 @@ class Discriminator(nn.Module):
         output = activation(output) if activation is not None else output
 
         return output, out
+
+class RewardNet(nn.Module):
+    def __init__(self, dim):
+        super(RewardNet, self).__init__()
+        self.dim = dim
+        self.node_cnt = nn.Sequential(
+            nn.Linear(dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, 1),
+            nn.Sigmoid()
+        )
+
+        self.edge_cnt = nn.Sequential(
+            nn.Linear(dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, 1),
+            nn.Sigmoid()
+        )
+
+    def forward(self, out):
+        # `out` is discriminator output
+        # `out` has shape [batch_size, self.dim]
+
+        node_cnt = self.node_cnt(out)
+        # `node_cnt` has shape [batch_size, 1]
+
+        edge_cnt = self.edge_cnt(out)
+        # `edge_cnt` has shape [batch_size, 1]
+
+        return node_cnt, edge_cnt
