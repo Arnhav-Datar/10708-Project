@@ -6,7 +6,7 @@ from rdkit import RDLogger
 from args import get_GAN_config
 import wandb
 
-os.environ["WANDB_API_KEY"] = '' # Set your key here
+os.environ["WANDB_API_KEY"] = '12ad199333ec9dd0cb2697317b64dc3396dac0d1' # Set your key here
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512'
@@ -54,7 +54,7 @@ def main(config):
         os.makedirs(config.model_dir)
 
     # Logger
-    if config.mode == 'train':
+    if config.mode in ['train', 'test']:
         log_p_name = os.path.join(config.log_dir, get_date_postfix(True) + '_logger.log')
         logging.basicConfig(filename=log_p_name, level=logging.INFO)
         logging.info(config)
@@ -63,7 +63,7 @@ def main(config):
     if config.mode == 'train':
         solver = Solver(config, logging)
     elif config.mode == 'test':
-        solver = Solver(config)
+        solver = Solver(config, logging)
     else:
         raise NotImplementedError
 
@@ -72,7 +72,6 @@ def main(config):
 
 if __name__ == '__main__':
     wandb.login()
-    wandb.init(project="pgm-proj", entity="cmu-abi")
     config = get_GAN_config()
 
     # print(config)

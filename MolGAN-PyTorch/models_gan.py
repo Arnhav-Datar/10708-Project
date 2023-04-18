@@ -61,31 +61,33 @@ class Discriminator(nn.Module):
         return output, out
 
 class RewardNet(nn.Module):
-    def __init__(self, dim):
+    def __init__(self, N):
         super(RewardNet, self).__init__()
-        self.dim = dim
+        self.N = N
         self.node_cnt = nn.Sequential(
-            nn.Linear(dim, 128),
+            nn.Linear(N*N, 256),
+            nn.ReLU(),
+            nn.Linear(256, 128),
             nn.ReLU(),
             nn.Linear(128, 1),
             nn.Sigmoid()
         )
 
-        self.edge_cnt = nn.Sequential(
-            nn.Linear(dim, 128),
-            nn.ReLU(),
-            nn.Linear(128, 1),
-            nn.Sigmoid()
-        )
+        # self.edge_cnt = nn.Sequential(
+        #     nn.Linear(dim, 128),
+        #     nn.ReLU(),
+        #     nn.Linear(128, 1),
+        #     nn.Sigmoid()
+        # )
 
     def forward(self, out):
-        # `out` is discriminator output
-        # `out` has shape [batch_size, self.dim]
+        # `out` is generator output
+        # `out` has shape [batch_size, N, N]
 
-        node_cnt = self.node_cnt(out)
-        # `node_cnt` has shape [batch_size, 1]
+        node_cnt = self.node_cnt(out.view(out.shape[0], -1))
+        # `node_cnt` has shape [batch_size, 1] and is normalized to [0,1]
 
-        edge_cnt = self.edge_cnt(out)
+        # edge_cnt = self.edge_cnt(out)
         # `edge_cnt` has shape [batch_size, 1]
 
-        return node_cnt, edge_cnt
+        return node_cnt.view(-1)

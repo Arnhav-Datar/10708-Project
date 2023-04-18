@@ -2,7 +2,7 @@ import numpy as np
 from graph_utils import *
 
 def get_node_num(adj: np.ndarray):
-    return adj.shape[0]
+    return adj.shape[0] - (adj.sum(axis=1) == 0).sum()
 
 def get_edge_num(adj: np.ndarray):
     n = get_node_num(adj)
