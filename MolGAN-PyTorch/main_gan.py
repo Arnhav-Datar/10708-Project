@@ -4,9 +4,7 @@ import logging
 from rdkit import RDLogger
 
 from args import get_GAN_config
-
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512'
+import wandb
 
 # Remove flooding logs.
 lg = RDLogger.logger()
@@ -40,7 +38,7 @@ def main(config):
     os.environ['TOKENIZERS_PARALLELISM'] = 'true'
 
     # Timestamp
-    config.saving_dir = os.path.join(config.saving_dir, get_date_postfix())
+    config.saving_dir = os.path.join(config.saving_dir, get_date_postfix(True))
     config.log_dir = os.path.join(config.saving_dir, 'logs')
     config.model_dir = os.path.join(config.saving_dir, 'models')
 
@@ -68,6 +66,8 @@ def main(config):
 
 
 if __name__ == '__main__':
+    wandb.login()
+    wandb.init(project="pgm-proj", entity="cmu-abi")
     config = get_GAN_config()
 
     # print(config)

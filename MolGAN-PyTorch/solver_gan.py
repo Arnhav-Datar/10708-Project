@@ -9,10 +9,14 @@ import torch.nn.functional as F
 from transformers import BertModel
 from score import score
 
-from models_gan import Generator, Discriminator
+from models_gan import Generator, Discriminator, RewardNet
 from graph_data import get_loaders
 import numpy as np
 from tqdm import tqdm
+import sys
+sys.path.insert(0, '../GraphGen')
+from recognize import *
+import wandb
 
 class Solver(object):
     """Solver for training and testing LIC-GAN."""
@@ -36,12 +40,9 @@ class Solver(object):
         self.z_dim = config.z_dim
         self.mha_dim = config.mha_dim
         self.n_heads = config.n_heads
-        self.hid_dims = config.hid_dims
-        self.hid_dims_2 = config.hid_dims_2
-        self.m_dim = config.m_dim
-        self.conv_dim = config.conv_dim
+        self.gen_dims = config.gen_dims
+        self.disc_dims = config.disc_dims
         self.la = config.lambda_wgan
-        self.lambda_rec = config.lambda_rec
         self.la_gp = config.lambda_gp
         self.post_method = config.post_method
         
@@ -54,19 +55,17 @@ class Solver(object):
         self.num_steps = len(self.train_data)
         self.g_lr = config.g_lr
         self.d_lr = config.d_lr
+        self.r_lr = config.r_lr
         self.dropout = config.dropout
-        if self.la > 0:
-            self.n_critic = config.n_critic
-        else:
-            self.n_critic = 1
-        self.resume_epoch = config.resume_epoch
-
+        self.n_critic = config.n_critic
+        self.lr_update_step = config.lr_update_step
+        
         # Training or testing.
         self.mode = config.mode
 
         # Miscellaneous.
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        print('Device: ', self.device)
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        print('Device gan: ', self.device)
 
         # Directories.
         self.log_dir = config.log_dir
@@ -77,34 +76,70 @@ class Solver(object):
 
         # Build the model.
         self.build_model()
+        self.restore_G = config.restore_G
+        self.restore_D = config.restore_D
+        self.restore_R = config.restore_R
+        
+        if self.mode == 'train':
+            self.run = wandb.init(
+            # Set the project where this run will be logged
+                name=config.name,
+                project="pgm-proj",
+                # Track hyperparameters and run metadata
+                config={
+                    key: val for key, val in config.__dict__.items() if not key.startswith('__') and not callable(key) and not key.endswith('dir')
+                }
+            )
+            for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp']:
+                self.run.define_metric(f'train/{metric}', step_metric="step")
+            for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp', 'property_match']:
+                self.run.define_metric(f'val/{metric}', step_metric="epoch")
+            
+            # for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp']:
+            #     self.run.define_metric(f'test/{metric}', step_metric="epoch")
 
     def build_model(self):
         """Create a generator and a discriminator."""
         self.G = Generator(self.N,
                            self.z_dim,
-                           self.hid_dims,
-                           self.hid_dims_2,
+                           self.gen_dims,
                            self.mha_dim,
                            self.n_heads,
                            self.dropout)
         self.D = Discriminator(self.N,
-                               self.conv_dim, 
-                               self.m_dim, 
+                               self.disc_dims, 
                                self.mha_dim,
                                self.n_heads,
                                self.dropout)
+        self.R = RewardNet(self.disc_dims[2][-1])
+
         self.bert = BertModel.from_pretrained(self.lm_model)
         for param in self.bert.parameters():
             param.requires_grad = False
 
-        self.g_optimizer = torch.optim.RMSprop(self.G.parameters(), self.g_lr)
-        self.d_optimizer = torch.optim.RMSprop(self.D.parameters(), self.d_lr)
+        self.g_optimizer = torch.optim.Adam(self.G.parameters(), self.g_lr, betas=(0, 0.9))
+        self.d_optimizer = torch.optim.Adam(self.D.parameters(), self.d_lr, betas=(0, 0.9))
+        self.r_optimizer = torch.optim.Adam(self.R.parameters(), self.r_lr, betas=(0, 0.9))
+        # self.g_scheduler = torch.optim.lr_scheduler.LinearLR(self.g_optimizer,
+        #                                                      1.,
+        #                                                      1./self.num_epochs,
+        #                                                      self.num_epochs)
+        # self.d_scheduler = torch.optim.lr_scheduler.LinearLR(self.d_optimizer,
+        #                                                      1.,
+        #                                                      1./self.num_epochs,
+        #                                                      self.num_epochs)
+        # self.r_scheduler = torch.optim.lr_scheduler.LinearLR(self.r_optimizer,
+        #                                                      1.,
+        #                                                      1./self.num_epochs,
+        #                                                      self.num_epochs)
         self.print_network(self.G, 'G', self.log)
         self.print_network(self.D, 'D', self.log)
+        self.print_network(self.R, 'R', self.log)
         self.print_network(self.bert, self.lm_model, self.log)
 
         self.G.to(self.device)
         self.D.to(self.device)
+        self.R.to(self.device)
         self.bert.to(self.device)
         
     @staticmethod
@@ -121,25 +156,28 @@ class Solver(object):
             log.info(name)
             log.info("The number of parameters: {}".format(num_params))
 
-    def restore_model(self, resume_iters):
-        """Restore the trained generator and discriminator."""
-        print('Loading the trained models from step {}...'.format(resume_iters))
-        G_path = os.path.join(self.model_dir, '{}-G.ckpt'.format(resume_iters))
-        D_path = os.path.join(self.model_dir, '{}-D.ckpt'.format(resume_iters))
-        self.G.load_state_dict(torch.load(G_path, map_location=lambda storage, loc: storage))
-        self.D.load_state_dict(torch.load(D_path, map_location=lambda storage, loc: storage))
+    # def restore_model(self, resume_iters):
+    #     """Restore the trained generator and discriminator."""
+    #     print('Loading the trained models from step {}...'.format(resume_iters))
+    #     G_path = os.path.join(self.model_dir, '{}-G.ckpt'.format(resume_iters))
+    #     D_path = os.path.join(self.model_dir, '{}-D.ckpt'.format(resume_iters))
+    #     self.G.load_state_dict(torch.load(G_path, map_location=lambda storage, loc: storage))
+    #     self.D.load_state_dict(torch.load(D_path, map_location=lambda storage, loc: storage))
 
-    def update_lr(self, g_lr, d_lr):
+    def update_lr(self, g_lr, d_lr, r_lr):
         """Decay learning rates of the generator and discriminator."""
         for param_group in self.g_optimizer.param_groups:
             param_group['lr'] = g_lr
         for param_group in self.d_optimizer.param_groups:
             param_group['lr'] = d_lr
+        for param_group in self.r_optimizer.param_groups:
+            param_group['lr'] = r_lr
 
     def reset_grad(self):
         """Reset the gradient buffers."""
         self.g_optimizer.zero_grad()
         self.d_optimizer.zero_grad()
+        self.r_optimizer.zero_grad()
 
     def gradient_penalty(self, y, x):
         """Compute gradient penalty: (L2_norm(dy/dx) - 1)**2."""
@@ -195,9 +233,12 @@ class Solver(object):
 
         # Start training from scratch or resume training.
         start_epoch = 0
-        if self.resume_epoch is not None:
-            start_epoch = self.resume_epoch
-            self.restore_model(self.resume_epoch)
+        if self.restore_D:
+            self.D.load_state_dict(torch.load(self.restore_D, map_location=lambda storage, loc: storage))
+        if self.restore_G:
+            self.G.load_state_dict(torch.load(self.restore_G, map_location=lambda storage, loc: storage))
+        if self.restore_R:
+            self.R.load_state_dict(torch.load(self.restore_R, map_location=lambda storage, loc: storage))
 
         # Start training.
         if self.mode == 'train':
@@ -205,9 +246,14 @@ class Solver(object):
             for i in range(start_epoch, self.num_epochs):
                 self.train_or_valid(epoch_i=i, train_val_test='train')
                 self.train_or_valid(epoch_i=i, train_val_test='val')
+                # self.g_scheduler.step()
+                # self.d_scheduler.step()
+                # if i == start_epoch:
+                #     self.la = 1
+            wandb.finish()
         elif self.mode == 'test':
             # assert self.resume_epoch is not None
-            self.train_or_valid(epoch_i=start_epoch, train_val_test='test')
+            self.train_or_valid(epoch_i=start_epoch, train_val_test='val')
         else:
             raise NotImplementedError
 
@@ -228,20 +274,22 @@ class Solver(object):
     #     return reward
 
     def save_checkpoints(self, epoch_i):
-        G_path = os.path.join(self.model_dir_path, '{}-G.ckpt'.format(epoch_i + 1))
-        D_path = os.path.join(self.model_dir_path, '{}-D.ckpt'.format(epoch_i + 1))
+        G_path = os.path.join(self.model_dir, '{}-G.ckpt'.format(epoch_i + 1))
+        D_path = os.path.join(self.model_dir, '{}-D.ckpt'.format(epoch_i + 1))
+        R_path = os.path.join(self.model_dir, '{}-R.ckpt'.format(epoch_i + 1))
         torch.save(self.G.state_dict(), G_path)
         torch.save(self.D.state_dict(), D_path)
-        print('Saved model checkpoints into {}...'.format(self.model_dir_path))
+        torch.save(self.R.state_dict(), R_path)
+        print('Saved model checkpoints into {}...'.format(self.model_dir))
         if self.log is not None:
-            self.log.info('Saved model checkpoints into {}...'.format(self.model_dir_path))
+            self.log.info('Saved model checkpoints into {}...'.format(self.model_dir))
 
     def train_or_valid(self, epoch_i, train_val_test='val'):
         # The first several epochs using RL to purse stability (not used).
-        if epoch_i < 0:
-            cur_la = 0
-        else:
-            cur_la = self.la
+        # if epoch_i < 0:
+        #     cur_la = 0
+        # else:
+        #     cur_la = self.la
 
         # Recordings
         losses = defaultdict(list)
@@ -258,16 +306,19 @@ class Solver(object):
 
         for a_step in tqdm(range(the_step)):
             if train_val_test == 'val':
-                adj_mat, ids, mask, desc = next(iter(self.val_data))
+                adj_mat, ids, mask, desc, properties = next(iter(self.val_data))
                 z = self.sample_z(adj_mat.shape[0])
             elif train_val_test == 'test':
-                adj_mat, ids, mask, desc = next(iter(self.test_data))
+                adj_mat, ids, mask, desc, properties = next(iter(self.test_data))
                 z = self.sample_z(adj_mat.shape[0])
             elif train_val_test == 'train':
-                adj_mat, ids, mask, desc = next(iter(self.train_data))
+                adj_mat, ids, mask, desc, properties = next(iter(self.train_data))
                 z = self.sample_z(self.batch_size)
             else:
                 raise NotImplementedError
+            
+            if train_val_test == 'train':
+                self.reset_grad()
 
             # =================================================================================== #
             #                             1. Preprocess input data                                #
@@ -296,6 +347,12 @@ class Solver(object):
                 logits_real, features_real = self.D(adj_mat, bert_out)
                 # Z-to-target
                 adjM_logits = self.G(z, bert_out)
+
+            node_est_real, edge_est_real = self.R(features_real) # in [0, 1], represent percentage
+            # assume undirected graph adj_mat is symmetric
+            # `adj_mat` has shape [batch_size, self.N, self.N]
+            node_real = (self.N - (adj_mat.sum(dim=2) == 0).sum(dim=1, keepdim=True).float()) / self.N
+            edge_real = (adj_mat.flatten(start_dim=1).sum(dim=1, keepdim=True).float() / 2) / (self.N * (self.N - 1) / 2)
         
             # Postprocess with Gumbel softmax
             adjM_hat = self.postprocess(adjM_logits, self.post_method)
@@ -304,6 +361,12 @@ class Solver(object):
                     logits_fake, features_fake = self.D(adjM_hat, bert_out)
             else:
                 logits_fake, features_fake = self.D(adjM_hat, bert_out)
+
+            node_est_fake, edge_est_fake = self.R(features_fake) # in [0, 1], represent percentage
+            mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
+            # `mats` has shape [batch_size, self.N, self.N]
+            node_fake = (self.N - (mats.sum(dim=2) == 0).sum(dim=1, keepdim=True).float()) / self.N
+            edge_fake = (mats.flatten(start_dim=1).sum(dim=1, keepdim=True).float() / 2) / (self.N * (self.N - 1) / 2)
 
             # Compute losses for gradient penalty.
             eps = torch.rand(logits_real.size(0), 1, 1).to(self.device)
@@ -315,26 +378,35 @@ class Solver(object):
             d_loss_fake = torch.mean(logits_fake)
             loss_D = -d_loss_real + d_loss_fake + self.la_gp * grad_penalty
 
-            if cur_la > 0:
-                losses['l_D/R'].append(d_loss_real.item())
-                losses['l_D/F'].append(d_loss_fake.item())
-                losses['l_D'].append(loss_D.item())
+            r_loss = torch.functional.F.mse_loss(node_est_real, node_real) + torch.functional.F.l1_loss(edge_est_real, edge_real)
+            r_loss += torch.functional.F.mse_loss(node_est_fake, node_fake) + torch.functional.F.l1_loss(edge_est_fake, edge_fake)
+            loss_R = r_loss
+
+            losses['l_D/R'].append(d_loss_real.item())
+            losses['l_D/F'].append(d_loss_fake.item())
+            losses['l_D'].append(loss_D.item())
+            losses['l_R'].append(loss_R.item())
 
             # Optimise discriminator.
-            if train_val_test == 'train' and cur_step % self.n_critic != 0 and cur_la > 0:
-                self.reset_grad()
-                loss_D.backward()
+            if train_val_test == 'train':
+                loss_D.backward(retain_graph=True)
                 self.d_optimizer.step()
+
+            # optimise the rewardnet
+            if train_val_test == 'train':
+                loss_R.backward(retain_graph=True)
+                self.r_optimizer.step()
 
             # =================================================================================== #
             #                               3. Train the generator                                #
             # =================================================================================== #
-
-            # # Z-to-target
-            # edges_logits, nodes_logits = self.G(z)
-            # # Postprocess with Gumbel softmax
-            # (edges_hat, nodes_hat) = self.postprocess((edges_logits, nodes_logits), self.post_method)
-            # logits_fake, features_fake = self.D(edges_hat, None, nodes_hat)
+            self.reset_grad()
+            
+            # Z-to-target
+            adjM_logits = self.G(z, bert_out)
+            # Postprocess with Gumbel softmax
+            adjM_hat = self.postprocess(adjM_logits, self.post_method)
+            logits_fake, features_fake = self.D(adjM_hat, bert_out)
 
             # Value losses
             # value_logit_real, _ = self.V(a_tensor, None, x_tensor, torch.sigmoid)
@@ -360,21 +432,30 @@ class Solver(object):
             # loss_V = torch.mean(loss_V)
             # loss_RL = torch.mean(loss_RL)
             losses['l_G'].append(loss_G.item())
+            
+            if train_val_test == 'train':
+                if train_val_test == 'train':
+                    wandb.log({
+                        f'step': cur_step+1,
+                        f'{train_val_test}/l_D/R': d_loss_real.item(), 
+                        f'{train_val_test}/l_D/F': d_loss_fake.item(), 
+                        f'{train_val_test}/l_D': loss_D.item(),
+                        f'{train_val_test}/l_G': loss_G.item(),
+                        f'{train_val_test}/l_R': loss_R.item(),
+                        f'{train_val_test}/l_D/GP': grad_penalty.item(),
+                    })
+                
             # losses['l_RL'].append(loss_RL.item())
             # losses['l_V'].append(loss_V.item())
 
             # alpha = torch.abs(loss_G.detach() / loss_RL.detach()).detach()
-            train_step_G = cur_la * loss_G
+            train_step_G = loss_G
 
             # train_step_V = loss_V
-
-            if train_val_test == 'train':
-                self.reset_grad()
-
+            if train_val_test == 'train' and cur_step % self.n_critic == 0:
                 # Optimise generator.
-                if cur_step % self.n_critic == 0:
-                    train_step_G.backward(retain_graph=True)
-                    self.g_optimizer.step()
+                train_step_G.backward()
+                self.g_optimizer.step()
 
                 # Optimise value network.
                 # if cur_step % self.n_critic == 0:
@@ -384,17 +465,33 @@ class Solver(object):
             # =================================================================================== #
             #                                 4. Miscellaneous                                    #
             # =================================================================================== #
-
             # Get scores.
             if train_val_test in ['val', 'test']:
                 # torch.cuda.empty_cache()
                 if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
                     mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
-                    results = score(desc, mats.detach().cpu().numpy().astype(int))
+                    np_mats = mats.detach().cpu().numpy().astype(int)
+                    results = score(desc, np_mats)
                     for k, v in results.items():
                         scores[k].append(v)
+                        
+                if a_step +1 == the_step:
+                    mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
+                    np_mats = mats.detach().cpu().numpy().astype(int)
+                    log = '5 sample adjacenecy matrices\n'
+                    for i in range(5):
+                        log += '-'*50 + '\n'
+                        log += 'Text: {}\n'.format(desc[i])
+                        nodes, edg = get_node_num(np_mats[i]), get_edge_num(np_mats[i])
+                        log += 'Num Nodes: {} | Num Edges: {}\n'.format(nodes, edg)
+                        cc_num = get_connected_component_num(np_mats[i])
+                        degree_seq = get_degree_seq(np_mats[i])
+                        have_cycle = edg > nodes - cc_num
+                        log += 'Conn Comp: {} | Max Deg: {} | Min Deg: {} | Has Cycle: {}\n'.format(cc_num, np.max(degree_seq), np.min(degree_seq), have_cycle)
+                        log += '-'*50 + '\n'
+                    if self.log is not None:
+                        self.log.info(log)
 
-                if a_step + 1 == the_step:
                     # Save checkpoints.
                     if self.mode == 'train':
                         if (epoch_i + 1) % self.model_save_step == 0:
@@ -406,12 +503,16 @@ class Solver(object):
                     log = "Elapsed [{}], Iteration [{}/{}]:".format(et, epoch_i + 1, self.num_epochs)
 
                     is_first = True
+                    new_dict = {'epoch': epoch_i + 1}
                     for tag, value in losses.items():
                         if is_first:
                             log += "\n{}: {:.2f}".format(tag, np.mean(value))
                             is_first = False
                         else:
                             log += ", {}: {:.2f}".format(tag, np.mean(value))
+                        if self.mode == 'train':
+                            new_dict[f'{train_val_test}/{tag}'] = np.mean(value)
+    
                     if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
                         is_first = True
                         for tag, value in scores.items():
@@ -420,6 +521,10 @@ class Solver(object):
                                 is_first = False
                             else:
                                 log += ", {}: {:.2f}".format(tag, np.mean(value))
+                            if self.mode == 'train':
+                                new_dict[f'{train_val_test}/{tag}'] = np.mean(value)
+                    
+                    wandb.log(new_dict)
                     print(log)
 
                     if self.log is not None:
