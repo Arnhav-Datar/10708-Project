@@ -9,7 +9,7 @@ def get_GAN_config():
     parser = argparse.ArgumentParser()
 
     # Model configuration.
-    parser.add_argument('--lm_model', type=str, default='bert-base-uncased', help='LM model')
+    parser.add_argument('--lm_model', type=str, default='roberta-base', help='LM model')
     parser.add_argument('--N', type=int, default=50, help='max number of nodes')
     parser.add_argument('--max_len', type=int, default=128, help='max number of tokens input to LM')
     parser.add_argument('--z_dim', type=int, default=8, help='dimension of latent vector')
@@ -18,7 +18,7 @@ def get_GAN_config():
     parser.add_argument('--gen_dims', default=[[128, 256, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in G before and after attention')
     parser.add_argument('--disc_dims', default=[[128, 128], [512, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in D before and after attention')
     parser.add_argument('--lambda_gp', type=float, default=5, help='weight for gradient penalty')
-    parser.add_argument('--lambda_rew', type=float, default=0.5, help='weight for reward loss')
+    parser.add_argument('--lambda_rew', type=float, default=0, help='weight for reward loss')
     parser.add_argument('--lambda_wgan', type=float, default=1, help='whether or not to use wgan loss')
     parser.add_argument('--post_method', type=str, default='hard_gumbel', choices=['sigmoid', 'soft_gumbel', 'hard_gumbel'])
 
@@ -37,6 +37,8 @@ def get_GAN_config():
     # Miscellaneous.
     parser.add_argument('--num_workers', type=int, default=1)
     parser.add_argument('--mode', type=str, default='train', choices=['train', 'test'])
+    parser.add_argument('--bert_unfreeze', type=int, default=0)
+    parser.add_argument('--b_lr', type=float, default=1e-5)
 
     # Use either of these two datasets.
     parser.add_argument('--data_dir', type=str, default='data')
@@ -53,9 +55,14 @@ def get_GAN_config():
     config.restore_G = None #'/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-G.ckpt'
     config.restore_D = None #'/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-D.ckpt'
     config.restore_R = None #'/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-17_20-13/models/20-R.ckpt' 
+    config.restore_B_D = None
+    config.restore_B_G = None
 
     # Wandb
-    config.name = 'symm_fcn_simple_ds_gumbel'
+    config.name = 'symm_fcn_simple_ds_gumbel_roberta_freezed'
+    
+    # Involve bert unfreeze
+    config.bert_unfreeze = 0
     
     # For testing
     # config.mode = 'test'

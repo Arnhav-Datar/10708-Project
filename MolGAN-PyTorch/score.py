@@ -25,16 +25,20 @@ def score(props, adj_mat_hat):
         closeness = 0
         score = 0
         n_prop = 0
+        score_n = 0
+        score_e = 0
         for key, val in prop.items():
             n = get_node_num(adj)
             m = get_edge_num(adj)
             if key == 'n' and val is not None:
                 n_prop += 1
                 score += int(n == val)
+                score_n += int(n == val)
                 closeness += np.exp(-(n - val)**2)
             elif key == 'm' and val is not None:
                 n_prop += 1
                 score += int(m == val)
+                score_e += int(m == val)
                 closeness += np.exp(-(m - val)**2)
             elif key == 'max_diameter' and val is not None:
                 n_prop += 1
@@ -65,11 +69,13 @@ def score(props, adj_mat_hat):
                     score += int(have_cycle == val)
                     closeness += int(have_cycle == val)
                 
-        return score / n_prop, closeness / n_prop
+        return score / n_prop, closeness / n_prop, score_n, score_e
 
-    score_close = Parallel(n_jobs=8)(delayed(_get_score)(prop, adj) for prop, adj in zip(props, adj_mat_hat))
-    scores, closeness = zip(*score_close)
+    score_close_n_e = Parallel(n_jobs=8)(delayed(_get_score)(prop, adj) for prop, adj in zip(props, adj_mat_hat))
+    scores, closeness, scores_n, scores_e = zip(*score_close_n_e)
     return {
         'property_match': scores,
-        'closeness': closeness
+        'closeness': closeness,
+        'n_match': scores_n,
+        'm_match': scores_e
     }

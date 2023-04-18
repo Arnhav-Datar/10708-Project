@@ -5,3 +5,4 @@ results/*/models
 !data/*.sh
 wandb
 tmp.out
+**/.env
