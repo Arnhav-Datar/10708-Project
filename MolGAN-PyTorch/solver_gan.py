@@ -9,7 +9,7 @@ import torch.nn.functional as F
 from transformers import BertModel
 from score import score
 
-from models_gan import Generator, Discriminator, RewardNet
+from models_gan import Generator, Discriminator, RewardNet, gumbel_sigmoid
 from graph_data import get_loaders
 import numpy as np
 from tqdm import tqdm
@@ -44,6 +44,7 @@ class Solver(object):
         self.disc_dims = config.disc_dims
         self.la = config.lambda_wgan
         self.la_gp = config.lambda_gp
+        self.la_rew = config.lambda_rew
         self.post_method = config.post_method
         
         self.lm_model = config.lm_model
@@ -213,19 +214,16 @@ class Solver(object):
             return x if len(x) > 1 else x[0]
 
         if method == 'soft_gumbel':
-            softmax = [F.gumbel_softmax(e_logits.contiguous().view(-1, e_logits.size(-1))
-                                        / temperature, hard=False).view(e_logits.size())
+            softmax = [gumbel_sigmoid(e_logits, t=temperature, hard=False)
                        for e_logits in listify(inputs)]
         elif method == 'hard_gumbel':
-            softmax = [F.gumbel_softmax(e_logits.contiguous().view(-1, e_logits.size(-1))
-                                        / temperature, hard=True).view(e_logits.size())
+            softmax = [gumbel_sigmoid(e_logits, t=temperature, hard=True)
                        for e_logits in listify(inputs)]
         elif method == 'sigmoid':
             softmax = [F.sigmoid(e_logits / temperature)
                        for e_logits in listify(inputs)] 
         else:
-            softmax = [F.softmax(e_logits / temperature, -1)
-                       for e_logits in listify(inputs)]
+            raise NotImplementedError
         
 
         return delistify([e for e in (softmax)])
@@ -263,6 +261,9 @@ class Solver(object):
             raise NotImplementedError
 
     def get_gen_adj_mat(self, adj_mat, method=None):
+        if self.post_method == 'hard_gumbel':
+            return adj_mat
+        
         if method is not None:
             adj_mat = self.postprocess(adj_mat, method)
         adj_mat = torch.nan_to_num(adj_mat, nan=0., posinf=0., neginf=0.)
@@ -285,7 +286,8 @@ class Solver(object):
         R_path = os.path.join(self.model_dir, '{}-R.ckpt'.format(epoch_i + 1))
         torch.save(self.G.state_dict(), G_path)
         torch.save(self.D.state_dict(), D_path)
-        torch.save(self.R.state_dict(), R_path)
+        if self.la_rew > 0:
+            torch.save(self.R.state_dict(), R_path)
         print('Saved model checkpoints into {}...'.format(self.model_dir))
         if self.log is not None:
             self.log.info('Saved model checkpoints into {}...'.format(self.model_dir))
@@ -468,8 +470,9 @@ class Solver(object):
                 #     self.v_optimizer.step()
             
             # optimise the rewardnet
-            if train_val_test == 'train':
-                loss_R.backward()
+            if train_val_test == 'train' and self.la_rew > 0:
+                calc_loss_R = self.la_rew * loss_R
+                calc_loss_R.backward()
                 self.r_optimizer.step()
 
             # =================================================================================== #

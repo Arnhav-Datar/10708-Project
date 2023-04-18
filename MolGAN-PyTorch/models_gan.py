@@ -91,3 +91,24 @@ class RewardNet(nn.Module):
         # `edge_cnt` has shape [batch_size, 1]
 
         return node_cnt.view(-1)
+
+
+def gumbel_sigmoid(logits, t=0.1, eps=1e-20, hard=False):            
+    #sample from Gumbel(0, 1)
+    uniform1 = torch.rand(logits.shape).to(logits.device)
+    uniform2 = torch.rand(logits.shape).to(logits.device)
+    
+    noise = -torch.log(torch.log(uniform2 + eps)/torch.log(uniform1 + eps) + eps)
+    
+    #draw a sample from the Gumbel-Sigmoid distribution
+    y = torch.sigmoid((logits + noise) / t)
+    if len(y.shape) == 3:
+        y = (y + y.permute(0, 2, 1)) / 2
+    
+    if hard:
+        #take the sign of the logits
+        y_hard = torch.zeros_like(y).to(logits.device)
+        y_hard[y >= 0.5] = 1
+        y = (y_hard - y).detach() + y
+
+    return y

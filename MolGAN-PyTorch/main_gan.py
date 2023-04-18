@@ -6,7 +6,7 @@ from rdkit import RDLogger
 from args import get_GAN_config
 import wandb
 
-os.environ["WANDB_API_KEY"] = '12ad199333ec9dd0cb2697317b64dc3396dac0d1' # Set your key here
+os.environ["WANDB_API_KEY"] = '' # Set your key here
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512'
