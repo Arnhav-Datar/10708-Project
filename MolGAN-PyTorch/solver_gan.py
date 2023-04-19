@@ -6,7 +6,7 @@ import datetime
 
 import torch
 import torch.nn.functional as F
-from transformers import BertModel, RobertaModel
+from transformers import BertModel, RobertaModel, BertConfig
 from score import score
 
 from models_gan import Generator, Discriminator, RewardNet, gumbel_sigmoid
@@ -38,7 +38,7 @@ class Solver(object):
         # Model configurations.
         self.N = config.N
         self.z_dim = config.z_dim
-        self.mha_dim = config.mha_dim
+        self.lm_cls_dim = config.lm_cls_dim
         self.n_heads = config.n_heads
         self.gen_dims = config.gen_dims
         self.disc_dims = config.disc_dims
@@ -110,12 +110,12 @@ class Solver(object):
         self.G = Generator(self.N,
                            self.z_dim,
                            self.gen_dims,
-                           self.mha_dim,
+                           self.lm_cls_dim,
                            self.n_heads,
                            self.dropout)
         self.D = Discriminator(self.N,
                                self.disc_dims, 
-                               self.mha_dim,
+                               self.lm_cls_dim,
                                self.n_heads,
                                self.dropout)
         self.R = RewardNet(self.N)
@@ -388,13 +388,19 @@ class Solver(object):
                     bert_D_out = self.bert_D(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
                     logits_real, features_real = self.D(adj_mat, bert_D_out)
                     # Z-to-target
-                    bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
+                    if self.bert_unfreeze:
+                        bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
+                    else:
+                        bert_G_out = bert_D_out
                     adjM_logits = self.G(z, bert_G_out)
             else:
                 bert_D_out = self.bert_D(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
                 logits_real, features_real = self.D(adj_mat, bert_D_out)
                 # Z-to-target
-                bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
+                if self.bert_unfreeze:
+                    bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
+                else:
+                    bert_G_out = bert_D_out
                 adjM_logits = self.G(z, bert_G_out)
         
             # Postprocess with sigmoid
@@ -432,11 +438,13 @@ class Solver(object):
             self.reset_grad()
             
             # Z-to-target
-            bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
+            if self.bert_unfreeze:
+                bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
             adjM_logits = self.G(z, bert_G_out)
             # Postprocess with sigmoid
             adjM_hat = self.postprocess(adjM_logits, self.post_method)
-            bert_D_out = self.bert_D(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
+            if self.bert_unfreeze:
+                bert_D_out = self.bert_D(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
             logits_fake, features_fake = self.D(adjM_hat, bert_D_out)
             
             # Reward Losses

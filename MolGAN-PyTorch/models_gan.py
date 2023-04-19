@@ -8,22 +8,22 @@ class Generator(nn.Module):
     # Abishek's code
     """Generator network for NLP conditioned graph gen."""
 
-    def __init__(self, N, z_dim, gen_dims, mha_dim, n_heads, dropout_rate):
+    def __init__(self, N, z_dim, gen_dims, lm_cls_dim, n_heads, dropout_rate):
         super(Generator, self).__init__()
         self.N = N
         self.activation_f = torch.nn.ReLU()
         hid_dims, hid_dims_2 = gen_dims
         
         self.multi_dense_layer = MultiDenseLayer(z_dim, hid_dims, self.activation_f)
-        self.mha = nn.MultiheadAttention(mha_dim, n_heads, batch_first=True)
-        self.multi_dense_layer_2 = MultiDenseLayer(mha_dim, hid_dims_2, self.activation_f, dropout_rate=dropout_rate)
+        self.cls_dense_layer = nn.Linear(768, lm_cls_dim)
+        self.multi_dense_layer_2 = MultiDenseLayer(lm_cls_dim+hid_dims[-1], hid_dims_2, self.activation_f, dropout_rate=dropout_rate)
 
         self.adjM_layer = nn.Linear(hid_dims_2[-1], N*N)
         self.dropoout = nn.Dropout(p=dropout_rate)
 
     def forward(self, z, bert_out):
         out = self.multi_dense_layer(z)
-        out = self.mha(out.view(out.shape[0], 1, -1), bert_out, bert_out)[0].view(z.shape[0], -1)
+        out = torch.cat([out, self.cls_dense_layer(bert_out[:,0])], dim=1)
         out = self.multi_dense_layer_2(out)
         adjM_logits = self.adjM_layer(out).view(-1, self.N, self.N)
         adjM_logits = (adjM_logits + adjM_logits.permute(0, 2, 1)) / 2
@@ -35,14 +35,14 @@ class Discriminator(nn.Module):
     # Abishek's code
     """Discriminator network with PatchGAN NLP conditioned graph gen."""
 
-    def __init__(self, N, disc_dims, mha_dim, n_heads, dropout_rate=0.):
+    def __init__(self, N, disc_dims, lm_cls_dim, n_heads, dropout_rate=0.):
         super(Discriminator, self).__init__()
         self.activation_f = torch.nn.ReLU()
         hid_dims, hid_dims_2, hid_dims_3 = disc_dims
         self.multi_dense_layer = MultiDenseLayer(N, hid_dims, self.activation_f)
         self.multi_dense_layer_2 = MultiDenseLayer(N*hid_dims[-1], hid_dims_2, self.activation_f, dropout_rate=dropout_rate)
-        self.mha = nn.MultiheadAttention(mha_dim, n_heads, batch_first=True)
-        self.multi_dense_layer_3 = MultiDenseLayer(mha_dim, hid_dims_3, self.activation_f, dropout_rate=dropout_rate)
+        self.cls_dense_layer = nn.Linear(768, lm_cls_dim)
+        self.multi_dense_layer_3 = MultiDenseLayer(lm_cls_dim+hid_dims_2[-1], hid_dims_3, self.activation_f, dropout_rate=dropout_rate)
 
         self.output_layer = nn.Linear(hid_dims_3[-1], 1)
 
@@ -52,7 +52,7 @@ class Discriminator(nn.Module):
         out = self.multi_dense_layer(inp)
         out = out.view(out.shape[0], -1)
         out = self.multi_dense_layer_2(out)
-        out = self.mha(out.view(out.shape[0], 1, -1), bert_out, bert_out)[0].view(out.shape[0], -1)
+        out = torch.cat([out, self.cls_dense_layer(bert_out[:,0])], dim=1)
         out = self.multi_dense_layer_3(out)
 
         output = self.output_layer(out)

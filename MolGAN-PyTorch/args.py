@@ -13,7 +13,7 @@ def get_GAN_config():
     parser.add_argument('--N', type=int, default=50, help='max number of nodes')
     parser.add_argument('--max_len', type=int, default=128, help='max number of tokens input to LM')
     parser.add_argument('--z_dim', type=int, default=8, help='dimension of latent vector')
-    parser.add_argument('--mha_dim', type=int, default=768, help='dimension of vectors uses in multi-head attentin')
+    parser.add_argument('--lm_cls_dim', type=int, default=512, help='dimension for bert cls embedding transform')
     parser.add_argument('--n_heads', type=int, default=8, help='number of heads to be used in multi-head attention')
     parser.add_argument('--gen_dims', default=[[128, 256, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in G before and after attention')
     parser.add_argument('--disc_dims', default=[[128, 128], [512, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in D before and after attention')
@@ -59,7 +59,7 @@ def get_GAN_config():
     config.restore_B_G = None
 
     # Wandb
-    config.name = 'symm_fcn_simple_ds_gumbel_roberta_freezed'
+    config.name = 'symm_fcn_simple_ds_gumbel_cls'
     
     # Involve bert unfreeze
     config.bert_unfreeze = 0
