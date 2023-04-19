@@ -10,7 +10,7 @@ import sys
 sys.path.insert(0, '../GraphGen')
 import recognize
 
-class SimpleSyntheticGraphDataset(data.Dataset):
+class SyntheticGraphDataset(data.Dataset):
     """Dataset Class for synthetic graph dataset."""
 
     def __init__(self, data_dir, max_node, max_len, model_name='bert-base-uncased'):
