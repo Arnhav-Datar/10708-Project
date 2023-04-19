@@ -6,7 +6,15 @@ import numpy as np
 import os
 import pickle
 
+<<<<<<< HEAD
 class SimpleSyntheticGraphDataset(data.Dataset):
+=======
+import sys
+sys.path.insert(0, '../GraphGen')
+import recognize
+
+class SyntheticGraphDataset(data.Dataset):
+>>>>>>> robert1003/dataloader
     """Dataset Class for synthetic graph dataset."""
 
     def __init__(self, data_dir, max_node, max_len, model_name='bert-base-uncased'):
@@ -27,11 +35,70 @@ class SimpleSyntheticGraphDataset(data.Dataset):
         self.max_len = max_len
         self.max_node = max_node
 
+<<<<<<< HEAD
     def _gen_text(self, property):
         n = property['n']
         m = property['m']
         text = f'Undirected graph with {n} nodes and {m} edges.'
         return text, {'n': n, 'm': m}
+=======
+    @staticmethod
+    def _get_property_list(property):
+        return [property['n'], property['m'], property['min_deg'], property['max_deg'], property['max_diameter'], property['cc_num'], property['cycle']]
+
+    @staticmethod
+    def _get_property_str_fn():
+        return [
+            lambda x: f'{x} nodes',
+            lambda x: f'{x} edges',
+            lambda x: f'min degree {x}',
+            lambda x: f'max degree {x}',
+            lambda x: f'max diameter {x}',
+            lambda x: f'{x} connected component',
+            lambda x: 'with cycle' if x else 'without cycle'
+        ]
+    
+    @staticmethod
+    def _get_eval_str_fn():
+        # assuming g is symmetric and does not have self-loop
+        return [
+            lambda g: g.shape[0] - (g.sum(axis=0) == 0).sum(), # n
+            lambda g: g.sum() // 2, # m
+            lambda g: g.sum(axis=0).min(), # min degree
+            lambda g: g.sum(axis=0).max(), # max degree
+            lambda g: recognize.get_max_diameter(g), # max diameter
+            lambda g: recognize.get_connected_component_num(g) - (g.sum(axis=0) == 0), # cc_num
+            lambda g: recognize.has_cycle(g) # cycle
+        ]
+    
+    @staticmethod
+    def get_prop(g, property_tuple):
+        succ = []
+        for i in range(len(property_tuple)):
+            if property_tuple[i] != -1:
+                succ.append(SimpleSyntheticGraphDataset._get_eval_str_fn()[i](g) == property_tuple[i])
+        return succ
+
+    def _gen_text(self, property):
+        # property_tuple[i] = -1 iff the property is not in the text
+        property_list = self._get_property_list(property)
+        count = np.random.randint(4, 6)
+        # must keep node number and edges
+        # XXX: preliminary experiment only use node number and edges
+        idx = [0, 1] #+ list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
+        text = 'Undirected graph with '
+        tag = [0] * len(property_list)
+        for i in idx:
+            tag[i] = 1
+            text += self._get_property_str_fn()[i](property_list[i]) + ', '
+        text = text[:-2] + '.'
+        for i in range(len(property_list)):
+            if tag[i] == 0:
+                property_list[i] = -1
+
+        property_tuple = tuple(property_list)
+        return text, property_tuple
+>>>>>>> robert1003/dataloader
 
     def _encode_text(self, text):
         return self.tokenizer(text, add_special_tokens=True, truncation=False, max_length=self.max_len, padding='max_length')
@@ -45,7 +112,7 @@ class SimpleSyntheticGraphDataset(data.Dataset):
     
     def __len__(self):
         return len(self.adj_matrix)
-
+    
     @staticmethod
     def collate_fn(batch):
         adj_matrix = torch.from_numpy(np.stack([item[0] for item in batch])).type(torch.FloatTensor)
