@@ -6,15 +6,11 @@ import numpy as np
 import os
 import pickle
 
-<<<<<<< HEAD
-class SimpleSyntheticGraphDataset(data.Dataset):
-=======
 import sys
 sys.path.insert(0, '../GraphGen')
 import recognize
 
 class SyntheticGraphDataset(data.Dataset):
->>>>>>> robert1003/dataloader
     """Dataset Class for synthetic graph dataset."""
 
     def __init__(self, data_dir, max_node, max_len, model_name='bert-base-uncased'):
@@ -35,13 +31,6 @@ class SyntheticGraphDataset(data.Dataset):
         self.max_len = max_len
         self.max_node = max_node
 
-<<<<<<< HEAD
-    def _gen_text(self, property):
-        n = property['n']
-        m = property['m']
-        text = f'Undirected graph with {n} nodes and {m} edges.'
-        return text, {'n': n, 'm': m}
-=======
     @staticmethod
     def _get_property_list(property):
         return [property['n'], property['m'], property['min_deg'], property['max_deg'], property['max_diameter'], property['cc_num'], property['cycle']]
@@ -75,12 +64,14 @@ class SyntheticGraphDataset(data.Dataset):
     def get_prop(g, property_tuple):
         succ = []
         for i in range(len(property_tuple)):
-            if property_tuple[i] != -1:
-                succ.append(SimpleSyntheticGraphDataset._get_eval_str_fn()[i](g) == property_tuple[i])
+            if property_tuple[i] is not None:
+                succ.append(SyntheticGraphDataset._get_eval_str_fn()[i](g))
+            else:
+                succ.append(None)
         return succ
 
     def _gen_text(self, property):
-        # property_tuple[i] = -1 iff the property is not in the text
+        # property_tuple[i] = None iff the property is not in the text
         property_list = self._get_property_list(property)
         count = np.random.randint(4, 6)
         # must keep node number and edges
@@ -94,11 +85,10 @@ class SyntheticGraphDataset(data.Dataset):
         text = text[:-2] + '.'
         for i in range(len(property_list)):
             if tag[i] == 0:
-                property_list[i] = -1
+                property_list[i] = None
 
         property_tuple = tuple(property_list)
         return text, property_tuple
->>>>>>> robert1003/dataloader
 
     def _encode_text(self, text):
         return self.tokenizer(text, add_special_tokens=True, truncation=False, max_length=self.max_len, padding='max_length')

@@ -9,6 +9,10 @@ import time
 import numpy as np
 from retry import retry
 
+import sys
+sys.path.insert(0, '../MolGAN-PyTorch')
+import graph_data
+
 @retry(tries=3, delay=30)
 def chatgpt(intro, examples, prompt, max_tokens, stop=["\n\n"]):
     messages = [
@@ -53,72 +57,95 @@ def load_data(opt):
 
     return adj_matrix, properties
 
-def main(opt):
+def main(opt, idxs):
     from prompt import graph_prompt
     from collections import defaultdict
 
     perf_cnt = defaultdict(lambda: [])
 
-    adj_matrixs, properties = load_data(opt)
-    for _, propertie in zip(adj_matrixs, properties):
-        if len(perf_cnt[propertie['n']]) >= 10:
-            continue
+    dataset = graph_data.SyntheticGraphDataset(
+        data_dir=opt.data_dir, 
+        max_node=50, 
+        max_len=0, # we don't need text here
+        model_name='bert-base-uncased' # dummy
+    )
 
-        prop = [propertie['n'], propertie['m'], propertie['max_deg'], propertie['min_deg']]
-        # prop += [propertie['cc_num'], propertie['max_diameter'], propertie['cycle']]
-        template = ['{} nodes', '{} edges', 'max node degree {}', 'min node degree {}']
-        # template += '{} connected components', 'maximum diameter {}', 'have cycle' if have_cycle else 'no cycle']
-        eval_func = [
-            lambda g: max(g.shape[0], g.shape[1]),
-            lambda g: g.sum() // 2,
-            lambda g: g.sum(axis=1).max(),
-            lambda g: g.sum(axis=1).min(),
-        ]
-        # eval_func: TODO
-
-        count = np.random.randint(4, 4+1)
-        choice_idx = np.random.choice(np.arange(len(prop)), count, replace=False)
-        description = 'Graph with ' + ', '.join([template[i].format(prop[i]) for i in choice_idx])
-        print(description)
+    for idx in idxs:
+        adj_matrix, _, text_desc, properties = dataset[idx]
+        n = properties[0]
+        adj_matrix = adj_matrix[:n, :n]
+        print(f'idx = {idx}')
+        print(f'text_desc = {text_desc}')
+        print(f'properties = {properties}')
 
         try:
             graph_str = chatgpt(
                     intro=graph_prompt['intro'],
                     examples=graph_prompt['examples'],
-                    prompt=graph_prompt['prompt'].format(description=description),
-                    max_tokens=int((propertie['n']**2 + propertie['n'] + 5)*1.5)
-                    # n^2+n+5 + extra should be enough according to https://platform.openai.com/tokenizer
+                    prompt=graph_prompt['prompt'].format(description=text_desc),
+                    max_tokens=min(3900, int((n**2 + n + 1)*2))
+                    # n^2+n+1 + extra should be enough according to https://platform.openai.com/tokenizer
                 )
-            graph_str = graph_str.split('```')[1]
-            print('='*20)
-            print(graph_str)
-            print('='*20)
-       
-            adj_matrix = np.array(list(map(lambda x: list(map(int, x.split())), graph_str.split('\n'))))
-            print(adj_matrix)
-            print('='*20)
+            graph_str = graph_str.split('```')[1].strip()
+            print(f'graph_str = {graph_str}')
+    
+            adj_matrix = list(map(lambda x: list(map(int, x.split())), graph_str.split('\n')))
+            adj_mat = np.zeros((n, n))
+            for i, row in enumerate(adj_matrix):
+                for j, val in enumerate(row):
+                    adj_mat[i][j] = val
+            adj_mat = np.maximum(adj_mat, adj_mat.T)
+            print(f'adj_mat = {adj_mat}')
             
-            pred = [eval_func[i](adj_matrix) for i in choice_idx]
-            print(pred)
-            print('='*20)
+            pred = graph_data.SyntheticGraphDataset.get_prop(adj_mat, properties)
+            print(f'pred = {pred}')
 
-            correct = [eval_func[i](adj_matrix) == prop[i] for i in choice_idx]
+            correct = [pred[i] == properties[i] for i in range(len(pred)) if properties[i] is not None]
 
-            print(correct)
-            print(np.mean(correct))
-            print('='*20)
+            print(f'correct = {correct}')
+            print(f'score = {np.mean(correct)}')
+            print('=====================================', flush=True)
 
             # group by node count
-            pref_cnt[propertie['n']].append((prop, choice_idx, description, graph_str, adj_matrix, pred, correct, np.mean(correct)))
+            perf_cnt[n].append((text_desc, properties, graph_str, adj_matrix, pred, correct, np.mean(correct)))
         except Exception as e:
-            print(e)
-            perf_cnt[propertie['n']].append((prop, choice_idx, description, None, None, None, None, None))
+            print(f'error = {e}')
+            print(f'score = 0')
+            print('=====================================', flush=True)
+            perf_cnt[n].append((text_desc, properties, None, None, None, None, None))
+
+        # input('Press Enter to continue...')
+
+def select_index(opt):
+    dataset = graph_data.SyntheticGraphDataset(
+        data_dir=opt.data_dir,
+        max_node=50,
+        max_len=0, # we don't need text here
+        model_name='bert-base-uncased' # dummy
+    )
+
+    from collections import defaultdict
+    idxs = defaultdict(lambda: [])
+    for i in range(len(dataset)):
+        _, _, _, properties = dataset[i]
+        n = properties[0]
+        idxs[n].append(i)
+        
+    idxs = {n: np.random.choice(idxs[n], size=25, replace=False) for n in idxs}
+
+    return idxs
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_dir', required=True)
+    parser.add_argument('--node_num', type=int, required=True)
     opt = parser.parse_args()
 
     np.random.seed(0)
 
-    main(opt)
+    # idxs = select_index(opt)
+    # with open('idxs.pkl', 'wb') as f:
+    #     pickle.dump(idxs, f)
+    with open('idxs.pkl', 'rb') as f:
+        idxs = pickle.load(f)
+    main(opt, idxs[opt.node_num])
