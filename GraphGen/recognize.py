@@ -1,8 +1,8 @@
 import numpy as np
-import utils
+from graph_utils import *
 
 def get_node_num(adj: np.ndarray):
-    return adj.shape[0]
+    return adj.shape[0] - (adj.sum(axis=1) == 0).sum()
 
 def get_edge_num(adj: np.ndarray):
     n = get_node_num(adj)
@@ -30,7 +30,7 @@ def get_max_diameter(adj: np.ndarray):
     return int(dist[dist < np.inf].max())
 
 def get_connected_component_num(adj: np.ndarray):
-    dsu = utils.DSU()
+    dsu = graph_utils.DSU()
 
     n = get_node_num(adj)
     for i in range(n):

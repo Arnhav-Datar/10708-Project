@@ -1,0 +1,1926 @@
+INFO:root:Namespace(lm_model='bert-base-uncased', N=50, max_len=128, z_dim=8, mha_dim=768, n_heads=8, gen_dims=[[128, 256, 768], [512, 256, 128]], disc_dims=[[128, 128], [512, 768], [512, 256, 128]], lambda_gp=10, lambda_rew=0.2, lambda_wgan=1, post_method='sigmoid', batch_size=128, num_epochs=100, g_lr=0.0002, d_lr=0.0002, r_lr=0.001, dropout=0.1, n_critic=5, test_epochs=100, num_workers=1, mode='train', data_dir='data', saving_dir='results/2023-04-17_22-46', model_save_step=20, lr_update_step=1000, restore_G='/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-17_10-53/models/100-G.ckpt', restore_D='/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-17_10-53/models/100-D.ckpt', restore_R=None, name='symm_fcn_simple_ds_rew_1', log_dir='results/2023-04-17_22-46/logs', model_dir='results/2023-04-17_22-46/models')
+INFO:root:Generator(
+  (activation_f): ReLU()
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=8, out_features=128, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=256, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=768, bias=True)
+      (9): Dropout(p=0.0, inplace=False)
+      (10): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer_2): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=768, out_features=512, bias=True)
+      (1): Dropout(p=0.1, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=256, bias=True)
+      (5): Dropout(p=0.1, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=128, bias=True)
+      (9): Dropout(p=0.1, inplace=False)
+      (10): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (adjM_layer): Linear(in_features=128, out_features=2500, bias=True)
+  (dropoout): Dropout(p=0.1, inplace=False)
+)
+INFO:root:G
+INFO:root:The number of parameters: 3478468
+INFO:root:Discriminator(
+  (activation_f): ReLU()
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=50, out_features=128, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=128, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (multi_dense_layer_2): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=6400, out_features=512, bias=True)
+      (1): Dropout(p=0.1, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=768, bias=True)
+      (5): Dropout(p=0.1, inplace=False)
+      (6): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer_3): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=768, out_features=512, bias=True)
+      (1): Dropout(p=0.1, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=256, bias=True)
+      (5): Dropout(p=0.1, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=128, bias=True)
+      (9): Dropout(p=0.1, inplace=False)
+      (10): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (output_layer): Linear(in_features=128, out_features=1, bias=True)
+)
+INFO:root:D
+INFO:root:The number of parameters: 6619649
+INFO:root:RewardNet(
+  (node_cnt): Sequential(
+    (0): Linear(in_features=2500, out_features=256, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=256, out_features=128, bias=True)
+    (3): ReLU()
+    (4): Linear(in_features=128, out_features=1, bias=True)
+    (5): Sigmoid()
+  )
+)
+INFO:root:R
+INFO:root:The number of parameters: 673281
+INFO:root:BertModel(
+  (embeddings): BertEmbeddings(
+    (word_embeddings): Embedding(30522, 768, padding_idx=0)
+    (position_embeddings): Embedding(512, 768)
+    (token_type_embeddings): Embedding(2, 768)
+    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (encoder): BertEncoder(
+    (layer): ModuleList(
+      (0-11): 12 x BertLayer(
+        (attention): BertAttention(
+          (self): BertSelfAttention(
+            (query): Linear(in_features=768, out_features=768, bias=True)
+            (key): Linear(in_features=768, out_features=768, bias=True)
+            (value): Linear(in_features=768, out_features=768, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (output): BertSelfOutput(
+            (dense): Linear(in_features=768, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (intermediate): BertIntermediate(
+          (dense): Linear(in_features=768, out_features=3072, bias=True)
+          (intermediate_act_fn): GELUActivation()
+        )
+        (output): BertOutput(
+          (dense): Linear(in_features=3072, out_features=768, bias=True)
+          (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+  )
+  (pooler): BertPooler(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (activation): Tanh()
+  )
+)
+INFO:root:bert-base-uncased
+INFO:root:The number of parameters: 109482240
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 10 | Num Edges: 5 | Edg: 150.71615600585938 | Node: 0.5081080794334412
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 7 | Num Edges: 5 | Edg: 156.02230834960938 | Node: 0.5052647590637207
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 134.4671630859375 | Node: 0.5105034112930298
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 126.35933685302734 | Node: 0.5126788020133972
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 133.20852661132812 | Node: 0.5112069249153137
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-17_22-46/models...
+INFO:root:Elapsed [0:00:47], Iteration [0/100]:
+l_D/R: -15.76, l_D/F: -15.93, l_D: 8.33, l_G: 15.93, l_R: 0.13, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.01, closeness: 0.02
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 11 | Num Edges: 17 | Edg: 162.20701599121094 | Node: 0.4493827521800995
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 6 | Num Edges: 5 | Edg: 141.90797424316406 | Node: 0.7743635773658752
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 143.22723388671875 | Node: 0.08914089947938919
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 119.24524688720703 | Node: 0.5379267334938049
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 5 | Num Edges: 6 | Edg: 131.03501892089844 | Node: 0.13622184097766876
+--------------------------------------------------
+
+INFO:root:Elapsed [0:04:45], Iteration [1/100]:
+l_D/R: 0.02, l_D/F: -7.56, l_D: -6.91, l_G: 7.55, l_R: 0.05, l_R/N: 0.05, l_R/M: 0.00
+property_match: 0.07, closeness: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 14 | Num Edges: 24 | Edg: 172.36614990234375 | Node: 0.4924754500389099
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 123.06875610351562 | Node: 0.8521537184715271
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 10 | Num Edges: 15 | Edg: 160.9356231689453 | Node: 0.24019448459148407
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 7 | Num Edges: 8 | Edg: 124.10672760009766 | Node: 0.263613760471344
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 135.7271270751953 | Node: 0.25042232871055603
+--------------------------------------------------
+
+INFO:root:Elapsed [0:08:43], Iteration [2/100]:
+l_D/R: -1.44, l_D/F: -9.69, l_D: -7.46, l_G: 9.66, l_R: 0.05, l_R/N: 0.05, l_R/M: 0.00
+property_match: 0.11, closeness: 0.14
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 120.8264389038086 | Node: 0.3699401617050171
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 20 | Num Edges: 36 | Edg: 207.4620819091797 | Node: 0.9994809031486511
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 126.87147521972656 | Node: 0.32585975527763367
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 6 | Num Edges: 6 | Edg: 139.79135131835938 | Node: 0.34525924921035767
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 128.70187377929688 | Node: 0.26591598987579346
+--------------------------------------------------
+
+INFO:root:Elapsed [0:12:40], Iteration [3/100]:
+l_D/R: -0.25, l_D/F: -10.03, l_D: -7.76, l_G: 10.00, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.06, closeness: 0.08
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 134.26004028320312 | Node: 0.5256369709968567
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 8 | Num Edges: 6 | Edg: 147.7035369873047 | Node: 0.8919895887374878
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 7 | Num Edges: 6 | Edg: 148.8064422607422 | Node: 0.2261374294757843
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 8 | Num Edges: 17 | Edg: 154.06320190429688 | Node: 0.48907148838043213
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 6 | Num Edges: 4 | Edg: 144.14715576171875 | Node: 0.14272154867649078
+--------------------------------------------------
+
+INFO:root:Elapsed [0:16:36], Iteration [4/100]:
+l_D/R: -0.57, l_D/F: -10.75, l_D: -7.80, l_G: 10.74, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.10, closeness: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 13 | Num Edges: 10 | Edg: 153.14212036132812 | Node: 0.4764736294746399
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 144.92910766601562 | Node: 0.8372204303741455
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 6 | Edg: 132.62094116210938 | Node: 0.21543459594249725
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 22 | Num Edges: 34 | Edg: 181.39654541015625 | Node: 0.47439441084861755
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 140.14820861816406 | Node: 0.14334306120872498
+--------------------------------------------------
+
+INFO:root:Elapsed [0:20:33], Iteration [5/100]:
+l_D/R: -1.93, l_D/F: -11.83, l_D: -8.11, l_G: 11.83, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 129.72515869140625 | Node: 0.4636968970298767
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 117.63735961914062 | Node: 0.9289378523826599
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 4 | Edg: 145.90664672851562 | Node: 0.3070896863937378
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 122.97228240966797 | Node: 0.4162973463535309
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 120.2929458618164 | Node: 0.11335187405347824
+--------------------------------------------------
+
+INFO:root:Elapsed [0:24:30], Iteration [6/100]:
+l_D/R: -2.20, l_D/F: -12.01, l_D: -8.23, l_G: 12.03, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.07, closeness: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 135.8802490234375 | Node: 0.4802623987197876
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 125.8833999633789 | Node: 0.8206247091293335
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 116.95387268066406 | Node: 0.22830383479595184
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 146.5527801513672 | Node: 0.49029046297073364
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 131.7447052001953 | Node: 0.28790923953056335
+--------------------------------------------------
+
+INFO:root:Elapsed [0:28:26], Iteration [7/100]:
+l_D/R: -2.71, l_D/F: -11.16, l_D: -7.91, l_G: 11.17, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 124.27404022216797 | Node: 0.32430821657180786
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 6 | Num Edges: 4 | Edg: 132.87896728515625 | Node: 0.9145176410675049
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 137.3487548828125 | Node: 0.2257525771856308
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 138.049560546875 | Node: 0.23799116909503937
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 131.2244873046875 | Node: 0.24610722064971924
+--------------------------------------------------
+
+INFO:root:Elapsed [0:32:23], Iteration [8/100]:
+l_D/R: -1.79, l_D/F: -11.71, l_D: -8.40, l_G: 11.71, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.04, closeness: 0.06
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 116.33407592773438 | Node: 0.9264174103736877
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 124.0455322265625 | Node: 0.378121554851532
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 131.28128051757812 | Node: 0.19541454315185547
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 133.19361877441406 | Node: 0.3362103998661041
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 132.94061279296875 | Node: 0.52398681640625
+--------------------------------------------------
+
+INFO:root:Elapsed [0:36:20], Iteration [9/100]:
+l_D/R: -2.96, l_D/F: -11.92, l_D: -8.15, l_G: 11.94, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.04, closeness: 0.07
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 6 | Num Edges: 4 | Edg: 129.44996643066406 | Node: 0.4679069519042969
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 127.67361450195312 | Node: 0.8727722764015198
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 138.7974090576172 | Node: 0.28370121121406555
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 4 | Num Edges: 4 | Edg: 146.59393310546875 | Node: 0.5306695103645325
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 123.05695343017578 | Node: 0.21847936511039734
+--------------------------------------------------
+
+INFO:root:Elapsed [0:40:17], Iteration [10/100]:
+l_D/R: -1.67, l_D/F: -11.95, l_D: -8.25, l_G: 11.96, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.08, closeness: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 144.42431640625 | Node: 0.6755605340003967
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 124.01295471191406 | Node: 0.8054717183113098
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 6 | Edg: 147.53762817382812 | Node: 0.2128693014383316
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 7 | Num Edges: 5 | Edg: 144.73007202148438 | Node: 0.318977415561676
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 134.2167510986328 | Node: 0.2185290902853012
+--------------------------------------------------
+
+INFO:root:Elapsed [0:44:14], Iteration [11/100]:
+l_D/R: -2.92, l_D/F: -12.92, l_D: -8.43, l_G: 12.96, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.04, closeness: 0.06
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 146.66851806640625 | Node: 0.5236462950706482
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 136.53199768066406 | Node: 0.8265320658683777
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 137.31190490722656 | Node: 0.17061732709407806
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 138.62161254882812 | Node: 0.4824052155017853
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 139.86227416992188 | Node: 0.16288991272449493
+--------------------------------------------------
+
+INFO:root:Elapsed [0:48:11], Iteration [12/100]:
+l_D/R: -2.79, l_D/F: -12.29, l_D: -8.47, l_G: 12.31, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.03, closeness: 0.05
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 8 | Num Edges: 6 | Edg: 149.59112548828125 | Node: 0.505007266998291
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 133.08200073242188 | Node: 0.9256473779678345
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 132.0464324951172 | Node: 0.31684610247612
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 138.12155151367188 | Node: 0.17348390817642212
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 139.12869262695312 | Node: 0.7186234593391418
+--------------------------------------------------
+
+INFO:root:Elapsed [0:52:10], Iteration [13/100]:
+l_D/R: -4.32, l_D/F: -14.18, l_D: -8.49, l_G: 14.19, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.04, closeness: 0.06
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 129.40902709960938 | Node: 0.5505855679512024
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 122.29815673828125 | Node: 0.6585704684257507
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 3 | Num Edges: 3 | Edg: 126.06521606445312 | Node: 0.23879587650299072
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 9 | Num Edges: 10 | Edg: 158.15628051757812 | Node: 0.49146339297294617
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 140.15408325195312 | Node: 0.28377798199653625
+--------------------------------------------------
+
+INFO:root:Elapsed [0:56:09], Iteration [14/100]:
+l_D/R: -2.45, l_D/F: -12.86, l_D: -8.59, l_G: 12.87, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 142.27655029296875 | Node: 0.5093382000923157
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 108.67412567138672 | Node: 0.2825455367565155
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 141.09193420410156 | Node: 0.20347851514816284
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 134.39527893066406 | Node: 0.21365617215633392
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 124.7186050415039 | Node: 0.19809548556804657
+--------------------------------------------------
+
+INFO:root:Elapsed [1:00:09], Iteration [15/100]:
+l_D/R: -3.44, l_D/F: -12.50, l_D: -8.29, l_G: 12.50, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.03, closeness: 0.06
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 140.90496826171875 | Node: 0.46351027488708496
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 131.0130615234375 | Node: 0.9517702460289001
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 134.83511352539062 | Node: 0.2068185806274414
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 107.06002807617188 | Node: 0.5506123304367065
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 141.13079833984375 | Node: 0.1391814649105072
+--------------------------------------------------
+
+INFO:root:Elapsed [1:04:08], Iteration [16/100]:
+l_D/R: -2.46, l_D/F: -13.45, l_D: -8.48, l_G: 13.47, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.02, closeness: 0.04
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 138.8836669921875 | Node: 0.3940812051296234
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 113.56259155273438 | Node: 0.9034875631332397
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 128.65652465820312 | Node: 0.24066120386123657
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 132.87728881835938 | Node: 0.49510958790779114
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 6 | Num Edges: 6 | Edg: 138.37310791015625 | Node: 0.24290309846401215
+--------------------------------------------------
+
+INFO:root:Elapsed [1:08:08], Iteration [17/100]:
+l_D/R: -3.43, l_D/F: -13.23, l_D: -8.51, l_G: 13.26, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 146.5982666015625 | Node: 0.48518723249435425
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 135.66043090820312 | Node: 0.815184473991394
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 129.00022888183594 | Node: 0.1597544252872467
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 131.3771209716797 | Node: 0.3047007620334625
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 125.01492309570312 | Node: 0.20970672369003296
+--------------------------------------------------
+
+INFO:root:Elapsed [1:12:07], Iteration [18/100]:
+l_D/R: -3.28, l_D/F: -13.60, l_D: -8.66, l_G: 13.61, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.05, closeness: 0.08
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 146.0653076171875 | Node: 0.47970646619796753
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 128.57052612304688 | Node: 0.5238431096076965
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 141.95639038085938 | Node: 0.20486442744731903
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 10 | Num Edges: 13 | Edg: 163.939453125 | Node: 0.4928031861782074
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 127.84304809570312 | Node: 0.3454652428627014
+--------------------------------------------------
+
+INFO:root:Elapsed [1:16:07], Iteration [19/100]:
+l_D/R: -3.90, l_D/F: -14.43, l_D: -8.59, l_G: 14.43, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 9 | Num Edges: 10 | Edg: 166.14537048339844 | Node: 0.493115097284317
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 130.79905700683594 | Node: 0.6631476283073425
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 135.66873168945312 | Node: 0.19163984060287476
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 140.36453247070312 | Node: 0.35254421830177307
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 130.20880126953125 | Node: 0.28599926829338074
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-17_22-46/models...
+INFO:root:Elapsed [1:20:07], Iteration [20/100]:
+l_D/R: -4.48, l_D/F: -15.01, l_D: -7.81, l_G: 15.03, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.04, closeness: 0.06
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 147.56967163085938 | Node: 0.19362951815128326
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 110.64727783203125 | Node: 0.797450065612793
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 5 | Edg: 144.13375854492188 | Node: 0.19955721497535706
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 12 | Num Edges: 11 | Edg: 164.04202270507812 | Node: 0.5069434642791748
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 6 | Num Edges: 3 | Edg: 149.70001220703125 | Node: 0.1846633106470108
+--------------------------------------------------
+
+INFO:root:Elapsed [1:24:06], Iteration [21/100]:
+l_D/R: -3.60, l_D/F: -13.68, l_D: -8.59, l_G: 13.67, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 140.39015197753906 | Node: 0.4721195101737976
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 120.6043930053711 | Node: 0.903810441493988
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 139.32757568359375 | Node: 0.21834297478199005
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 140.62962341308594 | Node: 0.4672582149505615
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 130.85830688476562 | Node: 0.22720886766910553
+--------------------------------------------------
+
+INFO:root:Elapsed [1:28:06], Iteration [22/100]:
+l_D/R: -2.80, l_D/F: -13.47, l_D: -8.58, l_G: 13.45, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.08, closeness: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 137.75128173828125 | Node: 0.4265792667865753
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 124.54644012451172 | Node: 0.7776279449462891
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 139.44281005859375 | Node: 0.23711657524108887
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 132.24534606933594 | Node: 0.41952693462371826
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 120.43309020996094 | Node: 0.38446512818336487
+--------------------------------------------------
+
+INFO:root:Elapsed [1:32:06], Iteration [23/100]:
+l_D/R: -2.84, l_D/F: -12.79, l_D: -8.53, l_G: 12.79, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.07, closeness: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 6 | Num Edges: 5 | Edg: 147.28842163085938 | Node: 0.47172772884368896
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 112.56387329101562 | Node: 0.7952369451522827
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 120.03327941894531 | Node: 0.19547274708747864
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 140.03579711914062 | Node: 0.47364675998687744
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 125.12835693359375 | Node: 0.47145211696624756
+--------------------------------------------------
+
+INFO:root:Elapsed [1:36:06], Iteration [24/100]:
+l_D/R: -4.33, l_D/F: -14.01, l_D: -8.46, l_G: 14.01, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.04, closeness: 0.07
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 9 | Num Edges: 10 | Edg: 141.40765380859375 | Node: 0.4646054804325104
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 124.01348876953125 | Node: 0.7991772294044495
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 7 | Num Edges: 6 | Edg: 138.63697814941406 | Node: 0.20656947791576385
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 156.43226623535156 | Node: 0.4951346516609192
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 143.41183471679688 | Node: 0.22411125898361206
+--------------------------------------------------
+
+INFO:root:Elapsed [1:40:09], Iteration [25/100]:
+l_D/R: -4.38, l_D/F: -14.84, l_D: -8.71, l_G: 14.87, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.08, closeness: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 7 | Num Edges: 8 | Edg: 146.68472290039062 | Node: 0.6576496362686157
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 131.06161499023438 | Node: 0.6502825021743774
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 135.3623046875 | Node: 0.5362846255302429
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 136.80081176757812 | Node: 0.4924125373363495
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 3 | Num Edges: 3 | Edg: 124.12019348144531 | Node: 0.2739793360233307
+--------------------------------------------------
+
+INFO:root:Elapsed [1:44:12], Iteration [26/100]:
+l_D/R: -5.22, l_D/F: -15.10, l_D: -8.70, l_G: 15.09, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.04, closeness: 0.07
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 11 | Num Edges: 14 | Edg: 158.31356811523438 | Node: 0.5093518495559692
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 120.54175567626953 | Node: 0.5800031423568726
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 4 | Num Edges: 4 | Edg: 136.52426147460938 | Node: 0.2260397970676422
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 7 | Num Edges: 9 | Edg: 150.25143432617188 | Node: 0.508673369884491
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 6 | Num Edges: 4 | Edg: 154.31019592285156 | Node: 0.22010260820388794
+--------------------------------------------------
+
+INFO:root:Elapsed [1:48:14], Iteration [27/100]:
+l_D/R: -3.99, l_D/F: -13.40, l_D: -8.46, l_G: 13.41, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.08, closeness: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 145.74969482421875 | Node: 0.45946747064590454
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 135.36184692382812 | Node: 0.541502833366394
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 146.77444458007812 | Node: 0.21636569499969482
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 14 | Num Edges: 15 | Edg: 172.58168029785156 | Node: 0.5581380128860474
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 8 | Num Edges: 6 | Edg: 137.02413940429688 | Node: 0.21585971117019653
+--------------------------------------------------
+
+INFO:root:Elapsed [1:52:15], Iteration [28/100]:
+l_D/R: -4.38, l_D/F: -15.13, l_D: -8.72, l_G: 15.15, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.08, closeness: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 12 | Num Edges: 13 | Edg: 176.73663330078125 | Node: 0.4780258536338806
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 136.93429565429688 | Node: 0.9526681303977966
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 6 | Edg: 129.87828063964844 | Node: 0.22682514786720276
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 9 | Num Edges: 10 | Edg: 156.70730590820312 | Node: 0.4862343370914459
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 127.29832458496094 | Node: 0.21164177358150482
+--------------------------------------------------
+
+INFO:root:Elapsed [1:56:17], Iteration [29/100]:
+l_D/R: -4.87, l_D/F: -14.18, l_D: -8.59, l_G: 14.20, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.07, closeness: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 142.3680419921875 | Node: 0.4848209023475647
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 130.02261352539062 | Node: 0.7309404015541077
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 4 | Edg: 127.18195343017578 | Node: 0.3425220847129822
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 164.78196716308594 | Node: 0.5005102157592773
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 126.75865173339844 | Node: 0.21021988987922668
+--------------------------------------------------
+
+INFO:root:Elapsed [2:00:19], Iteration [30/100]:
+l_D/R: -4.73, l_D/F: -14.57, l_D: -8.76, l_G: 14.58, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 136.50119018554688 | Node: 0.46644434332847595
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 128.03306579589844 | Node: 0.8912290334701538
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 121.09615325927734 | Node: 0.32240942120552063
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 7 | Num Edges: 4 | Edg: 157.24432373046875 | Node: 0.4677891433238983
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 143.6629180908203 | Node: 0.2027677744626999
+--------------------------------------------------
+
+INFO:root:Elapsed [2:04:20], Iteration [31/100]:
+l_D/R: -3.74, l_D/F: -14.64, l_D: -8.70, l_G: 14.61, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.04, closeness: 0.06
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 8 | Num Edges: 7 | Edg: 143.1395721435547 | Node: 0.4852977693080902
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 116.02995300292969 | Node: 0.8758487701416016
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 5 | Edg: 151.885986328125 | Node: 0.11328121274709702
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 8 | Num Edges: 6 | Edg: 158.06683349609375 | Node: 0.4912874698638916
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 127.66157531738281 | Node: 0.20111985504627228
+--------------------------------------------------
+
+INFO:root:Elapsed [2:08:24], Iteration [32/100]:
+l_D/R: -4.61, l_D/F: -14.54, l_D: -8.70, l_G: 14.55, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.07, closeness: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 161.8699951171875 | Node: 0.4875785708427429
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 116.06666564941406 | Node: 0.9294145107269287
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 152.37850952148438 | Node: 0.218535378575325
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 146.64950561523438 | Node: 0.4990134537220001
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 140.47018432617188 | Node: 0.20575296878814697
+--------------------------------------------------
+
+INFO:root:Elapsed [2:12:28], Iteration [33/100]:
+l_D/R: -4.84, l_D/F: -15.76, l_D: -8.79, l_G: 15.73, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.05, closeness: 0.08
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 19 | Num Edges: 17 | Edg: 199.45303344726562 | Node: 0.46383336186408997
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 118.51213073730469 | Node: 0.5654733180999756
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 131.4597625732422 | Node: 0.2505149841308594
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 146.9244842529297 | Node: 0.46636146306991577
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 130.49111938476562 | Node: 0.18419376015663147
+--------------------------------------------------
+
+INFO:root:Elapsed [2:16:32], Iteration [34/100]:
+l_D/R: -4.83, l_D/F: -15.40, l_D: -8.80, l_G: 15.40, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.02, closeness: 0.05
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 7 | Num Edges: 5 | Edg: 141.713623046875 | Node: 0.4836168587207794
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 133.02011108398438 | Node: 0.9127858877182007
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 4 | Num Edges: 4 | Edg: 139.9215545654297 | Node: 0.20874258875846863
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 132.53134155273438 | Node: 0.34340381622314453
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 128.12661743164062 | Node: 0.18947511911392212
+--------------------------------------------------
+
+INFO:root:Elapsed [2:20:36], Iteration [35/100]:
+l_D/R: -5.10, l_D/F: -15.32, l_D: -8.80, l_G: 15.34, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+property_match: 0.04, closeness: 0.07
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 156.5208740234375 | Node: 0.4615478515625
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 122.52112579345703 | Node: 0.9797695875167847
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 141.01510620117188 | Node: 0.3979901075363159
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 14 | Num Edges: 19 | Edg: 173.49432373046875 | Node: 0.5164921283721924
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 138.33389282226562 | Node: 0.21961279213428497
+--------------------------------------------------
+
+INFO:root:Elapsed [2:24:39], Iteration [36/100]:
+l_D/R: -5.73, l_D/F: -14.99, l_D: -8.55, l_G: 15.00, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 159.64508056640625 | Node: 0.47803762555122375
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 131.05613708496094 | Node: 0.5057708024978638
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 124.60627746582031 | Node: 0.20364420115947723
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 8 | Num Edges: 7 | Edg: 160.82003784179688 | Node: 0.5824936032295227
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 120.57244873046875 | Node: 0.24353641271591187
+--------------------------------------------------
+
+INFO:root:Elapsed [2:28:43], Iteration [37/100]:
+l_D/R: -5.31, l_D/F: -16.51, l_D: -8.76, l_G: 16.52, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.04, closeness: 0.07
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 145.45208740234375 | Node: 0.48633864521980286
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 131.11109924316406 | Node: 0.9162551164627075
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 3 | Num Edges: 3 | Edg: 139.02703857421875 | Node: 0.1521911323070526
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 150.15609741210938 | Node: 0.5899825692176819
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 137.2384033203125 | Node: 0.23848956823349
+--------------------------------------------------
+
+INFO:root:Elapsed [2:32:48], Iteration [38/100]:
+l_D/R: -5.37, l_D/F: -15.55, l_D: -8.47, l_G: 15.53, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 11 | Num Edges: 11 | Edg: 175.3980712890625 | Node: 0.4823121428489685
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 124.01168060302734 | Node: 0.9190194010734558
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 135.21791076660156 | Node: 0.25823044776916504
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 7 | Num Edges: 6 | Edg: 151.81350708007812 | Node: 0.4975375235080719
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 8 | Num Edges: 6 | Edg: 128.56719970703125 | Node: 0.1839265078306198
+--------------------------------------------------
+
+INFO:root:Elapsed [2:36:52], Iteration [39/100]:
+l_D/R: -4.46, l_D/F: -15.19, l_D: -8.83, l_G: 15.17, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 141.2521514892578 | Node: 0.4667288362979889
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 126.51713562011719 | Node: 0.8961594700813293
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 5 | Edg: 131.97889709472656 | Node: 0.18520291149616241
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 144.39971923828125 | Node: 0.3845219910144806
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 140.4440155029297 | Node: 0.20719832181930542
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-17_22-46/models...
+INFO:root:Elapsed [2:40:56], Iteration [40/100]:
+l_D/R: -4.75, l_D/F: -15.38, l_D: -8.84, l_G: 15.36, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.07, closeness: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 152.29498291015625 | Node: 0.5006494522094727
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 133.0220947265625 | Node: 0.8030349016189575
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 7 | Edg: 148.270751953125 | Node: 0.1345343291759491
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 10 | Num Edges: 8 | Edg: 139.51605224609375 | Node: 0.48999106884002686
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 142.42230224609375 | Node: 0.19973677396774292
+--------------------------------------------------
+
+INFO:root:Elapsed [2:45:00], Iteration [41/100]:
+l_D/R: -5.67, l_D/F: -14.99, l_D: -8.57, l_G: 14.98, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.09, closeness: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 156.9080810546875 | Node: 0.47129467129707336
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 131.505615234375 | Node: 0.9835658669471741
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 139.21299743652344 | Node: 0.22110773622989655
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 8 | Num Edges: 9 | Edg: 161.24354553222656 | Node: 0.5077298879623413
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 130.80276489257812 | Node: 0.2673163115978241
+--------------------------------------------------
+
+INFO:root:Elapsed [2:49:05], Iteration [42/100]:
+l_D/R: -3.93, l_D/F: -15.15, l_D: -8.80, l_G: 15.10, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.08, closeness: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 153.50961303710938 | Node: 0.23829098045825958
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 129.50869750976562 | Node: 0.8625380992889404
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 4 | Num Edges: 4 | Edg: 136.64971923828125 | Node: 0.16080878674983978
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 14 | Num Edges: 17 | Edg: 181.05596923828125 | Node: 0.45929720997810364
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 134.8829345703125 | Node: 0.17685198783874512
+--------------------------------------------------
+
+INFO:root:Elapsed [2:53:09], Iteration [43/100]:
+l_D/R: -4.82, l_D/F: -15.80, l_D: -8.90, l_G: 15.77, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.09, closeness: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 9 | Num Edges: 9 | Edg: 177.02268981933594 | Node: 0.4626975357532501
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 130.0408477783203 | Node: 0.9976525902748108
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 137.02606201171875 | Node: 0.1896919310092926
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 9 | Num Edges: 8 | Edg: 140.4932861328125 | Node: 0.4933720827102661
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 129.41102600097656 | Node: 0.19795463979244232
+--------------------------------------------------
+
+INFO:root:Elapsed [2:57:13], Iteration [44/100]:
+l_D/R: -6.53, l_D/F: -16.86, l_D: -8.76, l_G: 16.87, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 7 | Num Edges: 9 | Edg: 152.98712158203125 | Node: 0.49023929238319397
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 122.51992797851562 | Node: 0.8132824897766113
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 3 | Num Edges: 3 | Edg: 142.1612091064453 | Node: 0.2486477792263031
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 6 | Num Edges: 6 | Edg: 147.80426025390625 | Node: 0.4864187240600586
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 130.9553680419922 | Node: 0.27143532037734985
+--------------------------------------------------
+
+INFO:root:Elapsed [3:01:17], Iteration [45/100]:
+l_D/R: -5.45, l_D/F: -15.74, l_D: -8.83, l_G: 15.73, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.07, closeness: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 6 | Num Edges: 5 | Edg: 144.4752655029297 | Node: 0.4641552269458771
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 135.0855255126953 | Node: 0.9315127730369568
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 123.50611877441406 | Node: 0.23410923779010773
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 7 | Num Edges: 6 | Edg: 157.96054077148438 | Node: 0.4406993091106415
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 8 | Num Edges: 9 | Edg: 135.63973999023438 | Node: 0.22265100479125977
+--------------------------------------------------
+
+INFO:root:Elapsed [3:05:21], Iteration [46/100]:
+l_D/R: -5.33, l_D/F: -16.31, l_D: -8.76, l_G: 16.29, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.09, closeness: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 6 | Num Edges: 6 | Edg: 155.63890075683594 | Node: 0.4635118544101715
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 118.10397338867188 | Node: 0.8133395910263062
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 7 | Num Edges: 6 | Edg: 127.63812255859375 | Node: 0.1986764818429947
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 7 | Num Edges: 5 | Edg: 160.80886840820312 | Node: 0.45677897334098816
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 134.20709228515625 | Node: 0.2873959243297577
+--------------------------------------------------
+
+INFO:root:Elapsed [3:09:26], Iteration [47/100]:
+l_D/R: -5.31, l_D/F: -16.41, l_D: -8.94, l_G: 16.38, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.05, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 136.4137725830078 | Node: 0.47288545966148376
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 127.69798278808594 | Node: 0.9198839068412781
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 136.958740234375 | Node: 0.24547743797302246
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 10 | Num Edges: 11 | Edg: 160.56015014648438 | Node: 0.4603898227214813
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 144.01727294921875 | Node: 0.16925789415836334
+--------------------------------------------------
+
+INFO:root:Elapsed [3:13:30], Iteration [48/100]:
+l_D/R: -5.89, l_D/F: -15.32, l_D: -8.73, l_G: 15.31, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 140.63330078125 | Node: 0.46415385603904724
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 126.01336669921875 | Node: 0.9622318148612976
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 4 | Edg: 128.4727020263672 | Node: 0.19875364005565643
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 160.08522033691406 | Node: 0.5252431631088257
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 140.4618377685547 | Node: 0.3650413155555725
+--------------------------------------------------
+
+INFO:root:Elapsed [3:17:35], Iteration [49/100]:
+l_D/R: -5.32, l_D/F: -16.44, l_D: -8.99, l_G: 16.43, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 145.56373596191406 | Node: 0.46378523111343384
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 122.51306915283203 | Node: 0.890879213809967
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 150.97735595703125 | Node: 0.20619836449623108
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 7 | Num Edges: 5 | Edg: 156.6605224609375 | Node: 0.4531337022781372
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 8 | Num Edges: 6 | Edg: 158.71725463867188 | Node: 0.20213449001312256
+--------------------------------------------------
+
+INFO:root:Elapsed [3:21:40], Iteration [50/100]:
+l_D/R: -5.99, l_D/F: -16.07, l_D: -8.85, l_G: 16.05, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.09, closeness: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 138.42715454101562 | Node: 0.9203959107398987
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 135.50790405273438 | Node: 0.889286994934082
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 6 | Edg: 137.47999572753906 | Node: 0.1775510609149933
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 152.52362060546875 | Node: 0.4765191078186035
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 137.79312133789062 | Node: 0.1789490282535553
+--------------------------------------------------
+
+INFO:root:Elapsed [3:25:45], Iteration [51/100]:
+l_D/R: -5.77, l_D/F: -16.43, l_D: -8.99, l_G: 16.44, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 134.8605499267578 | Node: 0.4767543375492096
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 125.02027893066406 | Node: 0.880598247051239
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 6 | Edg: 154.33526611328125 | Node: 0.33037424087524414
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 6 | Num Edges: 3 | Edg: 147.4805450439453 | Node: 0.46794915199279785
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 149.166259765625 | Node: 0.20987491309642792
+--------------------------------------------------
+
+INFO:root:Elapsed [3:29:50], Iteration [52/100]:
+l_D/R: -5.44, l_D/F: -16.44, l_D: -8.90, l_G: 16.44, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.08, closeness: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 6 | Num Edges: 3 | Edg: 150.54080200195312 | Node: 0.47353893518447876
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 107.03643035888672 | Node: 0.8197945952415466
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 7 | Num Edges: 5 | Edg: 145.41458129882812 | Node: 0.19022908806800842
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 12 | Num Edges: 13 | Edg: 151.04571533203125 | Node: 0.442683607339859
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 128.71829223632812 | Node: 0.24714821577072144
+--------------------------------------------------
+
+INFO:root:Elapsed [3:33:55], Iteration [53/100]:
+l_D/R: -6.80, l_D/F: -17.60, l_D: -8.90, l_G: 17.64, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 10 | Num Edges: 7 | Edg: 162.04730224609375 | Node: 0.475567102432251
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 119.04469299316406 | Node: 0.8893340826034546
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 8 | Num Edges: 9 | Edg: 160.19000244140625 | Node: 0.17329339683055878
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 6 | Num Edges: 4 | Edg: 141.88809204101562 | Node: 0.4821051359176636
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 9 | Num Edges: 8 | Edg: 147.8687286376953 | Node: 0.19687113165855408
+--------------------------------------------------
+
+INFO:root:Elapsed [3:37:59], Iteration [54/100]:
+l_D/R: -5.39, l_D/F: -16.60, l_D: -8.97, l_G: 16.58, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.08, closeness: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 146.6748809814453 | Node: 0.4859309196472168
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 127.5075454711914 | Node: 0.8934956192970276
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 144.3863525390625 | Node: 0.2280985563993454
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 7 | Num Edges: 7 | Edg: 170.76129150390625 | Node: 0.48715317249298096
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 129.77490234375 | Node: 0.33499109745025635
+--------------------------------------------------
+
+INFO:root:Elapsed [3:42:05], Iteration [55/100]:
+l_D/R: -6.34, l_D/F: -17.40, l_D: -8.99, l_G: 17.42, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 151.8837890625 | Node: 0.441500186920166
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 133.51438903808594 | Node: 0.844308614730835
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 127.45878601074219 | Node: 0.21144331991672516
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 6 | Num Edges: 5 | Edg: 150.36520385742188 | Node: 0.34453243017196655
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 147.6720733642578 | Node: 0.2102719098329544
+--------------------------------------------------
+
+INFO:root:Elapsed [3:46:11], Iteration [56/100]:
+l_D/R: -7.06, l_D/F: -17.53, l_D: -8.87, l_G: 17.53, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.07, closeness: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 154.03504943847656 | Node: 0.4861655831336975
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 136.03091430664062 | Node: 0.6708977818489075
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 4 | Edg: 153.73849487304688 | Node: 0.22599054872989655
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 6 | Num Edges: 4 | Edg: 152.66696166992188 | Node: 0.4177696108818054
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 133.37014770507812 | Node: 0.2374730408191681
+--------------------------------------------------
+
+INFO:root:Elapsed [3:50:16], Iteration [57/100]:
+l_D/R: -6.12, l_D/F: -16.70, l_D: -8.91, l_G: 16.74, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.11, closeness: 0.14
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 134.3955535888672 | Node: 0.6241933703422546
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 122.50813293457031 | Node: 0.8547045588493347
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 125.69891357421875 | Node: 0.2013254463672638
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 153.50244140625 | Node: 0.45247262716293335
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 6 | Num Edges: 4 | Edg: 141.1142120361328 | Node: 0.25304165482521057
+--------------------------------------------------
+
+INFO:root:Elapsed [3:54:21], Iteration [58/100]:
+l_D/R: -8.07, l_D/F: -18.29, l_D: -8.74, l_G: 18.32, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.08, closeness: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 9 | Num Edges: 12 | Edg: 178.7039031982422 | Node: 0.4982713758945465
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 128.51815795898438 | Node: 0.8712806105613708
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 4 | Num Edges: 5 | Edg: 136.91566467285156 | Node: 0.20791389048099518
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 6 | Num Edges: 6 | Edg: 146.29312133789062 | Node: 0.43056216835975647
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 125.47354888916016 | Node: 0.46774300932884216
+--------------------------------------------------
+
+INFO:root:Elapsed [3:58:27], Iteration [59/100]:
+l_D/R: -6.48, l_D/F: -17.80, l_D: -8.83, l_G: 17.81, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.05, closeness: 0.08
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 7 | Num Edges: 7 | Edg: 158.2607879638672 | Node: 0.45585861802101135
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 112.53600311279297 | Node: 0.6730501055717468
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 139.88023376464844 | Node: 0.2884068787097931
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 174.79803466796875 | Node: 0.458150178194046
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 8 | Num Edges: 7 | Edg: 150.529052734375 | Node: 0.17391569912433624
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-17_22-46/models...
+INFO:root:Elapsed [4:02:33], Iteration [60/100]:
+l_D/R: -6.80, l_D/F: -17.68, l_D: -8.97, l_G: 17.66, l_R: 0.02, l_R/N: 0.01, l_R/M: 0.00
+property_match: 0.07, closeness: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 7 | Num Edges: 6 | Edg: 159.16587829589844 | Node: 0.4775802791118622
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 128.5050811767578 | Node: 0.8596987724304199
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 133.36502075195312 | Node: 0.27755656838417053
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 158.10922241210938 | Node: 0.48852935433387756
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 131.57403564453125 | Node: 0.202113077044487
+--------------------------------------------------
+
+INFO:root:Elapsed [4:06:38], Iteration [61/100]:
+l_D/R: -6.36, l_D/F: -17.27, l_D: -9.04, l_G: 17.26, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.05, closeness: 0.08
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 7 | Num Edges: 6 | Edg: 152.3101348876953 | Node: 0.48398375511169434
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 141.008544921875 | Node: 0.7404046058654785
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 138.7722625732422 | Node: 0.15493890643119812
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 12 | Num Edges: 12 | Edg: 162.25076293945312 | Node: 0.48711147904396057
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 119.74730682373047 | Node: 0.18470172584056854
+--------------------------------------------------
+
+INFO:root:Elapsed [4:10:43], Iteration [62/100]:
+l_D/R: -6.82, l_D/F: -17.29, l_D: -9.05, l_G: 17.30, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.05, closeness: 0.08
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 8 | Num Edges: 7 | Edg: 168.50396728515625 | Node: 0.4847523272037506
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 131.5157012939453 | Node: 0.9680455923080444
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 3 | Num Edges: 3 | Edg: 137.39044189453125 | Node: 0.22098909318447113
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 152.27664184570312 | Node: 0.49907320737838745
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 139.04730224609375 | Node: 0.19559112191200256
+--------------------------------------------------
+
+INFO:root:Elapsed [4:14:48], Iteration [63/100]:
+l_D/R: -6.75, l_D/F: -16.80, l_D: -8.92, l_G: 16.78, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 137.01828002929688 | Node: 0.4735375642776489
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 120.50631713867188 | Node: 0.5223464965820312
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 140.50411987304688 | Node: 0.13337425887584686
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 157.42938232421875 | Node: 0.5076354146003723
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 149.56201171875 | Node: 0.16893011331558228
+--------------------------------------------------
+
+INFO:root:Elapsed [4:18:54], Iteration [64/100]:
+l_D/R: -6.32, l_D/F: -17.46, l_D: -8.79, l_G: 17.50, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.07, closeness: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 162.9784698486328 | Node: 0.48848235607147217
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 123.01258850097656 | Node: 0.7921497821807861
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 134.66339111328125 | Node: 0.17369088530540466
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 131.43386840820312 | Node: 0.47420743107795715
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 146.94232177734375 | Node: 0.4843002259731293
+--------------------------------------------------
+
+INFO:root:Elapsed [4:22:59], Iteration [65/100]:
+l_D/R: -6.24, l_D/F: -17.45, l_D: -9.05, l_G: 17.42, l_R: 0.03, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.04, closeness: 0.07
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 173.72622680664062 | Node: 0.4729726016521454
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 141.51084899902344 | Node: 0.9362341165542603
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 6 | Num Edges: 6 | Edg: 130.28219604492188 | Node: 0.1925397515296936
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 135.33792114257812 | Node: 0.37847310304641724
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 147.14198303222656 | Node: 0.18053647875785828
+--------------------------------------------------
+
+INFO:root:Elapsed [4:27:04], Iteration [66/100]:
+l_D/R: -7.52, l_D/F: -18.68, l_D: -8.98, l_G: 18.68, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 6 | Num Edges: 4 | Edg: 154.308837890625 | Node: 0.45938554406166077
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 120.52128601074219 | Node: 0.9543068408966064
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 8 | Num Edges: 7 | Edg: 134.3924560546875 | Node: 0.20445601642131805
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 10 | Num Edges: 7 | Edg: 146.00729370117188 | Node: 0.47254428267478943
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 131.27813720703125 | Node: 0.19705212116241455
+--------------------------------------------------
+
+INFO:root:Elapsed [4:31:10], Iteration [67/100]:
+l_D/R: -7.21, l_D/F: -17.49, l_D: -8.97, l_G: 17.47, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.06, closeness: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 159.84567260742188 | Node: 0.4872535765171051
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 126.51126098632812 | Node: 0.97930508852005
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 128.1087646484375 | Node: 0.5485581755638123
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 4 | Num Edges: 4 | Edg: 149.9181671142578 | Node: 0.47723349928855896
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 127.76103973388672 | Node: 0.4234207272529602
+--------------------------------------------------
+
+INFO:root:Elapsed [4:35:15], Iteration [68/100]:
+l_D/R: -7.38, l_D/F: -17.45, l_D: -8.99, l_G: 17.47, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.07, closeness: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 11 | Num Edges: 10 | Edg: 173.81130981445312 | Node: 0.47906333208084106
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 120.00865173339844 | Node: 0.8376366496086121
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 9 | Num Edges: 10 | Edg: 142.5406036376953 | Node: 0.21769921481609344
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 160.35784912109375 | Node: 0.4825967252254486
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 141.12893676757812 | Node: 0.19689026474952698
+--------------------------------------------------
+
+INFO:root:Elapsed [4:39:20], Iteration [69/100]:
+l_D/R: -9.69, l_D/F: -19.82, l_D: -8.85, l_G: 19.81, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.11, closeness: 0.15
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 32 edges.
+Num Nodes: 13 | Num Edges: 10 | Edg: 185.78421020507812 | Node: 0.4884304404258728
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 50 nodes and 55 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 111.0802001953125 | Node: 0.48095425963401794
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 10 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 147.18202209472656 | Node: 0.19259187579154968
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 8 | Num Edges: 7 | Edg: 157.712158203125 | Node: 0.48818904161453247
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 10 nodes and 9 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 123.20166015625 | Node: 0.20510289072990417
+--------------------------------------------------
+
+INFO:root:Elapsed [4:43:27], Iteration [70/100]:
+l_D/R: -9.64, l_D/F: -19.66, l_D: -8.88, l_G: 19.67, l_R: 0.02, l_R/N: 0.02, l_R/M: 0.00
+property_match: 0.09, closeness: 0.13

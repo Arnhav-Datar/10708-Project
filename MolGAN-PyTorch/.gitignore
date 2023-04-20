@@ -3,3 +3,6 @@ results/*/models
 !data/*.py
 !data/*.smi
 !data/*.sh
+wandb
+tmp.out
+**/.env

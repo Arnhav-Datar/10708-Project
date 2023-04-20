@@ -6,7 +6,7 @@ from tqdm import trange, tqdm
 from recognize import *
 
 tot = 100000
-num_features = [5,6,7]
+num_features = [2,3,4]
 params = {
     'scale_free_graph': {
         'num': int(tot * 0.3),
@@ -86,7 +86,7 @@ def gen_random_tree(count: int) -> [np.ndarray]:
     
     return adjs
 
-def gen_text_desc(adjs: [np.ndarray]) -> [str]:
+def gen_properties(adjs: [np.ndarray]) -> [dict[str, int]]:
     def _gen(adj):
         n = get_node_num(adj)
         m = get_edge_num(adj)
@@ -98,17 +98,28 @@ def gen_text_desc(adjs: [np.ndarray]) -> [str]:
         max_deg = np.max(degree_seq)
         min_deg = np.min(degree_seq)
 
-        properties = [f'{n} nodes', f'{m} edges', f'max diameter {max_diameter}', f'{cc_num} connected components', f'max degree {max_deg}', f'min degree {min_deg}', f'{"has" if have_cycle else "no"} cycle']
+        properties = {
+            'n': n,
+            'm': m,
+            'max_diameter': max_diameter,
+            'cc_num': cc_num,
+            'max_deg': max_deg,
+            'min_deg': min_deg,
+            'cycle': have_cycle
+        }
         
+        text_props = [f'{n} nodes', f'{m} edges', f'max degree {max_deg}', f'min degree {min_deg}']
+        prop_keys = ['n', 'm', 'max_deg', 'min_deg']
         cur_num_features = np.random.choice(num_features)
-        desc = f'Graph with ' + ', '.join(np.random.choice(properties, cur_num_features, replace=False).tolist())
+        idx = np.random.choice(np.arange(0, len(prop_keys)), cur_num_features, replace=False)
+        desc = f'Graph with ' + ', '.join([text_props[i] for i in idx])
+        properties = {prop_keys[i]: properties[prop_keys[i]] for i in idx}
 
-        return desc
-
-    descs = Parallel(n_jobs=8)(delayed(_gen)(adj) for adj in tqdm(adjs))
+        return properties, desc
     
-    return descs
+    props_descs = Parallel(n_jobs=8)(delayed(_gen)(adj) for adj in tqdm(adjs))
     
+    return zip(*props_descs)
 
 def main():
     adjs = []
@@ -118,11 +129,13 @@ def main():
     adjs.extend(gen_random_tree(params['random_tree']['num']))
 
     np.random.shuffle(adjs)
-    descs = gen_text_desc(adjs)
+    properties, descs = gen_properties(adjs)
 
-    with open('../data/graphgen/graphs.pkl', 'wb') as f:
+    with open('graphs.pkl', 'wb') as f:
         pickle.dump(adjs, f)
-    with open('../data/graphgen/descs.pkl', 'wb') as f:
+    with open('properties.pkl', 'wb') as f:
+        pickle.dump(properties, f)
+    with open('descs.pkl', 'wb') as f:
         pickle.dump(descs, f)
 
 if __name__ == '__main__':
