@@ -9,7 +9,7 @@ def get_GAN_config():
     parser = argparse.ArgumentParser()
 
     # Model configuration.
-    parser.add_argument('--lm_model', type=str, default='roberta-base', help='LM model')
+    parser.add_argument('--lm_model', type=str, default='bert-base-uncased', help='LM model')
     parser.add_argument('--N', type=int, default=50, help='max number of nodes')
     parser.add_argument('--max_len', type=int, default=128, help='max number of tokens input to LM')
     parser.add_argument('--z_dim', type=int, default=8, help='dimension of latent vector')
@@ -18,7 +18,7 @@ def get_GAN_config():
     parser.add_argument('--gen_dims', default=[[128, 256, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in G before and after attention')
     parser.add_argument('--disc_dims', default=[[128, 128], [512, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in D before and after attention')
     parser.add_argument('--lambda_gp', type=float, default=5, help='weight for gradient penalty')
-    parser.add_argument('--lambda_rew', type=float, default=0, help='weight for reward loss')
+    parser.add_argument('--lambda_rew', type=float, default=0.5, help='weight for reward loss')
     parser.add_argument('--lambda_wgan', type=float, default=1, help='whether or not to use wgan loss')
     parser.add_argument('--post_method', type=str, default='hard_gumbel', choices=['sigmoid', 'soft_gumbel', 'hard_gumbel'])
 
@@ -59,7 +59,7 @@ def get_GAN_config():
     config.restore_B_G = None
 
     # Wandb
-    config.name = 'symm_fcn_simple_ds_gumbel_roberta_freezed'
+    config.name = 'symm_fcn_simple_ds_invertnm_gumbel'
     
     # Involve bert unfreeze
     config.bert_unfreeze = 0

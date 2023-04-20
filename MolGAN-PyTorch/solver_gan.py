@@ -388,13 +388,19 @@ class Solver(object):
                     bert_D_out = self.bert_D(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
                     logits_real, features_real = self.D(adj_mat, bert_D_out)
                     # Z-to-target
-                    bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
+                    if self.bert_unfreeze:
+                        bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
+                    else:
+                        bert_G_out = bert_D_out
                     adjM_logits = self.G(z, bert_G_out)
             else:
                 bert_D_out = self.bert_D(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
                 logits_real, features_real = self.D(adj_mat, bert_D_out)
                 # Z-to-target
-                bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
+                if self.bert_unfreeze:
+                    bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
+                else:
+                    bert_G_out = bert_D_out
                 adjM_logits = self.G(z, bert_G_out)
         
             # Postprocess with sigmoid
@@ -432,11 +438,13 @@ class Solver(object):
             self.reset_grad()
             
             # Z-to-target
-            bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
+            if self.bert_unfreeze:
+                bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
             adjM_logits = self.G(z, bert_G_out)
             # Postprocess with sigmoid
             adjM_hat = self.postprocess(adjM_logits, self.post_method)
-            bert_D_out = self.bert_D(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
+            if self.bert_unfreeze:
+                bert_D_out = self.bert_D(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
             logits_fake, features_fake = self.D(adjM_hat, bert_D_out)
             
             # Reward Losses

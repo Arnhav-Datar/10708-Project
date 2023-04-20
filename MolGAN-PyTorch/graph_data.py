@@ -38,6 +38,10 @@ class SyntheticGraphDataset(data.Dataset):
     @staticmethod
     def _get_property_list(property):
         return [property['n'], property['m'], property['min_deg'], property['max_deg'], property['max_diameter'], property['cc_num'], property['cycle']]
+    
+    @staticmethod
+    def _get_property_names(property):
+        return property.keys()
 
     @staticmethod
     def _get_property_str_fn():
@@ -60,8 +64,8 @@ class SyntheticGraphDataset(data.Dataset):
             lambda g: g.sum(axis=0).min(), # min degree
             lambda g: g.sum(axis=0).max(), # max degree
             lambda g: recognize.get_max_diameter(g), # max diameter
-            lambda g: recognize.get_connected_component_num(g) - (g.sum(axis=0) == 0), # cc_num
-            lambda g: recognize.has_cycle(g) # cycle
+            lambda g: recognize.get_connected_component_num(g) - np.sum(g.sum(axis=0) == 0), # cc_num
+            lambda g: (g.sum() // 2) > (g.shape[0] - recognize.get_connected_component_num(g))   # cycle
         ]
     
     @staticmethod
@@ -69,18 +73,19 @@ class SyntheticGraphDataset(data.Dataset):
         succ = []
         for i in range(len(property_tuple)):
             if property_tuple[i] != -1:
-                succ.append(SimpleSyntheticGraphDataset._get_eval_str_fn()[i](g) == property_tuple[i])
+                succ.append(SyntheticGraphDataset._get_eval_str_fn()[i](g) == property_tuple[i])
         return succ
 
     def _gen_text(self, property):
         # property_tuple[i] = -1 iff the property is not in the text
         property_list = self._get_property_list(property)
-        count = np.random.randint(4, 6)
+        count = np.random.randint(2, 6)
         # must keep node number and edges
         # XXX: preliminary experiment only use node number and edges
-        idx = [0, 1] #+ list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
+        idx = [0, 1] + list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
         text = 'Undirected graph with '
         tag = [0] * len(property_list)
+        np.random.shuffle(idx)
         for i in idx:
             tag[i] = 1
             text += self._get_property_str_fn()[i](property_list[i]) + ', '
@@ -125,17 +130,17 @@ def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers
                                    batch_size=batch_size,
                                    shuffle=True,
                                    num_workers=num_workers,
-                                   collate_fn=SimpleSyntheticGraphDataset.collate_fn)
+                                   collate_fn=SyntheticGraphDataset.collate_fn)
     val_loader = data.DataLoader(dataset=val,
                                  batch_size=batch_size*2,
                                  shuffle=False,
                                  num_workers=num_workers,
-                                 collate_fn=SimpleSyntheticGraphDataset.collate_fn)
+                                 collate_fn=SyntheticGraphDataset.collate_fn)
     test_loader = data.DataLoader(dataset=test,
                                   batch_size=batch_size*2,
                                   shuffle=False,
                                   num_workers=num_workers,
-                                  collate_fn=SimpleSyntheticGraphDataset.collate_fn)
+                                  collate_fn=SyntheticGraphDataset.collate_fn)
     return train_loader, val_loader, test_loader
 
 if __name__ == '__main__':

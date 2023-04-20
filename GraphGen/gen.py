@@ -107,19 +107,12 @@ def gen_properties(adjs: [np.ndarray]) -> [dict[str, int]]:
             'min_deg': min_deg,
             'cycle': have_cycle
         }
-        
-        text_props = [f'{n} nodes', f'{m} edges', f'max degree {max_deg}', f'min degree {min_deg}']
-        prop_keys = ['n', 'm', 'max_deg', 'min_deg']
-        cur_num_features = np.random.choice(num_features)
-        idx = np.random.choice(np.arange(0, len(prop_keys)), cur_num_features, replace=False)
-        desc = f'Graph with ' + ', '.join([text_props[i] for i in idx])
-        properties = {prop_keys[i]: properties[prop_keys[i]] for i in idx}
 
-        return properties, desc
+        return properties
     
-    props_descs = Parallel(n_jobs=8)(delayed(_gen)(adj) for adj in tqdm(adjs))
+    props = Parallel(n_jobs=8)(delayed(_gen)(adj) for adj in tqdm(adjs))
     
-    return zip(*props_descs)
+    return props
 
 def main():
     adjs = []
@@ -129,14 +122,14 @@ def main():
     adjs.extend(gen_random_tree(params['random_tree']['num']))
 
     np.random.shuffle(adjs)
-    properties, descs = gen_properties(adjs)
+    properties = gen_properties(adjs)
 
     with open('graphs.pkl', 'wb') as f:
         pickle.dump(adjs, f)
     with open('properties.pkl', 'wb') as f:
         pickle.dump(properties, f)
-    with open('descs.pkl', 'wb') as f:
-        pickle.dump(descs, f)
+    # with open('descs.pkl', 'wb') as f:
+    #     pickle.dump(descs, f)
 
 if __name__ == '__main__':
     np.random.seed(1)

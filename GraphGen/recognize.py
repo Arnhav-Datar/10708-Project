@@ -30,7 +30,7 @@ def get_max_diameter(adj: np.ndarray):
     return int(dist[dist < np.inf].max())
 
 def get_connected_component_num(adj: np.ndarray):
-    dsu = graph_utils.DSU()
+    dsu = DSU()
 
     n = get_node_num(adj)
     for i in range(n):
