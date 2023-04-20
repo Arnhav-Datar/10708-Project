@@ -79,10 +79,10 @@ class SyntheticGraphDataset(data.Dataset):
     def _gen_text(self, property):
         # property_tuple[i] = -1 iff the property is not in the text
         property_list = self._get_property_list(property)
-        count = np.random.randint(2, 6)
+        # count = np.random.randint(2, 6)
         # must keep node number and edges
         # XXX: preliminary experiment only use node number and edges
-        idx = [0, 1] + list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
+        idx = [0, 1] #+ list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
         text = 'Undirected graph with '
         tag = [0] * len(property_list)
         np.random.shuffle(idx)

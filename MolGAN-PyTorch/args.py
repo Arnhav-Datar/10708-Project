@@ -59,7 +59,7 @@ def get_GAN_config():
     config.restore_B_G = None
 
     # Wandb
-    config.name = 'symm_fcn_simple_ds_invertnm_gumbel'
+    config.name = 'symm_fcn_simple_ds_shuffle_gumbel'
     
     # Involve bert unfreeze
     config.bert_unfreeze = 0
