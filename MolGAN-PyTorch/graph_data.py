@@ -5,11 +5,8 @@ import pickle
 import numpy as np
 import os
 import pickle
-<<<<<<< HEAD
 import inflect
 p = inflect.engine()
-=======
->>>>>>> acec0549e1603daf8a878effe598ccf45ce4c520
 
 import sys
 sys.path.insert(0, '../GraphGen')
@@ -130,15 +127,8 @@ class SyntheticGraphDataset(data.Dataset):
 def get_loaders(data_dir, max_node, max_len, model_name, batch_size, text_or_num, num_workers=1):
     """Build and return a data loader."""
 
-<<<<<<< HEAD
     dataset = SyntheticGraphDataset(data_dir, max_node, max_len, text_or_num, model_name)
     train, val, test = torch.utils.data.random_split(dataset, [0.65, 0.15, 0.2])
-=======
-    train = SyntheticGraphDataset(os.path.join(data_dir, 'train'), max_node, max_len, model_name)
-    val = SyntheticGraphDataset(os.path.join(data_dir, 'dev'), max_node, max_len, model_name)
-    test = SyntheticGraphDataset(os.path.join(data_dir, 'test'), max_node, max_len, model_name)
-    
->>>>>>> acec0549e1603daf8a878effe598ccf45ce4c520
     train_loader = data.DataLoader(dataset=train,
                                    batch_size=batch_size,
                                    shuffle=True,
