@@ -1,28 +1,27 @@
 import pickle
 import numpy as np
+import random
 import networkx as nx
 from joblib import Parallel, delayed
 from tqdm import trange, tqdm
 from recognize import *
+import os
 
-tot = 100000
-num_features = [5,6,7]
+train_tot = 100000
+dev_tot = 10000
+test_tot = 10000
 params = {
     'scale_free_graph': {
-        'num': int(tot * 0.3),
-        'n': [5, 10, 25, 50]
+        'n': [(5, 9), (10, 24), (25, 40), (41, 50)]
     },
     'erdos_renyi_graph': {
-        'num': int(tot * 0.3),
-        'np': [(5, 0.3), (10, 0.2), (25, 0.1), (50, 0.05)]
+        'np': [((5, 9), 0.3), ((10, 24), 0.2), ((25, 40), 0.1), ((41, 50), 0.05)]
     },
     'random_geometric_graph': {
-        'num': int(tot * 0.3),
-        'nr': [(5, 0.5), (10, 0.4), (25, 0.2), (50, 0.2)]
+        'nr': [((5, 9), 0.5), ((10, 24), 0.4), ((25, 40), 0.2), ((41, 50), 0.2)]
     },
     'random_tree': {
-        'num': int(tot * 0.1),
-        'n': [5, 10, 25, 50]
+        'n': [(5, 9), (10, 24), (25, 40), (41, 50)]
     }
 }
 
@@ -42,10 +41,16 @@ def nxgraph_to_adj_matrix(g: nx.graph.Graph) -> np.ndarray:
 
 def gen_scale_free_graph(count: int) -> [np.ndarray]:
     def _gen():
-        n = np.random.choice(params['scale_free_graph']['n'])
-        g = nx.scale_free_graph(n)
-    
-        return nxgraph_to_adj_matrix(g)
+        while True:
+            (nl, nr) = random.choice(params['scale_free_graph']['n'])
+            n = np.random.randint(nl, nr + 1)
+            g = nx.scale_free_graph(n)
+
+            # ensure that every node has at least one edge
+            if min(dict(g.degree).values()) == 0:
+                continue
+        
+            return nxgraph_to_adj_matrix(g)
 
     adjs = Parallel(n_jobs=8)(delayed(_gen)() for _ in tqdm(range(count)))
     
@@ -53,11 +58,17 @@ def gen_scale_free_graph(count: int) -> [np.ndarray]:
 
 def gen_erdos_renyi_graph(count: int) -> [np.ndarray]:
     def _gen():
-        idx = np.random.choice(len(params['erdos_renyi_graph']['np']))
-        n, p = params['erdos_renyi_graph']['np'][idx]
-        g = nx.erdos_renyi_graph(n, p)
-        
-        return nxgraph_to_adj_matrix(g)
+        while True:
+            idx = np.random.choice(len(params['erdos_renyi_graph']['np']))
+            (nl, nr), p = params['erdos_renyi_graph']['np'][idx]
+            n = np.random.randint(nl, nr + 1)
+            g = nx.erdos_renyi_graph(n, p)
+
+            # ensure that every node has at least one edge
+            if min(dict(g.degree).values()) == 0:
+                continue
+            
+            return nxgraph_to_adj_matrix(g)
 
     adjs = Parallel(n_jobs=8)(delayed(_gen)() for _ in tqdm(range(count)))
     
@@ -65,11 +76,17 @@ def gen_erdos_renyi_graph(count: int) -> [np.ndarray]:
 
 def gen_random_geometric_graph(count: int) -> [np.ndarray]:
     def _gen():
-        idx = np.random.choice(len(params['random_geometric_graph']['nr']))
-        n, r = params['random_geometric_graph']['nr'][idx]
-        g = nx.random_geometric_graph(n, r)
+        while True:
+            idx = np.random.choice(len(params['random_geometric_graph']['nr']))
+            (nl, nr), r = params['random_geometric_graph']['nr'][idx]
+            n = np.random.randint(nl, nr + 1)
+            g = nx.random_geometric_graph(n, r)
+
+            # ensure that every node has at least one edge
+            if min(dict(g.degree).values()) == 0:
+                continue
         
-        return nxgraph_to_adj_matrix(g)
+            return nxgraph_to_adj_matrix(g)
 
     adjs = Parallel(n_jobs=8)(delayed(_gen)() for _ in tqdm(range(count)))
     
@@ -77,10 +94,16 @@ def gen_random_geometric_graph(count: int) -> [np.ndarray]:
 
 def gen_random_tree(count: int) -> [np.ndarray]:
     def _gen():
-        n = np.random.choice(params['random_tree']['n'])
-        g = nx.random_tree(n)
+        while True:
+            (nl, nr) = random.choice(params['random_tree']['n'])
+            n = np.random.randint(nl, nr + 1)
+            g = nx.random_tree(n)
 
-        return nxgraph_to_adj_matrix(g)
+            # ensure that every node has at least one edge
+            if min(dict(g.degree).values()) == 0:
+                continue
+            
+            return nxgraph_to_adj_matrix(g)
 
     adjs = Parallel(n_jobs=8)(delayed(_gen)() for _ in tqdm(range(count)))
     
@@ -110,25 +133,34 @@ def gen_properties(adjs: [np.ndarray]) -> [dict[str, int]]:
 
         return properties
     
-    properties = Parallel(n_jobs=8)(delayed(_gen)(adj) for adj in tqdm(adjs))
+    props = Parallel(n_jobs=8)(delayed(_gen)(adj) for adj in tqdm(adjs))
+    
+    return props
 
-    return properties
-
-def main():
+def gen(tot: int, folder: str):
     adjs = []
-    adjs.extend(gen_scale_free_graph(params['scale_free_graph']['num']))
-    adjs.extend(gen_erdos_renyi_graph(params['erdos_renyi_graph']['num']))
-    adjs.extend(gen_random_geometric_graph(params['random_geometric_graph']['num']))
-    adjs.extend(gen_random_tree(params['random_tree']['num']))
+    adjs.extend(gen_scale_free_graph(int(tot * 0.3)))
+    adjs.extend(gen_erdos_renyi_graph(int(tot * 0.3)))
+    adjs.extend(gen_random_geometric_graph(int(tot * 0.3)))
+    adjs.extend(gen_random_tree(int(tot * 0.1)))
 
     np.random.shuffle(adjs)
     properties = gen_properties(adjs)
 
-    with open('../data/graphgen/graphs.pkl', 'wb') as f:
+    with open(os.path.join(folder, 'graphs.pkl'), 'wb') as f:
         pickle.dump(adjs, f)
-    with open('../data/graphgen/properties.pkl', 'wb') as f:
+    with open(os.path.join(folder, 'properties.pkl'), 'wb') as f:
         pickle.dump(properties, f)
+
+def main():
+    os.makedirs('../data/graphgen/train', exist_ok=True)
+    gen(train_tot, '../data/graphgen/train')
+    os.makedirs('../data/graphgen/dev', exist_ok=True)
+    gen(dev_tot, '../data/graphgen/dev')
+    os.makedirs('../data/graphgen/test', exist_ok=True)
+    gen(test_tot, '../data/graphgen/test')
 
 if __name__ == '__main__':
     np.random.seed(1)
+    random.seed(1)
     main()

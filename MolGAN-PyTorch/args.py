@@ -17,18 +17,19 @@ def get_GAN_config():
     parser.add_argument('--n_heads', type=int, default=8, help='number of heads to be used in multi-head attention')
     parser.add_argument('--gen_dims', default=[[128, 256, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in G before and after attention')
     parser.add_argument('--disc_dims', default=[[128, 128], [512, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in D before and after attention')
-    parser.add_argument('--lambda_gp', type=float, default=10, help='weight for gradient penalty')
+    parser.add_argument('--lambda_gp', type=float, default=5, help='weight for gradient penalty')
+    parser.add_argument('--lambda_rew', type=float, default=0.5, help='weight for reward loss')
     parser.add_argument('--lambda_wgan', type=float, default=1, help='whether or not to use wgan loss')
-    parser.add_argument('--post_method', type=str, default='sigmoid', choices=['sigmoid', 'softmax', 'soft_gumbel', 'hard_gumbel'])
+    parser.add_argument('--post_method', type=str, default='hard_gumbel', choices=['sigmoid', 'soft_gumbel', 'hard_gumbel'])
 
     # Training configuration.
-    parser.add_argument('--batch_size', type=int, default=32, help='mini-batch size')
+    parser.add_argument('--batch_size', type=int, default=64, help='mini-batch size')
     parser.add_argument('--num_epochs', type=int, default=100, help='number of epochs for training D')
     parser.add_argument('--g_lr', type=float, default=5e-4, help='learning rate for G')
     parser.add_argument('--d_lr', type=float, default=5e-4, help='learning rate for D')
     parser.add_argument('--r_lr', type=float, default=1e-3, help='learning rate for R')
     parser.add_argument('--dropout', type=float, default=0., help='dropout rate')
-    parser.add_argument('--n_critic', type=int, default=5, help='number of D updates per each G update')
+    parser.add_argument('--n_critic', type=int, default=4, help='number of D updates per each G update')
 
     # Test configuration.
     parser.add_argument('--test_epochs', type=int, default=100, help='test model from this step')
@@ -36,6 +37,8 @@ def get_GAN_config():
     # Miscellaneous.
     parser.add_argument('--num_workers', type=int, default=1)
     parser.add_argument('--mode', type=str, default='train', choices=['train', 'test'])
+    parser.add_argument('--bert_unfreeze', type=int, default=0)
+    parser.add_argument('--b_lr', type=float, default=1e-5)
 
     # Use either of these two datasets.
     parser.add_argument('--data_dir', type=str, default='data')
@@ -51,11 +54,16 @@ def get_GAN_config():
     config = parser.parse_args()
     config.restore_G = None #'/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-G.ckpt'
     config.restore_D = None #'/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-D.ckpt'
-    config.restore_R = None 
+    config.restore_R = None #'/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-17_20-13/models/20-R.ckpt' 
+    config.restore_B_D = None
+    config.restore_B_G = None
 
     # Wandb
-    config.name = None
-
+    config.name = 'symm_fcn_simple_ds_invertnm_gumbel'
+    
+    # Involve bert unfreeze
+    config.bert_unfreeze = 0
+    
     # For testing
     # config.mode = 'test'
     # config.saving_dir = 'exp_results/VAE/2020-06-03_13-38-00'
