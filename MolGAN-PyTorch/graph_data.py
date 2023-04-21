@@ -6,10 +6,6 @@ import numpy as np
 import os
 import pickle
 
-<<<<<<< HEAD
-=======
-
->>>>>>> robert1003/dataloader
 import sys
 sys.path.insert(0, '../GraphGen')
 import recognize
@@ -128,8 +124,10 @@ class SyntheticGraphDataset(data.Dataset):
 def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers=1):
     """Build and return a data loader."""
 
-    dataset = SyntheticGraphDataset(data_dir, max_node, max_len, model_name)
-    train, val, test = torch.utils.data.random_split(dataset, [0.65, 0.15, 0.2])
+    train = SyntheticGraphDataset(os.path.join(data_dir, 'train'), max_node, max_len, model_name)
+    val = SyntheticGraphDataset(os.path.join(data_dir, 'dev'), max_node, max_len, model_name)
+    test = SyntheticGraphDataset(os.path.join(data_dir, 'test'), max_node, max_len, model_name)
+    
     train_loader = data.DataLoader(dataset=train,
                                    batch_size=batch_size,
                                    shuffle=True,
