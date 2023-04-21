@@ -6,7 +6,6 @@ import numpy as np
 import os
 import pickle
 
-
 import sys
 sys.path.insert(0, '../GraphGen')
 import recognize
@@ -72,12 +71,14 @@ class SyntheticGraphDataset(data.Dataset):
     def get_prop(g, property_tuple):
         succ = []
         for i in range(len(property_tuple)):
-            if property_tuple[i] != -1:
-                succ.append(SyntheticGraphDataset._get_eval_str_fn()[i](g) == property_tuple[i])
+            if property_tuple[i] is not None:
+                succ.append(SyntheticGraphDataset._get_eval_str_fn()[i](g))
+            else:
+                succ.append(None)
         return succ
 
     def _gen_text(self, property):
-        # property_tuple[i] = -1 iff the property is not in the text
+        # property_tuple[i] = None iff the property is not in the text
         property_list = self._get_property_list(property)
         # count = np.random.randint(2, 6)
         # must keep node number and edges
@@ -92,11 +93,10 @@ class SyntheticGraphDataset(data.Dataset):
         text = text[:-2] + '.'
         for i in range(len(property_list)):
             if tag[i] == 0:
-                property_list[i] = -1
+                property_list[i] = None
 
         property_tuple = tuple(property_list)
         return text, property_tuple
-
 
     def _encode_text(self, text):
         return self.tokenizer(text, add_special_tokens=True, truncation=False, max_length=self.max_len, padding='max_length')
@@ -124,8 +124,10 @@ class SyntheticGraphDataset(data.Dataset):
 def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers=1):
     """Build and return a data loader."""
 
-    dataset = SyntheticGraphDataset(data_dir, max_node, max_len, model_name)
-    train, val, test = torch.utils.data.random_split(dataset, [0.65, 0.15, 0.2])
+    train = SyntheticGraphDataset(os.path.join(data_dir, 'train'), max_node, max_len, model_name)
+    val = SyntheticGraphDataset(os.path.join(data_dir, 'dev'), max_node, max_len, model_name)
+    test = SyntheticGraphDataset(os.path.join(data_dir, 'test'), max_node, max_len, model_name)
+    
     train_loader = data.DataLoader(dataset=train,
                                    batch_size=batch_size,
                                    shuffle=True,
