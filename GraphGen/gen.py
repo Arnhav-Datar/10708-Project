@@ -9,7 +9,7 @@ import os
 
 train_tot = 100000
 dev_tot = 10000
-test_tot = 10000
+test_tot = 500
 params = {
     'scale_free_graph': {
         'n': [(5, 9), (10, 24), (25, 40), (41, 50)]
