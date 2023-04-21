@@ -21,6 +21,7 @@ def get_GAN_config():
     parser.add_argument('--lambda_rew', type=float, default=0.5, help='weight for reward loss')
     parser.add_argument('--lambda_wgan', type=float, default=1, help='whether or not to use wgan loss')
     parser.add_argument('--post_method', type=str, default='hard_gumbel', choices=['sigmoid', 'soft_gumbel', 'hard_gumbel'])
+    parser.add_argument('--text_or_num', type=str, default='text', choices=['text', 'num'])
 
     # Training configuration.
     parser.add_argument('--batch_size', type=int, default=64, help='mini-batch size')
@@ -59,7 +60,7 @@ def get_GAN_config():
     config.restore_B_G = None
 
     # Wandb
-    config.name = 'symm_fcn_simple_ds_invertnm_gumbel'
+    config.name = 'symm_fcn_simple_ds_invertnm_gumbel_with_text'
     
     # Involve bert unfreeze
     config.bert_unfreeze = 0

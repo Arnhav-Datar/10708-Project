@@ -5,7 +5,8 @@ import pickle
 import numpy as np
 import os
 import pickle
-
+import inflect
+p = inflect.engine()
 
 import sys
 sys.path.insert(0, '../GraphGen')
@@ -14,7 +15,7 @@ import recognize
 class SyntheticGraphDataset(data.Dataset):
     """Dataset Class for synthetic graph dataset."""
 
-    def __init__(self, data_dir, max_node, max_len, model_name='bert-base-uncased'):
+    def __init__(self, data_dir, max_node, max_len, text_or_num, model_name='bert-base-uncased'):
         self.data_dir = data_dir
         with open(os.path.join(data_dir, 'graphs.pkl'), 'rb') as f:
             self.adj_matrix = pickle.load(f)
@@ -33,6 +34,7 @@ class SyntheticGraphDataset(data.Dataset):
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
 
         self.max_len = max_len
+        self.text_or_num = text_or_num
         self.max_node = max_node
 
     @staticmethod
@@ -44,10 +46,10 @@ class SyntheticGraphDataset(data.Dataset):
         return property.keys()
 
     @staticmethod
-    def _get_property_str_fn():
+    def _get_property_str_fn(text_or_num):
         return [
-            lambda x: f'{x} nodes',
-            lambda x: f'{x} edges',
+            lambda x: p.number_to_words(x) + ' nodes' if text_or_num == 'text' else f'{x} nodes',
+            lambda x: p.number_to_words(x) + ' edges' if text_or_num == 'text' else f'{x} edges',
             lambda x: f'min degree {x}',
             lambda x: f'max degree {x}',
             lambda x: f'max diameter {x}',
@@ -82,13 +84,13 @@ class SyntheticGraphDataset(data.Dataset):
         count = np.random.randint(2, 6)
         # must keep node number and edges
         # XXX: preliminary experiment only use node number and edges
-        idx = [0, 1] + list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
+        idx = [0, 1] #+ list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
         text = 'Undirected graph with '
         tag = [0] * len(property_list)
         np.random.shuffle(idx)
         for i in idx:
             tag[i] = 1
-            text += self._get_property_str_fn()[i](property_list[i]) + ', '
+            text += self._get_property_str_fn(self.text_or_num)[i](property_list[i]) + ', '
         text = text[:-2] + '.'
         for i in range(len(property_list)):
             if tag[i] == 0:
@@ -121,10 +123,10 @@ class SyntheticGraphDataset(data.Dataset):
         # tokens = [item[1].tokens for item in batch]
         return adj_matrix, ids, attention_mask, desc, properties
 
-def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers=1):
+def get_loaders(data_dir, max_node, max_len, model_name, batch_size, text_or_num, num_workers=1):
     """Build and return a data loader."""
 
-    dataset = SyntheticGraphDataset(data_dir, max_node, max_len, model_name)
+    dataset = SyntheticGraphDataset(data_dir, max_node, max_len, text_or_num, model_name)
     train, val, test = torch.utils.data.random_split(dataset, [0.65, 0.15, 0.2])
     train_loader = data.DataLoader(dataset=train,
                                    batch_size=batch_size,

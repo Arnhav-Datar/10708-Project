@@ -33,6 +33,7 @@ class Solver(object):
                                                                      config.max_len, 
                                                                      config.lm_model, 
                                                                      config.batch_size,
+                                                                     config.text_or_num,
                                                                      num_workers=1)
 
         # Model configurations.
