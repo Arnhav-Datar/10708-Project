@@ -5,8 +5,11 @@ import pickle
 import numpy as np
 import os
 import pickle
+<<<<<<< HEAD
 import inflect
 p = inflect.engine()
+=======
+>>>>>>> acec0549e1603daf8a878effe598ccf45ce4c520
 
 import sys
 sys.path.insert(0, '../GraphGen')
@@ -74,14 +77,16 @@ class SyntheticGraphDataset(data.Dataset):
     def get_prop(g, property_tuple):
         succ = []
         for i in range(len(property_tuple)):
-            if property_tuple[i] != -1:
-                succ.append(SyntheticGraphDataset._get_eval_str_fn()[i](g) == property_tuple[i])
+            if property_tuple[i] is not None:
+                succ.append(SyntheticGraphDataset._get_eval_str_fn()[i](g))
+            else:
+                succ.append(None)
         return succ
 
     def _gen_text(self, property):
-        # property_tuple[i] = -1 iff the property is not in the text
+        # property_tuple[i] = None iff the property is not in the text
         property_list = self._get_property_list(property)
-        count = np.random.randint(2, 6)
+        # count = np.random.randint(2, 6)
         # must keep node number and edges
         # XXX: preliminary experiment only use node number and edges
         idx = [0, 1] #+ list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
@@ -94,11 +99,10 @@ class SyntheticGraphDataset(data.Dataset):
         text = text[:-2] + '.'
         for i in range(len(property_list)):
             if tag[i] == 0:
-                property_list[i] = -1
+                property_list[i] = None
 
         property_tuple = tuple(property_list)
         return text, property_tuple
-
 
     def _encode_text(self, text):
         return self.tokenizer(text, add_special_tokens=True, truncation=False, max_length=self.max_len, padding='max_length')
@@ -126,8 +130,15 @@ class SyntheticGraphDataset(data.Dataset):
 def get_loaders(data_dir, max_node, max_len, model_name, batch_size, text_or_num, num_workers=1):
     """Build and return a data loader."""
 
+<<<<<<< HEAD
     dataset = SyntheticGraphDataset(data_dir, max_node, max_len, text_or_num, model_name)
     train, val, test = torch.utils.data.random_split(dataset, [0.65, 0.15, 0.2])
+=======
+    train = SyntheticGraphDataset(os.path.join(data_dir, 'train'), max_node, max_len, model_name)
+    val = SyntheticGraphDataset(os.path.join(data_dir, 'dev'), max_node, max_len, model_name)
+    test = SyntheticGraphDataset(os.path.join(data_dir, 'test'), max_node, max_len, model_name)
+    
+>>>>>>> acec0549e1603daf8a878effe598ccf45ce4c520
     train_loader = data.DataLoader(dataset=train,
                                    batch_size=batch_size,
                                    shuffle=True,
