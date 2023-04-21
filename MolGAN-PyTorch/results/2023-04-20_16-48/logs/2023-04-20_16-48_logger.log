@@ -1216,3 +1216,353 @@ INFO:root:Saved model checkpoints into results/2023-04-20_16-48/models...
 INFO:root:Elapsed [2:45:46], Iteration [40/100]:
 l_D/R: -0.43, l_D/F: -3.78, l_D: -2.44, l_G: 3.76, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
 property_match: 0.21, closeness: 0.31, n_match: 0.29, m_match: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 43 edges, 24 nodes.
+Num Nodes: 24 | Num Edges: 30 | Edg: 60.0 | Node: 0.4496762454509735
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 20 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 13 | Edg: 26.0 | Node: 0.18887421488761902
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 23 nodes, 31 edges.
+Num Nodes: 20 | Num Edges: 27 | Edg: 54.0 | Node: 0.4545268714427948
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 10 nodes.
+Num Nodes: 9 | Num Edges: 10 | Edg: 20.0 | Node: 0.18760789930820465
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 140 edges.
+Num Nodes: 49 | Num Edges: 118 | Edg: 236.0 | Node: 0.9968727231025696
+--------------------------------------------------
+
+INFO:root:Elapsed [2:49:54], Iteration [41/100]:
+l_D/R: -0.40, l_D/F: -3.77, l_D: -2.44, l_G: 3.79, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.18, closeness: 0.28, n_match: 0.25, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 43 edges, 24 nodes.
+Num Nodes: 26 | Num Edges: 36 | Edg: 72.0 | Node: 0.4563058316707611
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 20 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 20 | Edg: 40.0 | Node: 0.1969027817249298
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 23 nodes, 31 edges.
+Num Nodes: 19 | Num Edges: 19 | Edg: 38.0 | Node: 0.46862244606018066
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 20 | Edg: 40.0 | Node: 0.2003384232521057
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 140 edges.
+Num Nodes: 50 | Num Edges: 156 | Edg: 313.0 | Node: 0.8489320278167725
+--------------------------------------------------
+
+INFO:root:Elapsed [2:54:00], Iteration [42/100]:
+l_D/R: 0.27, l_D/F: -2.47, l_D: -2.36, l_G: 2.46, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.20, closeness: 0.30, n_match: 0.28, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 43 edges, 24 nodes.
+Num Nodes: 25 | Num Edges: 42 | Edg: 85.0 | Node: 0.4617847502231598
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 20 edges.
+Num Nodes: 10 | Num Edges: 17 | Edg: 34.0 | Node: 0.18972814083099365
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 23 nodes, 31 edges.
+Num Nodes: 18 | Num Edges: 23 | Edg: 46.0 | Node: 0.4661807715892792
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 19 | Edg: 38.0 | Node: 0.19462847709655762
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 140 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 154 | Edg: 308.0 | Node: 0.9976603984832764
+--------------------------------------------------
+
+INFO:root:Elapsed [2:58:08], Iteration [43/100]:
+l_D/R: 0.12, l_D/F: -3.06, l_D: -2.21, l_G: 3.05, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.21, closeness: 0.31, n_match: 0.29, m_match: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 43 edges, 24 nodes.
+Num Nodes: 24 | Num Edges: 45 | Edg: 90.0 | Node: 0.4697718620300293
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 20 edges.
+Num Nodes: 10 | Num Edges: 19 | Edg: 38.0 | Node: 0.2124166488647461
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 31 edges, 23 nodes.
+Num Nodes: 24 | Num Edges: 39 | Edg: 78.0 | Node: 0.46581804752349854
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 18 | Edg: 36.0 | Node: 0.20659397542476654
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 140 edges.
+Num Nodes: 50 | Num Edges: 154 | Edg: 308.0 | Node: 0.9972788691520691
+--------------------------------------------------
+
+INFO:root:Elapsed [3:02:17], Iteration [44/100]:
+l_D/R: 0.38, l_D/F: -3.22, l_D: -2.65, l_G: 3.22, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.20, closeness: 0.30, n_match: 0.28, m_match: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 43 edges, 24 nodes.
+Num Nodes: 26 | Num Edges: 46 | Edg: 93.0 | Node: 0.4529183804988861
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 20 edges.
+Num Nodes: 10 | Num Edges: 18 | Edg: 36.0 | Node: 0.18452829122543335
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 23 nodes, 31 edges.
+Num Nodes: 24 | Num Edges: 30 | Edg: 60.0 | Node: 0.4492324888706207
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 20 | Edg: 40.0 | Node: 0.18680676817893982
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 140 edges.
+Num Nodes: 49 | Num Edges: 144 | Edg: 288.0 | Node: 0.9950607419013977
+--------------------------------------------------
+
+INFO:root:Elapsed [3:06:26], Iteration [45/100]:
+l_D/R: -0.41, l_D/F: -3.55, l_D: -2.68, l_G: 3.56, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.28, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 24 nodes, 43 edges.
+Num Nodes: 24 | Num Edges: 36 | Edg: 73.0 | Node: 0.4797493815422058
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 20 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 22 | Edg: 44.0 | Node: 0.19320574402809143
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 31 edges, 23 nodes.
+Num Nodes: 25 | Num Edges: 32 | Edg: 64.0 | Node: 0.4631650447845459
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 26 edges.
+Num Nodes: 10 | Num Edges: 16 | Edg: 32.0 | Node: 0.19627636671066284
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 140 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 152 | Edg: 304.0 | Node: 0.9957461953163147
+--------------------------------------------------
+
+INFO:root:Elapsed [3:10:31], Iteration [46/100]:
+l_D/R: 0.65, l_D/F: -3.15, l_D: -2.71, l_G: 3.16, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.18, closeness: 0.26, n_match: 0.24, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 24 nodes, 43 edges.
+Num Nodes: 26 | Num Edges: 38 | Edg: 76.0 | Node: 0.4555029571056366
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 20 edges.
+Num Nodes: 10 | Num Edges: 22 | Edg: 44.0 | Node: 0.2033911943435669
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 23 nodes, 31 edges.
+Num Nodes: 25 | Num Edges: 36 | Edg: 72.0 | Node: 0.45802995562553406
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 26 edges.
+Num Nodes: 10 | Num Edges: 18 | Edg: 36.0 | Node: 0.1990240514278412
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 140 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 139 | Edg: 279.0 | Node: 0.9964048862457275
+--------------------------------------------------
+
+INFO:root:Elapsed [3:14:37], Iteration [47/100]:
+l_D/R: 1.09, l_D/F: -2.74, l_D: -2.79, l_G: 2.76, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.19, closeness: 0.28, n_match: 0.25, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 43 edges, 24 nodes.
+Num Nodes: 22 | Num Edges: 28 | Edg: 56.0 | Node: 0.44899338483810425
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 20 edges.
+Num Nodes: 10 | Num Edges: 20 | Edg: 40.0 | Node: 0.19513081014156342
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 23 nodes, 31 edges.
+Num Nodes: 21 | Num Edges: 28 | Edg: 57.0 | Node: 0.44658100605010986
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 16 | Edg: 32.0 | Node: 0.17971095442771912
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 140 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 139 | Edg: 279.0 | Node: 0.9944218993186951
+--------------------------------------------------
+
+INFO:root:Elapsed [3:18:45], Iteration [48/100]:
+l_D/R: 0.11, l_D/F: -3.50, l_D: -2.97, l_G: 3.48, l_R: 0.01, l_R/N: 0.01, l_R/M: 0.00
+property_match: 0.19, closeness: 0.28, n_match: 0.26, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 43 edges, 24 nodes.
+Num Nodes: 48 | Num Edges: 76 | Edg: 152.0 | Node: 0.9029383659362793
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 20 edges.
+Num Nodes: 10 | Num Edges: 20 | Edg: 40.0 | Node: 0.18659526109695435
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 23 nodes, 31 edges.
+Num Nodes: 22 | Num Edges: 24 | Edg: 48.0 | Node: 0.46426820755004883
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 26 edges.
+Num Nodes: 10 | Num Edges: 25 | Edg: 50.0 | Node: 0.1880863457918167
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 140 edges.
+Num Nodes: 49 | Num Edges: 123 | Edg: 246.0 | Node: 0.998519241809845
+--------------------------------------------------
+
+INFO:root:Elapsed [3:22:52], Iteration [49/100]:
+l_D/R: 4.59, l_D/F: -0.25, l_D: -2.82, l_G: 0.24, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.19, closeness: 0.29, n_match: 0.26, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 24 nodes, 43 edges.
+Num Nodes: 29 | Num Edges: 41 | Edg: 82.0 | Node: 0.42821067571640015
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 20 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 17 | Edg: 34.0 | Node: 0.2003527134656906
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 31 edges, 23 nodes.
+Num Nodes: 29 | Num Edges: 36 | Edg: 72.0 | Node: 0.4510277211666107
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 26 edges.
+Num Nodes: 10 | Num Edges: 26 | Edg: 52.0 | Node: 0.20180939137935638
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 140 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 135 | Edg: 270.0 | Node: 0.9921038150787354
+--------------------------------------------------
+
+INFO:root:Elapsed [3:26:57], Iteration [50/100]:
+l_D/R: 3.04, l_D/F: -1.10, l_D: -2.57, l_G: 1.10, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.26, m_match: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 24 nodes, 43 edges.
+Num Nodes: 24 | Num Edges: 27 | Edg: 54.0 | Node: 0.4603474736213684
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 20 edges.
+Num Nodes: 10 | Num Edges: 17 | Edg: 34.0 | Node: 0.19995249807834625
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 23 nodes, 31 edges.
+Num Nodes: 23 | Num Edges: 26 | Edg: 53.0 | Node: 0.45384377241134644
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 26 edges.
+Num Nodes: 10 | Num Edges: 15 | Edg: 30.0 | Node: 0.1963239312171936
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 140 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 131 | Edg: 263.0 | Node: 0.9903683662414551
+--------------------------------------------------
+
+INFO:root:Elapsed [3:31:04], Iteration [51/100]:
+l_D/R: 2.58, l_D/F: -0.88, l_D: -2.70, l_G: 0.89, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.28, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 24 nodes, 43 edges.
+Num Nodes: 34 | Num Edges: 41 | Edg: 82.0 | Node: 0.47554606199264526
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 20 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 16 | Edg: 32.0 | Node: 0.19265033304691315
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 23 nodes, 31 edges.
+Num Nodes: 20 | Num Edges: 20 | Edg: 40.0 | Node: 0.3569336235523224
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 16 | Edg: 32.0 | Node: 0.190583735704422
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 140 edges, 50 nodes.
+Num Nodes: 49 | Num Edges: 131 | Edg: 262.0 | Node: 0.9948633313179016
+--------------------------------------------------
+
+INFO:root:Elapsed [3:35:11], Iteration [52/100]:
+l_D/R: 2.76, l_D/F: -0.32, l_D: -2.68, l_G: 0.31, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.19, closeness: 0.29, n_match: 0.26, m_match: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 24 nodes, 43 edges.
+Num Nodes: 26 | Num Edges: 34 | Edg: 69.0 | Node: 0.4528718590736389
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 20 edges.
+Num Nodes: 11 | Num Edges: 20 | Edg: 40.0 | Node: 0.21655793488025665
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 31 edges, 23 nodes.
+Num Nodes: 22 | Num Edges: 33 | Edg: 67.0 | Node: 0.46412405371665955
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 22 | Edg: 44.0 | Node: 0.20781481266021729
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 140 edges.
+Num Nodes: 50 | Num Edges: 138 | Edg: 276.0 | Node: 0.9882532954216003
+--------------------------------------------------
+
+INFO:root:Elapsed [3:39:19], Iteration [53/100]:
+l_D/R: 3.48, l_D/F: -0.59, l_D: -2.92, l_G: 0.59, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.20, closeness: 0.30, n_match: 0.27, m_match: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 24 nodes, 43 edges.
+Num Nodes: 40 | Num Edges: 57 | Edg: 114.0 | Node: 0.5887275338172913
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 20 edges, 10 nodes.
+Num Nodes: 10 | Num Edges: 18 | Edg: 36.0 | Node: 0.18205514550209045
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 23 nodes, 31 edges.
+Num Nodes: 37 | Num Edges: 42 | Edg: 85.0 | Node: 0.5297236442565918
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 10 nodes, 26 edges.
+Num Nodes: 10 | Num Edges: 18 | Edg: 36.0 | Node: 0.17833778262138367
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 140 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 133 | Edg: 266.0 | Node: 0.9709197878837585
+--------------------------------------------------
+
+INFO:root:Elapsed [3:43:24], Iteration [54/100]:
+l_D/R: 6.12, l_D/F: 0.96, l_D: -3.86, l_G: -0.97, l_R: 0.01, l_R/N: 0.01, l_R/M: 0.00
+property_match: 0.17, closeness: 0.25, n_match: 0.23, m_match: 0.11

@@ -85,7 +85,7 @@ class SyntheticGraphDataset(data.Dataset):
         idx = [0, 1] #+ list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
         text = 'Undirected graph with '
         tag = [0] * len(property_list)
-        np.random.shuffle(idx)
+        # np.random.shuffle(idx)
         for i in idx:
             tag[i] = 1
             text += self._get_property_str_fn()[i](property_list[i]) + ', '

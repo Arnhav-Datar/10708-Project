@@ -16,7 +16,7 @@ def get_GAN_config():
     parser.add_argument('--mha_dim', type=int, default=768, help='dimension of vectors uses in multi-head attentin')
     parser.add_argument('--n_heads', type=int, default=8, help='number of heads to be used in multi-head attention')
     parser.add_argument('--gen_dims', default=[[128, 256, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in G before and after attention')
-    parser.add_argument('--disc_dims', default=[[128, 128], [512, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in D before and after attention')
+    parser.add_argument('--disc_dims', default=[[128, 256, 512], [768], [512, 256, 128]], help='hidden dimensions of MLP layer in D before and after attention')
     parser.add_argument('--lambda_gp', type=float, default=5, help='weight for gradient penalty')
     parser.add_argument('--lambda_rew', type=float, default=0.5, help='weight for reward loss')
     parser.add_argument('--lambda_wgan', type=float, default=1, help='whether or not to use wgan loss')
