@@ -540,7 +540,7 @@ class Solver(object):
                 if self.mode == 'test' or (epoch_i + 1) % 4 == 0:
                     mats = self.get_gen_adj_mat(adjM_hat)
                     np_mats = mats.detach().cpu().numpy().astype(int)
-                    np_nodes = np_mats.sum(axis=1)!=0
+                    np_nodes = (np_mats.sum(axis=1)!=0).astype(int)
                     results, m_props = score(props, np_mats, np_nodes)
                     for k, v in mask_props.items():
                         m_props[k].extend(v)
@@ -548,8 +548,10 @@ class Solver(object):
                         scores[k].extend(v)
                         
                 if a_step +1 == the_step:
-                    # mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
-                    # np_mats = mats.detach().cpu().numpy().astype(int)
+                    if self.mode != 'test' and (epoch_i + 1) % 4 != 0:
+                        mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
+                        np_mats = mats.detach().cpu().numpy().astype(int)
+                        np_nodes = (np_mats.sum(axis=1)!=0).astype(int)
                     log = '5 sample adjacenecy matrices\n'
                     for i in range(5):
                         log += '-'*50 + '\n'
@@ -602,10 +604,10 @@ class Solver(object):
                             if self.mode == 'train':
                                 new_dict[f'{train_val_test}/{tag}'] = res
                         
-                        if self.mode == 'train':
+                    if self.mode == 'train':
                             wandb.log(new_dict)
+                            
                     print(log)
 
                     if self.log is not None:
                         self.log.info(log)
-

@@ -15,10 +15,10 @@ def get_GAN_config():
     parser.add_argument('--z_dim', type=int, default=8, help='dimension of latent vector')
     parser.add_argument('--mha_dim', type=int, default=768, help='dimension of vectors uses in multi-head attentin')
     parser.add_argument('--n_heads', type=int, default=8, help='number of heads to be used in multi-head attention')
-    parser.add_argument('--gen_dims', default=[[128, 256, 768], [512, 512, 512]], help='hidden dimensions of MLP layer in G before and after attention')
+    parser.add_argument('--gen_dims', default=[[128, 256, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in G before and after attention')
     parser.add_argument('--disc_dims', default=[[128, 128], [512, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in D before and after attention')
     parser.add_argument('--lambda_gp', type=float, default=5, help='weight for gradient penalty')
-    parser.add_argument('--lambda_rew', type=float, default=0, help='weight for reward loss')
+    parser.add_argument('--lambda_rew', type=float, default=0.5, help='weight for reward loss')
     parser.add_argument('--lambda_wgan', type=float, default=1, help='whether or not to use wgan loss')
     parser.add_argument('--post_method', type=str, default='hard_gumbel', choices=['sigmoid', 'soft_gumbel', 'hard_gumbel'])
 
@@ -29,7 +29,7 @@ def get_GAN_config():
     parser.add_argument('--d_lr', type=float, default=2e-4, help='learning rate for D')
     parser.add_argument('--b_lr', type=float, default=1e-5)
     parser.add_argument('--r_lr', type=float, default=1e-3, help='learning rate for R')
-    parser.add_argument('--dropout', type=float, default=0., help='dropout rate')
+    parser.add_argument('--dropout', type=float, default=0.1, help='dropout rate')
     parser.add_argument('--n_critic', type=int, default=4, help='number of D updates per each G update')
 
     # Test configuration.
@@ -59,7 +59,7 @@ def get_GAN_config():
     config.restore_B_G = None
 
     # Wandb
-    config.name = 'symm_fcn_final_ds_gumbel_roberta_adjonly'
+    config.name = 'symm_fcn_final_ds_gumbel_roberta_adjonly_rew'
     
     # Involve bert unfreeze
     config.bert_unfreeze = 0

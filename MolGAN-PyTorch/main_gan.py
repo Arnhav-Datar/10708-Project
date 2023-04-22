@@ -11,7 +11,7 @@ import wandb
 
 os.environ["WANDB_API_KEY"] = os.getenv("WANDB_API_KEY") # Set your key here
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512'
 
 # Remove flooding logs.
