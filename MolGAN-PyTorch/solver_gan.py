@@ -399,7 +399,7 @@ class Solver(object):
                     adjM_logits = self.G(z, bert_G_out)
             else:
                 bert_D_out = self.bert_D(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
-                logits_real, features_real = self.D(adj_mat, node_inp, bert_D_out)
+                logits_real, features_real = self.D(adj_mat, bert_D_out)
                 # Z-to-target
                 if self.bert_unfreeze:
                     bert_G_out = self.bert_G(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
