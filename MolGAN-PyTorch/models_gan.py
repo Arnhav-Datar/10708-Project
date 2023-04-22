@@ -18,7 +18,7 @@ class Generator(nn.Module):
         self.mha = nn.MultiheadAttention(mha_dim, n_heads, batch_first=True)
         self.multi_dense_layer_2 = MultiDenseLayer(mha_dim, hid_dims_2, self.activation_f, dropout_rate=dropout_rate)
 
-        self.adjM_layer = MultiDenseLayer(hid_dims_2[-1], [256, N*N], self.activation_f)
+        self.adjM_layer = MultiDenseLayer(hid_dims_2[-1], [128, N*N], self.activation_f)
         self.node_layer = MultiDenseLayer(hid_dims_2[-1], [64, N], self.activation_f)
 
     def forward(self, z, bert_out):
@@ -40,7 +40,7 @@ class Discriminator(nn.Module):
         self.activation_f = torch.nn.ReLU()
         hid_dims, hid_dims_2, hid_dims_3 = disc_dims
         self.multi_dense_layer = MultiDenseLayer(N, hid_dims, self.activation_f)
-        self.node_dense_layer = MultiDenseLayer(N, [64, hid_dims[-1]], self.activation_f, dropout_rate=dropout_rate)
+        self.node_dense_layer = MultiDenseLayer(N, [64, hid_dims[-1]], self.activation_f, dropout_rate=0.3)
         self.multi_dense_layer_2 = MultiDenseLayer((N+1)*hid_dims[-1], hid_dims_2, self.activation_f, dropout_rate=dropout_rate)
         self.mha = nn.MultiheadAttention(mha_dim, n_heads, batch_first=True)
         self.multi_dense_layer_3 = MultiDenseLayer(mha_dim, hid_dims_3, self.activation_f, dropout_rate=dropout_rate)
