@@ -12,6 +12,11 @@ import recognize
 
 class SyntheticGraphDataset(data.Dataset):
     """Dataset Class for synthetic graph dataset."""
+    
+    # def filter(self):
+    #     idx = [i for i in range(len(self.adj_matrix)) if self.properties[i]['n'] == np.count_nonzero(np.sum(self.adj_matrix[i], axis=0))]
+    #     self.adj_matrix = [self.adj_matrix[i] for i in idx]
+    #     self.properties = [self.properties[i] for i in idx]
 
     def __init__(self, data_dir, max_node, max_len, model_name='bert-base-uncased'):
         self.data_dir = data_dir
@@ -21,6 +26,7 @@ class SyntheticGraphDataset(data.Dataset):
             self.properties = pickle.load(f)
         # with open(os.path.join(data_dir, 'descs.pkl'), 'rb') as f:
         #     self.descs = pickle.load(f)
+        # self.filter()
         assert len(self.adj_matrix) == len(self.properties)
         # assert len(self.adj_matrix) == len(self.descs)
 
@@ -51,7 +57,7 @@ class SyntheticGraphDataset(data.Dataset):
             lambda x: f'max degree {x}',
             lambda x: f'max diameter {x}',
             lambda x: f'{x} connected component',
-            lambda x: 'with cycle' if x else 'without cycle'
+            lambda x: 'one or more cycle' if x else 'no cycle'
         ]
     
     @staticmethod
@@ -128,8 +134,11 @@ def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers
     """Build and return a data loader."""
 
     train = SyntheticGraphDataset(os.path.join(data_dir, 'train'), max_node, max_len, model_name)
+    print('train size: ', len(train))
     val = SyntheticGraphDataset(os.path.join(data_dir, 'dev'), max_node, max_len, model_name)
+    print('val size: ', len(val))
     test = SyntheticGraphDataset(os.path.join(data_dir, 'test'), max_node, max_len, model_name)
+    print('test size: ', len(test))
     
     train_loader = data.DataLoader(dataset=train,
                                    batch_size=batch_size,
@@ -156,13 +165,13 @@ if __name__ == '__main__':
     # print('len', len(ds))
     # dl = data.DataLoader(dataset=ds, batch_size=128, shuffle=True, num_workers=1
                         #  , collate_fn=SimpleSyntheticGraphDataset.collate_fn)
-    t, tt, v = get_loaders('./data', 50, 128, 'bert-base-uncased', 128)
-    print('len', len(v)) 
-    vi = iter(v)
-    batch = next(vi)
-    print(batch[3][:3], batch[4][:3])
-    new_batch = next(vi)
-    print(new_batch[3][:3], new_batch[4][:3])
+    t, tt, v = get_loaders('./data/graphgen', 50, 128, 'bert-base-uncased', 128)
+    # print('len', len(v)) 
+    # vi = iter(v)
+    # batch = next(vi)
+    # print(batch[3][:3], batch[4][:3])
+    # new_batch = next(vi)
+    # print(new_batch[3][:3], new_batch[4][:3])
     # print('adj_matrix', batch[0].shape)
     # print('ids', batch[1].shape)
     # print('attention_mask', batch[2].shape)
