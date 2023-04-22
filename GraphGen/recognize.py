@@ -40,7 +40,7 @@ def get_connected_component_num(adj: np.ndarray):
 
     cc = set()
     for i in range(n):
-        cc.add(dsu.size(dsu.query(i)))
+        cc.add(dsu.query(i))
 
     return len(list(cc))
 
