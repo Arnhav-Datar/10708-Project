@@ -15,7 +15,7 @@ def get_GAN_config():
     parser.add_argument('--z_dim', type=int, default=8, help='dimension of latent vector')
     parser.add_argument('--mha_dim', type=int, default=768, help='dimension of vectors uses in multi-head attentin')
     parser.add_argument('--n_heads', type=int, default=8, help='number of heads to be used in multi-head attention')
-    parser.add_argument('--gen_dims', default=[[128, 256, 768], [512, 256]], help='hidden dimensions of MLP layer in G before and after attention')
+    parser.add_argument('--gen_dims', default=[[128, 256, 768], [512, 512]], help='hidden dimensions of MLP layer in G before and after attention')
     parser.add_argument('--disc_dims', default=[[128, 128], [512, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in D before and after attention')
     parser.add_argument('--lambda_gp', type=float, default=5, help='weight for gradient penalty')
     parser.add_argument('--lambda_rew', type=float, default=0.5, help='weight for reward loss')
@@ -28,7 +28,7 @@ def get_GAN_config():
     parser.add_argument('--g_lr', type=float, default=2e-4, help='learning rate for G')
     parser.add_argument('--d_lr', type=float, default=2e-4, help='learning rate for D')
     parser.add_argument('--b_lr', type=float, default=1e-5)
-    parser.add_argument('--dropout', type=float, default=0.1, help='dropout rate')
+    parser.add_argument('--dropout', type=float, default=0, help='dropout rate')
     parser.add_argument('--n_critic', type=int, default=4, help='number of D updates per each G update')
 
     # Test configuration.
@@ -55,9 +55,10 @@ def get_GAN_config():
     config.restore_D = None #'/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-D.ckpt'
     config.restore_B_D = None
     config.restore_B_G = None
+    config.model_mode = 2
 
     # Wandb
-    config.name = 'symm_fcn_final_ds_gumbel_roberta_rew'
+    config.name = 'symm_fcn_final_ds_gumbel_roberta_rew_m2'
     
     # Involve bert unfreeze
     config.bert_unfreeze = 0

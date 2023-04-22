@@ -46,6 +46,7 @@ class Solver(object):
         self.la_gp = config.lambda_gp
         self.la_rew = config.lambda_rew
         self.post_method = config.post_method
+        self.model_mode = config.model_mode
         
         self.lm_model = config.lm_model
         self.max_len = config.max_len
@@ -111,12 +112,14 @@ class Solver(object):
                            self.gen_dims,
                            self.mha_dim,
                            self.n_heads,
-                           self.dropout)
+                           self.dropout,
+                           self.model_mode)
         self.D = Discriminator(self.N,
                                self.disc_dims, 
                                self.mha_dim,
                                self.n_heads,
-                               self.dropout)
+                               self.dropout,
+                               self.model_mode)
 
         if 'roberta' in self.lm_model:
             self.bert_D = RobertaModel.from_pretrained(self.lm_model)
@@ -297,14 +300,6 @@ class Solver(object):
         assert torch.all(torch.eq(adj_mat, adj_mat.permute(0, 2, 1)))
         return adj_mat
 
-    # def get_reward(self, n_hat, e_hat, method):
-    #     (edges_hard, nodes_hard) = self.postprocess((e_hat, n_hat), method)
-    #     edges_hard, nodes_hard = torch.max(edges_hard, -1)[1], torch.max(nodes_hard, -1)[1]
-    #     mols = [self.data.matrices2mol(n_.data.cpu().numpy(), e_.data.cpu().numpy(), strict=True)
-    #             for e_, n_ in zip(edges_hard, nodes_hard)]
-    #     reward = torch.from_numpy(self.reward(mols)).to(self.device)
-    #     return reward
-
     def save_checkpoints(self, epoch_i):
         G_path = os.path.join(self.model_dir, '{}-G.ckpt'.format(epoch_i + 1))
         D_path = os.path.join(self.model_dir, '{}-D.ckpt'.format(epoch_i + 1))
@@ -454,27 +449,12 @@ class Solver(object):
             edge_loss = (adj_mat.sum(dim=(1,2)) - adjM_hat.sum(dim=(1,2))) / (self.N * (self.N - 1))
             edge_loss = (edge_loss ** 2).mean()
             
+            # Reward loss
             loss_R = node_loss + edge_loss
-            
-            # Value losses
-            # value_logit_real, _ = self.V(a_tensor, None, x_tensor, torch.sigmoid)
-            # value_logit_fake, _ = self.V(edges_hat, None, nodes_hat, torch.sigmoid)
-
-            # Feature mapping losses. Not used anywhere in the PyTorch version.
-            # I include it here for the consistency with the TF code.
-            # f_loss = (torch.mean(features_real, 0) - torch.mean(features_fake, 0)) ** 2
-
-            # # Real Reward
-            # reward_r = torch.from_numpy(self.reward(mols)).to(self.device)
-            # # Fake Reward
-            # reward_f = self.get_reward(nodes_hat, edges_hat, self.post_method)
 
             # Losses Update
             loss_G = -logits_fake
-            # Original TF loss_V. Here we use absolute values instead of the squared one.
-            # loss_V = (value_logit_real - reward_r) ** 2 + (value_logit_fake - reward_f) ** 2
-            # loss_V = torch.abs(value_logit_real - reward_r) + torch.abs(value_logit_fake - reward_f)
-            # loss_RL = -value_logit_fake
+
 
             loss_G = torch.mean(loss_G)
             # loss_V = torch.mean(loss_V)
@@ -498,12 +478,6 @@ class Solver(object):
                         f'{train_val_test}/l_D/GP': grad_penalty.item(),
                     })
                 
-            # losses['l_RL'].append(loss_RL.item())
-            # losses['l_V'].append(loss_V.item())
-
-            # alpha = torch.abs(loss_G.detach() / loss_RL.detach()).detach()
-            # train_step_G = loss_G
-
             # train_step_V = loss_V
             if train_val_test == 'train' and cur_step % self.n_critic == 0:
                 # Optimise generator.
@@ -511,11 +485,6 @@ class Solver(object):
                 self.g_optimizer.step()
                 if self.bert_unfreeze:
                     self.b_g_optimizer.step()
-
-                # Optimise value network.
-                # if cur_step % self.n_critic == 0:
-                #     train_step_V.backward()
-                #     self.v_optimizer.step()
             
             # optimise the rewardnet
             if train_val_test == 'train' and self.la_rew > 0:
@@ -528,31 +497,27 @@ class Solver(object):
             # Get scores.
             if train_val_test in ['val', 'test']:
                 # torch.cuda.empty_cache()
-                # if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
-                mats = self.get_gen_adj_mat(adjM_hat)
-                np_mats = mats.detach().cpu().numpy().astype(int)
-                np_nodes = node_hat.detach().cpu().numpy().astype(int)
-                results, m_props = score(props, np_mats, np_nodes)
-                for k, v in mask_props.items():
-                    m_props[k].extend(v)
-                for k, v in results.items():
-                    scores[k].extend(v)
+                if self.mode == 'test' or (epoch_i + 1) % 2 == 0:
+                    mats = self.get_gen_adj_mat(adjM_hat)
+                    np_mats = mats.detach().cpu().numpy().astype(int)
+                    np_nodes = node_hat.detach().cpu().numpy().astype(int)
+                    results, m_props = score(props, np_mats, np_nodes)
+                    for k, v in mask_props.items():
+                        m_props[k].extend(v)
+                    for k, v in results.items():
+                        scores[k].extend(v)
                         
                 if a_step +1 == the_step:
-                    # mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
-                    # np_mats = mats.detach().cpu().numpy().astype(int)
+                    if self.mode != 'test' and (epoch_i + 1) % 2 != 0:
+                        mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
+                        np_mats = mats.detach().cpu().numpy().astype(int)
+                        np_nodes = node_hat.detach().cpu().numpy().astype(int)
                     log = '5 sample adjacenecy matrices\n'
                     for i in range(5):
                         log += '-'*50 + '\n'
                         log += 'Text: {}\n'.format(desc[i])
                         res = [SyntheticGraphDataset._get_eval_str_fn()[j](np_mats[i], np_nodes[i]) for j in range(7)]
                         log += 'Results: {}\n'.format(res)
-                        # with np.printoptions(threshold=np.inf):
-                        #     log += 'Adj:\n{}\n'.format(pred_adj)
-                        # cc_num = get_connected_component_num(np_mats[i])
-                        # degree_seq = get_degree_seq(np_mats[i])
-                        # have_cycle = edg > nodes - cc_num
-                        # log += 'Conn Comp: {} | Max Deg: {} | Min Deg: {} | Has Cycle: {}\n'.format(cc_num, np.max(degree_seq), np.min(degree_seq), have_cycle)
                         log += '-'*50 + '\n'
                     if self.log is not None:
                         self.log.info(log)
@@ -578,23 +543,24 @@ class Solver(object):
                         if self.mode == 'train':
                             new_dict[f'{train_val_test}/{tag}'] = np.mean(value)
     
-                    # if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
-                    is_first = True
-                    for tag, value in scores.items():
-                        if tag in mask_props:
-                            res = np.sum(value) / np.sum(mask_props[tag])
-                        else:
-                            res = np.mean(value)
-                        if is_first:
-                            log += "\n{}: {:.2f}".format(tag, res)
-                            is_first = False
-                        else:
-                            log += ", {}: {:.2f}".format(tag, res)
-                        if self.mode == 'train':
-                            new_dict[f'{train_val_test}/{tag}'] = res
-                    
+                    if self.mode == 'test' or (epoch_i + 1) % 2 == 0:
+                        is_first = True
+                        for tag, value in scores.items():
+                            if tag in mask_props:
+                                res = np.sum(value) / np.sum(mask_props[tag])
+                            else:
+                                res = np.mean(value)
+                            if is_first:
+                                log += "\n{}: {:.2f}".format(tag, res)
+                                is_first = False
+                            else:
+                                log += ", {}: {:.2f}".format(tag, res)
+                            if self.mode == 'train':
+                                new_dict[f'{train_val_test}/{tag}'] = res
+                        
                     if self.mode == 'train':
                         wandb.log(new_dict)
+                        
                     print(log)
 
                     if self.log is not None:
