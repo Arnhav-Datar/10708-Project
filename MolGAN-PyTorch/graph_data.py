@@ -133,13 +133,31 @@ class SyntheticGraphDataset(data.Dataset):
 def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers=1):
     """Build and return a data loader."""
 
-    train = SyntheticGraphDataset(os.path.join(data_dir, 'train'), max_node, max_len, model_name)
-    print('train size: ', len(train))
-    val = SyntheticGraphDataset(os.path.join(data_dir, 'dev'), max_node, max_len, model_name)
-    print('val size: ', len(val))
-    test = SyntheticGraphDataset(os.path.join(data_dir, 'test'), max_node, max_len, model_name)
-    print('test size: ', len(test))
+    # train = SyntheticGraphDataset(os.path.join(data_dir, 'train'), max_node, max_len, model_name)
+    # print('train size: ', len(train))
+    # val = SyntheticGraphDataset(os.path.join(data_dir, 'dev'), max_node, max_len, model_name)
+    # print('val size: ', len(val))
+    # test = SyntheticGraphDataset(os.path.join(data_dir, 'test'), max_node, max_len, model_name)
+    # print('test size: ', len(test))
     
+    # train_loader = data.DataLoader(dataset=train,
+    #                                batch_size=batch_size,
+    #                                shuffle=True,
+    #                                num_workers=num_workers,
+    #                                collate_fn=SyntheticGraphDataset.collate_fn)
+    # val_loader = data.DataLoader(dataset=val,
+    #                              batch_size=batch_size*2,
+    #                              shuffle=False,
+    #                              num_workers=num_workers,
+    #                              collate_fn=SyntheticGraphDataset.collate_fn)
+    # test_loader = data.DataLoader(dataset=test,
+    #                               batch_size=batch_size*2,
+    #                               shuffle=False,
+    #                               num_workers=num_workers,
+    #                               collate_fn=SyntheticGraphDataset.collate_fn)
+    # return train_loader, val_loader, test_loader
+    dataset = SyntheticGraphDataset(data_dir, max_node, max_len, model_name)
+    train, val, test = torch.utils.data.random_split(dataset, [0.65, 0.15, 0.2])
     train_loader = data.DataLoader(dataset=train,
                                    batch_size=batch_size,
                                    shuffle=True,
