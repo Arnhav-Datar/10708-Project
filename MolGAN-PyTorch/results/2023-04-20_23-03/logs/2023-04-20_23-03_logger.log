@@ -1312,3 +1312,1406 @@ Num Nodes: 50 | Num Edges: 117 | Edg: 234.0 | Node: 0.5136203765869141
 INFO:root:Elapsed [3:33:16], Iteration [44/100]:
 l_D/R: 2.10, l_D/F: -0.24, l_D: -1.77, l_G: 0.25, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
 property_match: 0.20, closeness: 0.29, n_match: 0.30, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5120219588279724
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 129 | Edg: 258.0 | Node: 0.5163857340812683
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 125 | Edg: 250.0 | Node: 0.5142259001731873
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5129446983337402
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 49 | Num Edges: 140 | Edg: 281.0 | Node: 0.5235967040061951
+--------------------------------------------------
+
+INFO:root:Elapsed [3:38:15], Iteration [45/100]:
+l_D/R: 1.89, l_D/F: -0.74, l_D: -1.73, l_G: 0.73, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.22, closeness: 0.31, n_match: 0.33, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5129530429840088
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 124 | Edg: 248.0 | Node: 0.5235280990600586
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 132 | Edg: 264.0 | Node: 0.5217854976654053
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 4.0 | Node: 0.512161910533905
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 119 | Edg: 238.0 | Node: 0.5151568055152893
+--------------------------------------------------
+
+INFO:root:Elapsed [3:43:17], Iteration [46/100]:
+l_D/R: 2.38, l_D/F: -0.07, l_D: -2.03, l_G: 0.07, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.18, closeness: 0.26, n_match: 0.25, m_match: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 0 | Num Edges: 0 | Edg: 0.0 | Node: 0.5114654302597046
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 140 | Edg: 280.0 | Node: 0.5184112787246704
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 153 | Edg: 307.0 | Node: 0.522254228591919
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 8.0 | Node: 0.5140153169631958
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 144 | Edg: 289.0 | Node: 0.5184147953987122
+--------------------------------------------------
+
+INFO:root:Elapsed [3:48:18], Iteration [47/100]:
+l_D/R: 1.71, l_D/F: -0.83, l_D: -2.05, l_G: 0.83, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.30, m_match: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 4 | Num Edges: 2 | Edg: 4.0 | Node: 0.5126482844352722
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 134 | Edg: 269.0 | Node: 0.5225632786750793
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 132 | Edg: 265.0 | Node: 0.5197938084602356
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5128254890441895
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 112 | Edg: 224.0 | Node: 0.5152317881584167
+--------------------------------------------------
+
+INFO:root:Elapsed [3:53:21], Iteration [48/100]:
+l_D/R: 2.51, l_D/F: 0.39, l_D: -1.88, l_G: -0.38, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.28, n_match: 0.27, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5113544464111328
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 130 | Edg: 260.0 | Node: 0.5184216499328613
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 137 | Edg: 274.0 | Node: 0.5113542079925537
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5144508481025696
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 147 | Edg: 294.0 | Node: 0.5136366486549377
+--------------------------------------------------
+
+INFO:root:Elapsed [3:58:25], Iteration [49/100]:
+l_D/R: 1.58, l_D/F: -0.61, l_D: -1.74, l_G: 0.60, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.22, closeness: 0.31, n_match: 0.32, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5130565762519836
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 142 | Edg: 285.0 | Node: 0.5257885456085205
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 121 | Edg: 242.0 | Node: 0.5170949101448059
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 7 | Num Edges: 5 | Edg: 10.0 | Node: 0.5125834941864014
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 110 | Edg: 221.0 | Node: 0.5289754867553711
+--------------------------------------------------
+
+INFO:root:Elapsed [4:03:29], Iteration [50/100]:
+l_D/R: 2.49, l_D/F: -0.27, l_D: -2.10, l_G: 0.27, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.28, n_match: 0.28, m_match: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 4 | Num Edges: 2 | Edg: 4.0 | Node: 0.5128659009933472
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 138 | Edg: 276.0 | Node: 0.5164017677307129
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 49 | Num Edges: 118 | Edg: 237.0 | Node: 0.5178822875022888
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5133691430091858
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 134 | Edg: 268.0 | Node: 0.5153672695159912
+--------------------------------------------------
+
+INFO:root:Elapsed [4:08:33], Iteration [51/100]:
+l_D/R: 3.25, l_D/F: 0.86, l_D: -1.79, l_G: -0.88, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.30, m_match: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5113544464111328
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 131 | Edg: 262.0 | Node: 0.5153174996376038
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 96 | Edg: 192.0 | Node: 0.5134154558181763
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 4 | Edg: 8.0 | Node: 0.5117632150650024
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 141 | Edg: 282.0 | Node: 0.5192494988441467
+--------------------------------------------------
+
+INFO:root:Elapsed [4:13:36], Iteration [52/100]:
+l_D/R: 3.92, l_D/F: 1.58, l_D: -1.79, l_G: -1.58, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.29, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.512149453163147
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 123 | Edg: 247.0 | Node: 0.5151462554931641
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 131 | Edg: 263.0 | Node: 0.5175098776817322
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 4.0 | Node: 0.5134518146514893
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 119 | Edg: 239.0 | Node: 0.5204439759254456
+--------------------------------------------------
+
+INFO:root:Elapsed [4:18:45], Iteration [53/100]:
+l_D/R: 4.65, l_D/F: 2.15, l_D: -1.91, l_G: -2.13, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.28, n_match: 0.27, m_match: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 5 | Num Edges: 3 | Edg: 6.0 | Node: 0.5138077735900879
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 141 | Edg: 282.0 | Node: 0.5141052007675171
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 108 | Edg: 217.0 | Node: 0.5146298408508301
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5129521489143372
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 127 | Edg: 254.0 | Node: 0.5210432410240173
+--------------------------------------------------
+
+INFO:root:Elapsed [4:23:55], Iteration [54/100]:
+l_D/R: 3.67, l_D/F: 1.99, l_D: -1.50, l_G: -1.97, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.30, n_match: 0.29, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5117645263671875
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 113 | Edg: 226.0 | Node: 0.5137572884559631
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 102 | Edg: 204.0 | Node: 0.5171369910240173
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5133142471313477
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 115 | Edg: 230.0 | Node: 0.5163605809211731
+--------------------------------------------------
+
+INFO:root:Elapsed [4:29:03], Iteration [55/100]:
+l_D/R: 5.69, l_D/F: 3.39, l_D: -1.90, l_G: -3.38, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.30, n_match: 0.31, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 5 | Num Edges: 4 | Edg: 8.0 | Node: 0.5146285891532898
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 126 | Edg: 252.0 | Node: 0.5405081510543823
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 140 | Edg: 281.0 | Node: 0.5194834470748901
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 6.0 | Node: 0.5133119225502014
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 121 | Edg: 242.0 | Node: 0.5194318890571594
+--------------------------------------------------
+
+INFO:root:Elapsed [4:34:06], Iteration [56/100]:
+l_D/R: 4.60, l_D/F: 2.07, l_D: -2.11, l_G: -2.07, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.30, n_match: 0.32, m_match: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 3 | Num Edges: 3 | Edg: 6.0 | Node: 0.5150827169418335
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 129 | Edg: 258.0 | Node: 0.5245280861854553
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 122 | Edg: 244.0 | Node: 0.5112966895103455
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 8.0 | Node: 0.5122222900390625
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 49 | Num Edges: 135 | Edg: 270.0 | Node: 0.529557466506958
+--------------------------------------------------
+
+INFO:root:Elapsed [4:39:07], Iteration [57/100]:
+l_D/R: 6.53, l_D/F: 3.81, l_D: -1.90, l_G: -3.80, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.28, n_match: 0.28, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 4 | Num Edges: 3 | Edg: 6.0 | Node: 0.5125616192817688
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 115 | Edg: 231.0 | Node: 0.5161978602409363
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 139 | Edg: 279.0 | Node: 0.5226536393165588
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5114123821258545
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 49 | Num Edges: 120 | Edg: 240.0 | Node: 0.5245758295059204
+--------------------------------------------------
+
+INFO:root:Elapsed [4:44:15], Iteration [58/100]:
+l_D/R: 5.67, l_D/F: 3.78, l_D: -1.63, l_G: -3.78, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.28, n_match: 0.27, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5117645263671875
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 140 | Edg: 280.0 | Node: 0.5177825093269348
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 126 | Edg: 252.0 | Node: 0.5153658390045166
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5119993686676025
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 144 | Edg: 288.0 | Node: 0.5218607783317566
+--------------------------------------------------
+
+INFO:root:Elapsed [4:49:23], Iteration [59/100]:
+l_D/R: 6.01, l_D/F: 4.42, l_D: -1.43, l_G: -4.42, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.30, n_match: 0.29, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5117645263671875
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 121 | Edg: 242.0 | Node: 0.5216245055198669
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 127 | Edg: 254.0 | Node: 0.5239331722259521
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5161446332931519
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 48 | Num Edges: 112 | Edg: 224.0 | Node: 0.5216066837310791
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-20_23-03/models...
+INFO:root:Elapsed [4:54:23], Iteration [60/100]:
+l_D/R: 5.23, l_D/F: 3.01, l_D: -1.81, l_G: -3.00, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.30, n_match: 0.30, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 3 | Num Edges: 2 | Edg: 4.0 | Node: 0.5130289793014526
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 140 | Edg: 281.0 | Node: 0.5184630751609802
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 49 | Num Edges: 123 | Edg: 246.0 | Node: 0.5154206156730652
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5133691430091858
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 128 | Edg: 256.0 | Node: 0.5174114108085632
+--------------------------------------------------
+
+INFO:root:Elapsed [4:59:26], Iteration [61/100]:
+l_D/R: 6.09, l_D/F: 3.55, l_D: -2.07, l_G: -3.56, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.30, n_match: 0.30, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5150525569915771
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 141 | Edg: 283.0 | Node: 0.5112711787223816
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 110 | Edg: 220.0 | Node: 0.5173648595809937
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5120235085487366
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 137 | Edg: 274.0 | Node: 0.5173030495643616
+--------------------------------------------------
+
+INFO:root:Elapsed [5:04:24], Iteration [62/100]:
+l_D/R: 6.14, l_D/F: 3.77, l_D: -1.83, l_G: -3.79, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.31, n_match: 0.30, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5117645263671875
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 141 | Edg: 282.0 | Node: 0.5242078900337219
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 154 | Edg: 308.0 | Node: 0.5103874802589417
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 4.0 | Node: 0.5129000544548035
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 151 | Edg: 302.0 | Node: 0.5140372514724731
+--------------------------------------------------
+
+INFO:root:Elapsed [5:09:26], Iteration [63/100]:
+l_D/R: 7.30, l_D/F: 4.80, l_D: -1.73, l_G: -4.82, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.22, closeness: 0.32, n_match: 0.34, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5117645263671875
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 109 | Edg: 218.0 | Node: 0.5174359083175659
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 149 | Edg: 298.0 | Node: 0.5067178010940552
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 8.0 | Node: 0.5133051872253418
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 49 | Num Edges: 135 | Edg: 270.0 | Node: 0.5242847800254822
+--------------------------------------------------
+
+INFO:root:Elapsed [5:14:32], Iteration [64/100]:
+l_D/R: 8.87, l_D/F: 5.79, l_D: -2.42, l_G: -5.80, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.18, closeness: 0.26, n_match: 0.25, m_match: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 0.0 | Node: 0.5114654302597046
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 130 | Edg: 260.0 | Node: 0.5277312397956848
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 112 | Edg: 224.0 | Node: 0.5063698291778564
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 6.0 | Node: 0.5127863883972168
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 128 | Edg: 257.0 | Node: 0.5164379477500916
+--------------------------------------------------
+
+INFO:root:Elapsed [5:19:34], Iteration [65/100]:
+l_D/R: 7.94, l_D/F: 5.64, l_D: -1.75, l_G: -5.63, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.28, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 3 | Num Edges: 2 | Edg: 4.0 | Node: 0.5128173828125
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 120 | Edg: 240.0 | Node: 0.5150571465492249
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 111 | Edg: 222.0 | Node: 0.5228214859962463
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5126072764396667
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 137 | Edg: 274.0 | Node: 0.5150156021118164
+--------------------------------------------------
+
+INFO:root:Elapsed [5:24:37], Iteration [66/100]:
+l_D/R: 7.22, l_D/F: 5.00, l_D: -1.87, l_G: -5.01, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.30, n_match: 0.30, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 8.0 | Node: 0.5129403471946716
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 140 | Edg: 281.0 | Node: 0.5159837007522583
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 117 | Edg: 234.0 | Node: 0.5290704369544983
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 4 | Edg: 8.0 | Node: 0.5139425992965698
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 147 | Edg: 294.0 | Node: 0.5279316902160645
+--------------------------------------------------
+
+INFO:root:Elapsed [5:29:33], Iteration [67/100]:
+l_D/R: 7.00, l_D/F: 4.27, l_D: -1.66, l_G: -4.27, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.22, closeness: 0.31, n_match: 0.31, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 5 | Num Edges: 4 | Edg: 8.0 | Node: 0.5144892334938049
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 126 | Edg: 253.0 | Node: 0.5223056674003601
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 124 | Edg: 248.0 | Node: 0.5099574327468872
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5115444660186768
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 124 | Edg: 248.0 | Node: 0.5241329669952393
+--------------------------------------------------
+
+INFO:root:Elapsed [5:34:29], Iteration [68/100]:
+l_D/R: 5.63, l_D/F: 3.32, l_D: -1.83, l_G: -3.32, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.30, n_match: 0.29, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 0.0 | Node: 0.5114654302597046
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 144 | Edg: 288.0 | Node: 0.5226869583129883
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 105 | Edg: 210.0 | Node: 0.5243053436279297
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5131868124008179
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 132 | Edg: 264.0 | Node: 0.5276745557785034
+--------------------------------------------------
+
+INFO:root:Elapsed [5:39:25], Iteration [69/100]:
+l_D/R: 7.44, l_D/F: 5.19, l_D: -1.88, l_G: -5.21, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.30, n_match: 0.30, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5108156204223633
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 120 | Edg: 240.0 | Node: 0.5286729335784912
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 122 | Edg: 244.0 | Node: 0.5190461874008179
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5137104988098145
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 130 | Edg: 260.0 | Node: 0.5235376358032227
+--------------------------------------------------
+
+INFO:root:Elapsed [5:44:19], Iteration [70/100]:
+l_D/R: 6.47, l_D/F: 4.16, l_D: -1.78, l_G: -4.17, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.31, n_match: 0.30, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 3 | Num Edges: 2 | Edg: 4.0 | Node: 0.513067901134491
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 128 | Edg: 256.0 | Node: 0.510274350643158
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 132 | Edg: 264.0 | Node: 0.5188687443733215
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 3 | Edg: 6.0 | Node: 0.5120899677276611
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 152 | Edg: 304.0 | Node: 0.5389881730079651
+--------------------------------------------------
+
+INFO:root:Elapsed [5:49:16], Iteration [71/100]:
+l_D/R: 6.93, l_D/F: 4.41, l_D: -1.92, l_G: -4.40, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.29, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5131402015686035
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 146 | Edg: 292.0 | Node: 0.5147690176963806
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 159 | Edg: 318.0 | Node: 0.5149998664855957
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 3 | Edg: 6.0 | Node: 0.5120899677276611
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 49 | Num Edges: 166 | Edg: 333.0 | Node: 0.5053672790527344
+--------------------------------------------------
+
+INFO:root:Elapsed [5:54:18], Iteration [72/100]:
+l_D/R: 5.27, l_D/F: 2.66, l_D: -1.99, l_G: -2.66, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.31, n_match: 0.29, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 5 | Num Edges: 3 | Edg: 6.0 | Node: 0.5133018493652344
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 128 | Edg: 257.0 | Node: 0.5095243453979492
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 49 | Num Edges: 99 | Edg: 198.0 | Node: 0.5267621278762817
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 4 | Edg: 8.0 | Node: 0.5132105350494385
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 121 | Edg: 243.0 | Node: 0.5079336762428284
+--------------------------------------------------
+
+INFO:root:Elapsed [5:59:16], Iteration [73/100]:
+l_D/R: 5.68, l_D/F: 3.28, l_D: -2.00, l_G: -3.28, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.22, closeness: 0.31, n_match: 0.31, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5119348168373108
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 124 | Edg: 248.0 | Node: 0.5204815864562988
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 146 | Edg: 293.0 | Node: 0.5118459463119507
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5133142471313477
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 136 | Edg: 272.0 | Node: 0.5208295583724976
+--------------------------------------------------
+
+INFO:root:Elapsed [6:04:15], Iteration [74/100]:
+l_D/R: 6.72, l_D/F: 4.24, l_D: -2.15, l_G: -4.25, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.30, n_match: 0.30, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 4 | Num Edges: 2 | Edg: 4.0 | Node: 0.5120084881782532
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 126 | Edg: 252.0 | Node: 0.5238584876060486
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 130 | Edg: 260.0 | Node: 0.519349992275238
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5122644901275635
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 127 | Edg: 254.0 | Node: 0.5287153720855713
+--------------------------------------------------
+
+INFO:root:Elapsed [6:09:17], Iteration [75/100]:
+l_D/R: 5.70, l_D/F: 3.06, l_D: -1.78, l_G: -3.05, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.22, closeness: 0.32, n_match: 0.32, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5150878429412842
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 48 | Num Edges: 136 | Edg: 272.0 | Node: 0.5303265452384949
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 139 | Edg: 278.0 | Node: 0.5178495645523071
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5119274258613586
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 146 | Edg: 293.0 | Node: 0.5228757858276367
+--------------------------------------------------
+
+INFO:root:Elapsed [6:14:14], Iteration [76/100]:
+l_D/R: 6.83, l_D/F: 4.68, l_D: -1.86, l_G: -4.67, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.22, closeness: 0.31, n_match: 0.31, m_match: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 3 | Num Edges: 3 | Edg: 6.0 | Node: 0.5150827169418335
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 132 | Edg: 264.0 | Node: 0.511324942111969
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 94 | Edg: 188.0 | Node: 0.5133964419364929
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5110757350921631
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 145 | Edg: 291.0 | Node: 0.5111976861953735
+--------------------------------------------------
+
+INFO:root:Elapsed [6:19:11], Iteration [77/100]:
+l_D/R: 7.33, l_D/F: 4.28, l_D: -2.16, l_G: -4.28, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.28, n_match: 0.27, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5147942304611206
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 49 | Num Edges: 150 | Edg: 300.0 | Node: 0.5165217518806458
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 159 | Edg: 319.0 | Node: 0.5078518986701965
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5136671662330627
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 140 | Edg: 280.0 | Node: 0.5179267525672913
+--------------------------------------------------
+
+INFO:root:Elapsed [6:23:37], Iteration [78/100]:
+l_D/R: 5.55, l_D/F: 2.11, l_D: -2.54, l_G: -2.11, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.30, m_match: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5117544531822205
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 140 | Edg: 281.0 | Node: 0.5237560868263245
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 124 | Edg: 248.0 | Node: 0.5133616328239441
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5115756988525391
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 116 | Edg: 233.0 | Node: 0.5223919749259949
+--------------------------------------------------
+
+INFO:root:Elapsed [6:27:44], Iteration [79/100]:
+l_D/R: 6.55, l_D/F: 4.05, l_D: -1.73, l_G: -4.06, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.31, n_match: 0.30, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5117645263671875
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 122 | Edg: 245.0 | Node: 0.523766040802002
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 138 | Edg: 276.0 | Node: 0.531736433506012
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.513129472732544
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 141 | Edg: 282.0 | Node: 0.5297940969467163
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-20_23-03/models...
+INFO:root:Elapsed [6:31:47], Iteration [80/100]:
+l_D/R: 5.63, l_D/F: 3.03, l_D: -1.98, l_G: -3.04, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.29, n_match: 0.27, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 4 | Num Edges: 3 | Edg: 6.0 | Node: 0.5144364833831787
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 130 | Edg: 261.0 | Node: 0.5189499258995056
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 145 | Edg: 290.0 | Node: 0.5252931714057922
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5119364261627197
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 142 | Edg: 284.0 | Node: 0.5120835304260254
+--------------------------------------------------
+
+INFO:root:Elapsed [6:35:50], Iteration [81/100]:
+l_D/R: 6.12, l_D/F: 2.99, l_D: -2.44, l_G: -2.99, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.30, n_match: 0.31, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 0 | Num Edges: 0 | Edg: 0.0 | Node: 0.5114654302597046
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 139 | Edg: 278.0 | Node: 0.5278995037078857
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 124 | Edg: 249.0 | Node: 0.5198870301246643
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5114123821258545
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 145 | Edg: 290.0 | Node: 0.5120187401771545
+--------------------------------------------------
+
+INFO:root:Elapsed [6:39:52], Iteration [82/100]:
+l_D/R: 5.63, l_D/F: 3.00, l_D: -2.21, l_G: -3.01, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.29, n_match: 0.27, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 4.0 | Node: 0.5124692320823669
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 131 | Edg: 262.0 | Node: 0.5144509673118591
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 126 | Edg: 252.0 | Node: 0.5079776048660278
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5127618312835693
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 151 | Edg: 303.0 | Node: 0.5120957493782043
+--------------------------------------------------
+
+INFO:root:Elapsed [6:43:53], Iteration [83/100]:
+l_D/R: 6.64, l_D/F: 3.70, l_D: -2.51, l_G: -3.70, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.29, n_match: 0.26, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 8.0 | Node: 0.5131998658180237
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 118 | Edg: 237.0 | Node: 0.5202772617340088
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 131 | Edg: 262.0 | Node: 0.514768660068512
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5133142471313477
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 49 | Num Edges: 126 | Edg: 252.0 | Node: 0.5277802348136902
+--------------------------------------------------
+
+INFO:root:Elapsed [6:47:55], Iteration [84/100]:
+l_D/R: 6.21, l_D/F: 3.15, l_D: -2.15, l_G: -3.17, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.30, n_match: 0.27, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 6.0 | Node: 0.5125616192817688
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 130 | Edg: 261.0 | Node: 0.49777063727378845
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 145 | Edg: 290.0 | Node: 0.515508234500885
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 6.0 | Node: 0.5109348297119141
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 136 | Edg: 272.0 | Node: 0.5171017646789551
+--------------------------------------------------
+
+INFO:root:Elapsed [6:51:56], Iteration [85/100]:
+l_D/R: 5.45, l_D/F: 2.30, l_D: -2.42, l_G: -2.33, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.28, n_match: 0.27, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.512149453163147
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 133 | Edg: 266.0 | Node: 0.5115140080451965
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 134 | Edg: 268.0 | Node: 0.5194803476333618
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 4 | Num Edges: 6 | Edg: 12.0 | Node: 0.5119364261627197
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 144 | Edg: 288.0 | Node: 0.5243306159973145
+--------------------------------------------------
+
+INFO:root:Elapsed [6:55:58], Iteration [86/100]:
+l_D/R: 5.61, l_D/F: 2.77, l_D: -2.08, l_G: -2.76, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.31, n_match: 0.30, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 4 | Num Edges: 3 | Edg: 6.0 | Node: 0.5124725103378296
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 108 | Edg: 216.0 | Node: 0.5190035104751587
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 131 | Edg: 262.0 | Node: 0.5133292078971863
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5122362375259399
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 121 | Edg: 242.0 | Node: 0.5226120352745056
+--------------------------------------------------
+
+INFO:root:Elapsed [7:00:00], Iteration [87/100]:
+l_D/R: 5.59, l_D/F: 2.25, l_D: -2.00, l_G: -2.26, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.22, closeness: 0.31, n_match: 0.32, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 0.0 | Node: 0.5114654302597046
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 118 | Edg: 236.0 | Node: 0.5165359377861023
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 132 | Edg: 264.0 | Node: 0.5088807344436646
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 3 | Num Edges: 3 | Edg: 6.0 | Node: 0.5113577246665955
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 148 | Edg: 297.0 | Node: 0.5218201875686646
+--------------------------------------------------
+
+INFO:root:Elapsed [7:04:01], Iteration [88/100]:
+l_D/R: 6.88, l_D/F: 3.70, l_D: -2.20, l_G: -3.71, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.22, closeness: 0.31, n_match: 0.30, m_match: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 6.0 | Node: 0.514083981513977
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 103 | Edg: 206.0 | Node: 0.5198407173156738
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 106 | Edg: 212.0 | Node: 0.5152449607849121
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 4 | Num Edges: 4 | Edg: 9.0 | Node: 0.5125333070755005
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 45 | Num Edges: 77 | Edg: 154.0 | Node: 0.518134593963623
+--------------------------------------------------
+
+INFO:root:Elapsed [7:08:04], Iteration [89/100]:
+l_D/R: 6.05, l_D/F: 2.74, l_D: -2.74, l_G: -2.73, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.16, closeness: 0.25, n_match: 0.21, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 4.0 | Node: 0.5126429796218872
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 141 | Edg: 282.0 | Node: 0.5203569531440735
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 49 | Num Edges: 160 | Edg: 320.0 | Node: 0.512607991695404
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 4 | Num Edges: 3 | Edg: 6.0 | Node: 0.511512815952301
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 146 | Edg: 292.0 | Node: 0.530427098274231
+--------------------------------------------------
+
+INFO:root:Elapsed [7:12:05], Iteration [90/100]:
+l_D/R: 6.29, l_D/F: 2.94, l_D: -2.10, l_G: -2.93, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.31, n_match: 0.31, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.5120219588279724
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 125 | Edg: 251.0 | Node: 0.517851710319519
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 144 | Edg: 289.0 | Node: 0.5177217125892639
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.51188725233078
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 49 | Num Edges: 129 | Edg: 258.0 | Node: 0.5239636898040771
+--------------------------------------------------
+
+INFO:root:Elapsed [7:16:06], Iteration [91/100]:
+l_D/R: 6.05, l_D/F: 2.99, l_D: -2.16, l_G: -3.01, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.22, closeness: 0.32, n_match: 0.31, m_match: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5150878429412842
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 110 | Edg: 220.0 | Node: 0.5118229389190674
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 124 | Edg: 248.0 | Node: 0.5095106363296509
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5127660036087036
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 136 | Edg: 272.0 | Node: 0.5206436514854431
+--------------------------------------------------
+
+INFO:root:Elapsed [7:20:08], Iteration [92/100]:
+l_D/R: 5.98, l_D/F: 3.24, l_D: -2.29, l_G: -3.25, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.28, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 4 | Num Edges: 5 | Edg: 10.0 | Node: 0.5129427909851074
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 118 | Edg: 236.0 | Node: 0.5157251954078674
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 114 | Edg: 228.0 | Node: 0.5218870639801025
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5117703080177307
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 142 | Edg: 285.0 | Node: 0.5115371346473694
+--------------------------------------------------
+
+INFO:root:Elapsed [7:24:09], Iteration [93/100]:
+l_D/R: 5.72, l_D/F: 2.11, l_D: -2.47, l_G: -2.11, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.28, n_match: 0.29, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 0 | Num Edges: 0 | Edg: 0.0 | Node: 0.5114654302597046
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 144 | Edg: 288.0 | Node: 0.5162452459335327
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 138 | Edg: 276.0 | Node: 0.525257408618927
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.5120235085487366
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 48 | Num Edges: 118 | Edg: 236.0 | Node: 0.5258081555366516
+--------------------------------------------------
+
+INFO:root:Elapsed [7:28:11], Iteration [94/100]:
+l_D/R: 6.67, l_D/F: 3.17, l_D: -2.20, l_G: -3.16, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.29, n_match: 0.26, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 4.0 | Node: 0.5124975442886353
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 125 | Edg: 250.0 | Node: 0.5069372653961182
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 153 | Edg: 306.0 | Node: 0.5298081636428833
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5126072764396667
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 133 | Edg: 267.0 | Node: 0.5180410742759705
+--------------------------------------------------
+
+INFO:root:Elapsed [7:32:12], Iteration [95/100]:
+l_D/R: 6.57, l_D/F: 3.78, l_D: -2.21, l_G: -3.78, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.27, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 8.0 | Node: 0.5123716592788696
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 135 | Edg: 270.0 | Node: 0.5161506533622742
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 49 | Num Edges: 115 | Edg: 231.0 | Node: 0.5190151333808899
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5121828317642212
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 49 | Num Edges: 122 | Edg: 245.0 | Node: 0.5181761384010315
+--------------------------------------------------
+
+INFO:root:Elapsed [7:36:13], Iteration [96/100]:
+l_D/R: 6.07, l_D/F: 3.45, l_D: -2.12, l_G: -3.45, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.30, n_match: 0.29, m_match: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 4 | Num Edges: 2 | Edg: 4.0 | Node: 0.5126404166221619
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 130 | Edg: 260.0 | Node: 0.517109215259552
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 135 | Edg: 270.0 | Node: 0.5125072598457336
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5127120018005371
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 121 | Edg: 242.0 | Node: 0.5172667503356934
+--------------------------------------------------
+
+INFO:root:Elapsed [7:40:14], Iteration [97/100]:
+l_D/R: 6.74, l_D/F: 3.95, l_D: -2.10, l_G: -3.96, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.31, n_match: 0.30, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 2 edges, 4 nodes.
+Num Nodes: 0 | Num Edges: 0 | Edg: 0.0 | Node: 0.5114654302597046
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 133 | Edg: 266.0 | Node: 0.5190044045448303
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 139 | Edg: 278.0 | Node: 0.5124243497848511
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.5115756988525391
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 50 nodes, 122 edges.
+Num Nodes: 50 | Num Edges: 151 | Edg: 302.0 | Node: 0.5132616758346558
+--------------------------------------------------
+
+INFO:root:Elapsed [7:44:17], Iteration [98/100]:
+l_D/R: 5.36, l_D/F: 2.14, l_D: -2.02, l_G: -2.17, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.31, n_match: 0.29, m_match: 0.13
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 6.0 | Node: 0.5128412842750549
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 49 | Num Edges: 108 | Edg: 216.0 | Node: 0.5183113813400269
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 49 nodes.
+Num Nodes: 50 | Num Edges: 134 | Edg: 269.0 | Node: 0.5173835158348083
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 edges, 5 nodes.
+Num Nodes: 5 | Num Edges: 8 | Edg: 16.0 | Node: 0.513508141040802
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 123 | Edg: 246.0 | Node: 0.5184795260429382
+--------------------------------------------------
+
+INFO:root:Elapsed [7:48:19], Iteration [99/100]:
+l_D/R: 6.49, l_D/F: 3.51, l_D: -2.30, l_G: -3.52, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.28, n_match: 0.26, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 4 nodes, 2 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 4.0 | Node: 0.5133016705513
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 136 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 132 | Edg: 264.0 | Node: 0.5217012166976929
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 49 nodes, 136 edges.
+Num Nodes: 50 | Num Edges: 113 | Edg: 226.0 | Node: 0.5218658447265625
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 5 edges.
+Num Nodes: 5 | Num Edges: 5 | Edg: 10.0 | Node: 0.5123270750045776
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 122 edges, 50 nodes.
+Num Nodes: 50 | Num Edges: 143 | Edg: 287.0 | Node: 0.5233607292175293
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-20_23-03/models...
+INFO:root:Elapsed [7:52:21], Iteration [100/100]:
+l_D/R: 6.09, l_D/F: 3.09, l_D: -2.32, l_G: -3.09, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.30, n_match: 0.28, m_match: 0.12

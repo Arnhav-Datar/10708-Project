@@ -58,13 +58,13 @@ class SyntheticGraphDataset(data.Dataset):
     def _get_eval_str_fn():
         # assuming g is symmetric and does not have self-loop
         return [
-            lambda g: g.shape[0] - (g.sum(axis=0) == 0).sum(), # n
-            lambda g: g.sum() // 2, # m
-            lambda g: g.sum(axis=0).min(), # min degree
-            lambda g: g.sum(axis=0).max(), # max degree
-            lambda g: recognize.get_max_diameter(g), # max diameter
-            lambda g: recognize.get_connected_component_num(g) - np.sum(g.sum(axis=0) == 0), # cc_num
-            lambda g: (g.sum() // 2) > (g.shape[0] - recognize.get_connected_component_num(g))   # cycle
+            lambda g, n: n.sum(), # n
+            lambda g, n: g.sum() // 2, # m
+            lambda g, n: g.sum(axis=0).min(), # min degree
+            lambda g, n: g.sum(axis=0).max(), # max degree
+            lambda g, n: recognize.get_max_diameter(g), # max diameter
+            lambda g, n: recognize.get_connected_component_num(g) - (n.shape[0] - n.sum()), # cc_num
+            lambda g, n: (g.sum() // 2) > (n.shape[0] - recognize.get_connected_component_num(g))   # cycle
         ]
     
     @staticmethod
@@ -80,10 +80,10 @@ class SyntheticGraphDataset(data.Dataset):
     def _gen_text(self, property):
         # property_tuple[i] = None iff the property is not in the text
         property_list = self._get_property_list(property)
-        # count = np.random.randint(2, 6)
+        count = np.random.randint(2, 6)
         # must keep node number and edges
         # XXX: preliminary experiment only use node number and edges
-        idx = [0, 1] #+ list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
+        idx = [0, 1] + list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
         text = 'Undirected graph with '
         tag = [0] * len(property_list)
         np.random.shuffle(idx)
@@ -105,8 +105,10 @@ class SyntheticGraphDataset(data.Dataset):
         adj_matrix = self.adj_matrix[index]
         text_desc, properties = self._gen_text(self.properties[index])
         encoded_text = self._encode_text(text_desc)
+        node_inp = np.zeros((self.max_node,))
+        node_inp[:properties[0]] = 1
 
-        return adj_matrix, encoded_text, text_desc, properties
+        return adj_matrix, node_inp, encoded_text, text_desc, properties
     
     def __len__(self):
         return len(self.adj_matrix)
@@ -114,12 +116,13 @@ class SyntheticGraphDataset(data.Dataset):
     @staticmethod
     def collate_fn(batch):
         adj_matrix = torch.from_numpy(np.stack([item[0] for item in batch])).type(torch.FloatTensor)
-        ids = torch.from_numpy(np.stack([item[1].input_ids for item in batch]))
-        attention_mask = torch.from_numpy(np.stack([item[1].attention_mask for item in batch]))
-        desc = [item[2] for item in batch]
-        properties = [item[3] for item in batch]
+        node_inp = torch.from_numpy(np.stack([item[1] for item in batch])).type(torch.FloatTensor)
+        ids = torch.from_numpy(np.stack([item[2].input_ids for item in batch]))
+        attention_mask = torch.from_numpy(np.stack([item[2].attention_mask for item in batch]))
+        desc = [item[3] for item in batch]
+        properties = [item[4] for item in batch]
         # tokens = [item[1].tokens for item in batch]
-        return adj_matrix, ids, attention_mask, desc, properties
+        return adj_matrix, node_inp, ids, attention_mask, desc, properties
 
 def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers=1):
     """Build and return a data loader."""
