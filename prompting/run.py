@@ -13,8 +13,8 @@ import sys
 sys.path.insert(0, '../MolGAN-PyTorch')
 import graph_data
 
-@retry(tries=3, delay=30)
-def chatgpt(intro, examples, prompt, max_tokens, stop=["\n\n"]):
+@retry(tries=5, delay=30)
+def chatgpt(intro, examples, prompt, max_tokens, stop=["```end"]):
     messages = [
         {"role": "system", "content": intro},
     ]
@@ -57,23 +57,29 @@ def load_data(opt):
 
     return adj_matrix, properties
 
-def main(opt, idxs):
+def main(opt, skip=0):
     from prompt import graph_prompt
     from collections import defaultdict
 
     perf_cnt = defaultdict(lambda: [])
 
     dataset = graph_data.SyntheticGraphDataset(
-        data_dir=opt.data_dir, 
+        data_dir=os.path.join(opt.data_dir, 'test'),
         max_node=50, 
         max_len=0, # we don't need text here
         model_name='bert-base-uncased' # dummy
     )
 
-    for idx in idxs:
-        adj_matrix, _, text_desc, properties = dataset[idx]
+    for idx in range(len(dataset)):
+        if idx < skip:
+            continue
+
+        g, _, text_desc, properties = dataset[idx]
+        # override text_desc
+        text_desc = 'Graph with {} nodes, {} edges.'.format(properties[0], properties[1])
+        properties = tuple(list(properties[:2]) + [None] * 5)
+
         n = properties[0]
-        adj_matrix = adj_matrix[:n, :n]
         print(f'idx = {idx}')
         print(f'text_desc = {text_desc}')
         print(f'properties = {properties}')
@@ -86,6 +92,7 @@ def main(opt, idxs):
                     max_tokens=min(3900, int((n**2 + n + 1)*2))
                     # n^2+n+1 + extra should be enough according to https://platform.openai.com/tokenizer
                 )
+            print(f'raw prompt result = {graph_str}')
             graph_str = graph_str.split('```')[1].strip()
             print(f'graph_str = {graph_str}')
     
@@ -116,36 +123,10 @@ def main(opt, idxs):
 
         # input('Press Enter to continue...')
 
-def select_index(opt):
-    dataset = graph_data.SyntheticGraphDataset(
-        data_dir=opt.data_dir,
-        max_node=50,
-        max_len=0, # we don't need text here
-        model_name='bert-base-uncased' # dummy
-    )
-
-    from collections import defaultdict
-    idxs = defaultdict(lambda: [])
-    for i in range(len(dataset)):
-        _, _, _, properties = dataset[i]
-        n = properties[0]
-        idxs[n].append(i)
-        
-    idxs = {n: np.random.choice(idxs[n], size=25, replace=False) for n in idxs}
-
-    return idxs
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_dir', required=True)
-    parser.add_argument('--node_num', type=int, required=True)
+    parser.add_argument('--skip', type=int, default=0)
     opt = parser.parse_args()
 
-    np.random.seed(0)
-
-    # idxs = select_index(opt)
-    # with open('idxs.pkl', 'wb') as f:
-    #     pickle.dump(idxs, f)
-    with open('idxs.pkl', 'rb') as f:
-        idxs = pickle.load(f)
-    main(opt, idxs[opt.node_num])
+    main(opt, skip=opt.skip)
