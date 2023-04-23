@@ -74,11 +74,11 @@ class SyntheticGraphDataset(data.Dataset):
         ]
     
     @staticmethod
-    def get_prop(g, property_tuple):
+    def get_prop(g, n, property_tuple):
         succ = []
         for i in range(len(property_tuple)):
             if property_tuple[i] is not None:
-                succ.append(SyntheticGraphDataset._get_eval_str_fn()[i](g))
+                succ.append(SyntheticGraphDataset._get_eval_str_fn()[i](g, n))
             else:
                 succ.append(None)
         return succ
@@ -89,10 +89,10 @@ class SyntheticGraphDataset(data.Dataset):
         count = np.random.randint(2, 6)
         # must keep node number and edges
         # XXX: preliminary experiment only use node number and edges
-        idx = [0, 1] #+ list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
+        idx = [0, 1] + list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
         text = 'Undirected graph with '
         tag = [0] * len(property_list)
-        #np.random.shuffle(idx)
+        np.random.shuffle(idx)
         for i in idx:
             tag[i] = 1
             text += self._get_property_str_fn()[i](property_list[i]) + ', '
