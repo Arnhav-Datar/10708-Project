@@ -37,6 +37,11 @@ def main(opt):
             elif 'score = ' in line:
                 score[idx] = float(line.split(' = ')[1])
 
+    print('missing idx')
+    for idx in range(opt.max_idx):
+        if idx not in score:
+            print(idx, end=',')
+    print()
     analyze(score, properties, pred, error, range(len(score)))
 
     bins = [0, 5, 10, 25, 50]
@@ -48,6 +53,7 @@ def main(opt):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('--max_idx', type=int, default=500)
     parser.add_argument('--log_file', type=str, required=True)
     opt = parser.parse_args()
     main(opt)
