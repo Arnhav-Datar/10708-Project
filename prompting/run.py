@@ -9,6 +9,7 @@ import numpy as np
 from retry import retry
 import threading
 from joblib import Parallel, delayed, parallel_backend
+from tqdm import trange
 
 import sys
 sys.path.insert(0, '../MolGAN-PyTorch')
@@ -123,7 +124,7 @@ def main(opt, skip=0):
     n_jobs = len(eval(os.getenv('OPENAI_API_KEYS')))
     with parallel_backend('threading', n_jobs=n_jobs):
         Parallel()(delayed(run)(idx % n_jobs, idx, dataset[idx], lock) \
-            for idx in range(skip, len(dataset)))
+            for idx in trange(skip, len(dataset)))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
