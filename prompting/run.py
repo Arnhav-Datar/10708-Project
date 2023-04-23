@@ -3,18 +3,20 @@ import pickle
 from dotenv import load_dotenv
 load_dotenv('./.env')
 import os
-import openai
-openai.api_key = os.getenv('OPENAI_API_KEY')
 import time
+import random
 import numpy as np
 from retry import retry
+import threading
+from joblib import Parallel, delayed, parallel_backend
 
 import sys
 sys.path.insert(0, '../MolGAN-PyTorch')
 import graph_data
+from prompt import graph_prompt
 
 @retry(tries=5, delay=30)
-def chatgpt(intro, examples, prompt, max_tokens, stop=["```end"]):
+def chatgpt(idx, intro, examples, prompt, max_tokens, stop=["```end"]):
     messages = [
         {"role": "system", "content": intro},
     ]
@@ -31,6 +33,8 @@ def chatgpt(intro, examples, prompt, max_tokens, stop=["```end"]):
         {"role": "user", "content": prompt}
     ]
     
+    import openai
+    openai.api_key = eval(os.getenv('OPENAI_API_KEYS'))[idx]
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messages,
@@ -57,11 +61,57 @@ def load_data(opt):
 
     return adj_matrix, properties
 
-def main(opt, skip=0):
-    from prompt import graph_prompt
-    from collections import defaultdict
+def run(api_idx, idx, data, lock):
+    g, _, _, text_desc, properties = data
 
-    perf_cnt = defaultdict(lambda: [])
+    n = properties[0]
+    msg = ""
+    msg += f'idx = {idx}\n'
+    msg += f'text_desc = {text_desc}\n'
+
+    try:
+        graph_str = chatgpt(
+                idx=api_idx,
+                intro=graph_prompt['intro'],
+                examples=graph_prompt['examples'],
+                prompt=graph_prompt['prompt'].format(description=text_desc),
+                max_tokens=min(3500, int((n**2 + n + 1)*2))
+                # n^2+n+1 + extra should be enough according to https://platform.openai.com/tokenizer
+            )
+        msg += f'raw prompt result = {graph_str}\n'
+        graph_str = graph_str.split('```')[1].strip()
+        msg += f'graph_str = {graph_str}\n'
+
+        adj_matrix = list(map(lambda x: list(map(int, x.split())), graph_str.split('\n')))
+        n = max(len(adj_matrix), max(map(len, adj_matrix)))
+        adj_mat = np.zeros((n, n))
+        for i, row in enumerate(adj_matrix):
+            for j, val in enumerate(row):
+                adj_mat[i][j] = val
+        adj_mat = np.maximum(adj_mat, adj_mat.T)
+        nodes = (adj_mat.sum(axis=1)!=0).astype(int)
+        msg += f'adj_mat = {adj_mat}\n'
+        
+        pred = graph_data.SyntheticGraphDataset.get_prop(adj_mat, nodes, properties)
+        msg += f'pred = {pred}\n'
+
+        correct = [pred[i] == properties[i] for i in range(len(pred)) if properties[i] is not None]
+
+        msg += f'properties = {properties}\n'
+        msg += f'correct = {correct}\n'
+        msg += f'score = {np.mean(correct)}\n'
+        msg += '====================================='
+    except Exception as e:
+        msg += f'error = {e}\n'
+        msg += f'score = 0\n'
+        msg += '====================================='
+
+    lock.acquire()
+    print(msg, flush=True)
+    lock.release()
+
+def main(opt, skip=0):
+    lock = threading.Lock()
 
     dataset = graph_data.SyntheticGraphDataset(
         data_dir=os.path.join(opt.data_dir, 'test'),
@@ -70,63 +120,18 @@ def main(opt, skip=0):
         model_name='bert-base-uncased' # dummy
     )
 
-    for idx in range(len(dataset)):
-        if idx < skip:
-            continue
-
-        g, _, text_desc, properties = dataset[idx]
-        # override text_desc
-        text_desc = 'Graph with {} nodes, {} edges.'.format(properties[0], properties[1])
-        properties = tuple(list(properties[:2]) + [None] * 5)
-
-        n = properties[0]
-        print(f'idx = {idx}')
-        print(f'text_desc = {text_desc}')
-        print(f'properties = {properties}')
-
-        try:
-            graph_str = chatgpt(
-                    intro=graph_prompt['intro'],
-                    examples=graph_prompt['examples'],
-                    prompt=graph_prompt['prompt'].format(description=text_desc),
-                    max_tokens=min(3900, int((n**2 + n + 1)*2))
-                    # n^2+n+1 + extra should be enough according to https://platform.openai.com/tokenizer
-                )
-            print(f'raw prompt result = {graph_str}')
-            graph_str = graph_str.split('```')[1].strip()
-            print(f'graph_str = {graph_str}')
-    
-            adj_matrix = list(map(lambda x: list(map(int, x.split())), graph_str.split('\n')))
-            adj_mat = np.zeros((n, n))
-            for i, row in enumerate(adj_matrix):
-                for j, val in enumerate(row):
-                    adj_mat[i][j] = val
-            adj_mat = np.maximum(adj_mat, adj_mat.T)
-            print(f'adj_mat = {adj_mat}')
-            
-            pred = graph_data.SyntheticGraphDataset.get_prop(adj_mat, properties)
-            print(f'pred = {pred}')
-
-            correct = [pred[i] == properties[i] for i in range(len(pred)) if properties[i] is not None]
-
-            print(f'correct = {correct}')
-            print(f'score = {np.mean(correct)}')
-            print('=====================================', flush=True)
-
-            # group by node count
-            perf_cnt[n].append((text_desc, properties, graph_str, adj_matrix, pred, correct, np.mean(correct)))
-        except Exception as e:
-            print(f'error = {e}')
-            print(f'score = 0')
-            print('=====================================', flush=True)
-            perf_cnt[n].append((text_desc, properties, None, None, None, None, None))
-
-        # input('Press Enter to continue...')
+    n_jobs = len(eval(os.getenv('OPENAI_API_KEYS')))
+    with parallel_backend('threading', n_jobs=n_jobs):
+        Parallel()(delayed(run)(idx % n_jobs, idx, dataset[idx], lock) \
+            for idx in range(skip, len(dataset)))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_dir', required=True)
     parser.add_argument('--skip', type=int, default=0)
     opt = parser.parse_args()
+
+    np.random.seed(0)
+    random.seed(0)
 
     main(opt, skip=opt.skip)
