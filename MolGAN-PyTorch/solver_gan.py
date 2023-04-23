@@ -9,13 +9,13 @@ import torch.nn.functional as F
 from transformers import BertModel, RobertaModel
 from score import score
 
-from models_gan import Generator, Discriminator, RewardNet, gumbel_sigmoid
-from graph_data import get_loaders
+from models_gan import Generator, Discriminator, gumbel_sigmoid, RewardNet
+from graph_data import get_loaders, SyntheticGraphDataset
 import numpy as np
 from tqdm import tqdm
 import sys
 sys.path.insert(0, '../GraphGen')
-from recognize import *
+
 import wandb
 
 class Solver(object):
@@ -56,8 +56,8 @@ class Solver(object):
         self.num_steps = len(self.train_data)
         self.g_lr = config.g_lr
         self.d_lr = config.d_lr
-        self.r_lr = config.r_lr
         self.b_lr = config.b_lr
+        self.r_lr = config.r_lr
         self.dropout = config.dropout
         self.n_critic = config.n_critic
         self.lr_update_step = config.lr_update_step
@@ -99,7 +99,8 @@ class Solver(object):
             )
             for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp', 'l_R', 'l_R/N', 'l_R/M']:
                 self.run.define_metric(f'train/{metric}', step_metric="step")
-            for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp', 'property_match', 'closeness', 'l_R', 'l_R/N', 'l_R/M']:
+            for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp', 'property_match', 'closeness', 'l_R', 'l_R/N', 'l_R/M',\
+                           'n_match', 'm_match', 'min_deg_match', 'max_deg_match', 'diam_match', 'cc_match', 'cycle_match']:
                 self.run.define_metric(f'val/{metric}', step_metric="epoch")
             
             # for metric in ['l_D/R', 'l_D/F', 'l_D', 'l_G', 'l_D_gp']:
@@ -281,6 +282,9 @@ class Solver(object):
             for i in range(start_epoch, self.num_epochs):
                 self.train_or_valid(epoch_i=i, train_val_test='train')
                 self.train_or_valid(epoch_i=i, train_val_test='val')
+                if (i+1) % self.model_save_step == 0:
+                    self.train_or_valid(epoch_i=i, train_val_test='test')
+        
                 # self.g_scheduler.step()
                 # self.d_scheduler.step()
                 # if i == start_epoch:
@@ -320,8 +324,6 @@ class Solver(object):
         B_G_path = os.path.join(self.model_dir, '{}-B_G.ckpt'.format(epoch_i + 1))
         torch.save(self.G.state_dict(), G_path)
         torch.save(self.D.state_dict(), D_path)
-        if self.la_rew > 0:
-            torch.save(self.R.state_dict(), R_path)
         if self.bert_unfreeze:
             torch.save(self.bert_D.pooler.state_dict(), B_D_path)
             torch.save(self.bert_G.pooler.state_dict(), B_G_path)
@@ -339,6 +341,7 @@ class Solver(object):
         # Recordings
         losses = defaultdict(list)
         scores = defaultdict(list)
+        mask_props = defaultdict(list)
 
         # Iterations
         the_step = self.num_steps
@@ -354,13 +357,13 @@ class Solver(object):
         train_data_iter = iter(self.train_data)
         for a_step in tqdm(range(the_step)):
             if train_val_test == 'val':
-                adj_mat, ids, mask, desc, props = next(val_data_iter)
+                adj_mat, node_inp, ids, mask, desc, props = next(val_data_iter)
                 z = self.sample_z(adj_mat.shape[0])
             elif train_val_test == 'test':
-                adj_mat, ids, mask, desc, props = next(test_data_iter)
+                adj_mat, node_inp, ids, mask, desc, props = next(test_data_iter)
                 z = self.sample_z(adj_mat.shape[0])
             elif train_val_test == 'train':
-                adj_mat, ids, mask, desc, props = next(train_data_iter)
+                adj_mat, node_inp, ids, mask, desc, props = next(train_data_iter)
                 z = self.sample_z(adj_mat.shape[0])
             else:
                 raise NotImplementedError
@@ -372,6 +375,7 @@ class Solver(object):
             #                             1. Preprocess input data                                #
             # =================================================================================== #
             adj_mat = adj_mat.to(self.device)
+            node_inp = node_inp.to(self.device)
             ids = ids.to(self.device)
             mask = mask.to(self.device)
             z = torch.from_numpy(z).to(self.device).float()
@@ -533,25 +537,27 @@ class Solver(object):
             # Get scores.
             if train_val_test in ['val', 'test']:
                 # torch.cuda.empty_cache()
-                # if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
-                mats = self.get_gen_adj_mat(adjM_hat)
-                np_mats = mats.detach().cpu().numpy().astype(int)
-                results = score(props, np_mats)
-                for k, v in results.items():
-                    scores[k].extend(v)
+                if self.mode == 'test' or (epoch_i + 1) % 4 == 0:
+                    mats = self.get_gen_adj_mat(adjM_hat)
+                    np_mats = mats.detach().cpu().numpy().astype(int)
+                    np_nodes = (np_mats.sum(axis=1)!=0).astype(int)
+                    results, m_props = score(props, np_mats, np_nodes)
+                    for k, v in mask_props.items():
+                        m_props[k].extend(v)
+                    for k, v in results.items():
+                        scores[k].extend(v)
                         
                 if a_step +1 == the_step:
-                    # mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
-                    # np_mats = mats.detach().cpu().numpy().astype(int)
+                    if self.mode != 'test' and (epoch_i + 1) % 4 != 0:
+                        mats = self.get_gen_adj_mat(adjM_hat, self.post_method)
+                        np_mats = mats.detach().cpu().numpy().astype(int)
+                        np_nodes = (np_mats.sum(axis=1)!=0).astype(int)
                     log = '5 sample adjacenecy matrices\n'
                     for i in range(5):
                         log += '-'*50 + '\n'
                         log += 'Text: {}\n'.format(desc[i])
-                        nodes, edg = get_node_num(np_mats[i]), get_edge_num(np_mats[i])
-                        pred_adj = adjM_hat[i].detach().cpu().numpy()
-                        sum_adj = np.sum(pred_adj)
-                        n_pred = node_pred[i].item()
-                        log += 'Num Nodes: {} | Num Edges: {} | Edg: {} | Node: {}\n'.format(nodes, edg, sum_adj, n_pred)
+                        res = [SyntheticGraphDataset._get_eval_str_fn()[j](np_mats[i], np_nodes[i]) for j in range(7)]
+                        log += 'Results: {}\n'.format(res)
                         # with np.printoptions(threshold=np.inf):
                         #     log += 'Adj:\n{}\n'.format(pred_adj)
                         # cc_num = get_connected_component_num(np_mats[i])
@@ -583,21 +589,25 @@ class Solver(object):
                         if self.mode == 'train':
                             new_dict[f'{train_val_test}/{tag}'] = np.mean(value)
     
-                    # if self.mode == 'test' or (epoch_i + 1) % self.model_save_step == 0:
-                    is_first = True
-                    for tag, value in scores.items():
-                        if is_first:
-                            log += "\n{}: {:.2f}".format(tag, np.mean(value))
-                            is_first = False
-                        else:
-                            log += ", {}: {:.2f}".format(tag, np.mean(value))
-                        if self.mode == 'train':
-                            new_dict[f'{train_val_test}/{tag}'] = np.mean(value)
-                    
+                    if self.mode == 'test' or (epoch_i + 1) % 4 == 0:
+                        is_first = True
+                        for tag, value in scores.items():
+                            if tag in mask_props:
+                                res = np.sum(value) / np.sum(mask_props[tag])
+                            else:
+                                res = np.mean(value)
+                            if is_first:
+                                log += "\n{}: {:.2f}".format(tag, res)
+                                is_first = False
+                            else:
+                                log += ", {}: {:.2f}".format(tag, res)
+                            if self.mode == 'train':
+                                new_dict[f'{train_val_test}/{tag}'] = res
+                        
                     if self.mode == 'train':
-                        wandb.log(new_dict)
+                            wandb.log(new_dict)
+                            
                     print(log)
 
                     if self.log is not None:
                         self.log.info(log)
-

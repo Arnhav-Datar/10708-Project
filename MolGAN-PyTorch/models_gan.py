@@ -14,12 +14,11 @@ class Generator(nn.Module):
         self.activation_f = torch.nn.ReLU()
         hid_dims, hid_dims_2 = gen_dims
         
-        self.multi_dense_layer = MultiDenseLayer(z_dim, hid_dims, self.activation_f)
+        self.multi_dense_layer = MultiDenseLayer(z_dim, hid_dims, self.activation_f, dropout_rate=dropout_rate)
         self.mha = nn.MultiheadAttention(mha_dim, n_heads, batch_first=True)
         self.multi_dense_layer_2 = MultiDenseLayer(mha_dim, hid_dims_2, self.activation_f, dropout_rate=dropout_rate)
 
-        self.adjM_layer = nn.Linear(hid_dims_2[-1], N*N)
-        self.dropoout = nn.Dropout(p=dropout_rate)
+        self.adjM_layer = MultiDenseLayer(hid_dims_2[-1], [N*N], self.activation_f)
 
     def forward(self, z, bert_out):
         out = self.multi_dense_layer(z)
@@ -27,7 +26,6 @@ class Generator(nn.Module):
         out = self.multi_dense_layer_2(out)
         adjM_logits = self.adjM_layer(out).view(-1, self.N, self.N)
         adjM_logits = (adjM_logits + adjM_logits.permute(0, 2, 1)) / 2
-        adjM_logits = self.dropoout(adjM_logits)
 
         return adjM_logits
 
@@ -91,7 +89,6 @@ class RewardNet(nn.Module):
         # `edge_cnt` has shape [batch_size, 1]
 
         return node_cnt.view(-1)
-
 
 def gumbel_sigmoid(logits, t=0.1, eps=1e-20, hard=False):            
     #sample from Gumbel(0, 1)
