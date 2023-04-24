@@ -5,6 +5,8 @@ import pickle
 import numpy as np
 import os
 import pickle
+import inflect
+p = inflect.engine()
 
 import sys
 sys.path.insert(0, '../GraphGen')
@@ -13,26 +15,33 @@ import recognize
 class SyntheticGraphDataset(data.Dataset):
     """Dataset Class for synthetic graph dataset."""
 
-    def __init__(self, data_dir, max_node, max_len, model_name='bert-base-uncased'):
+    def __init__(self, data_dir, max_node, max_len, model_name='bert-base-uncased', ds_mode=0):
+        '''
+        ds_mode 0: text with number in numeric format
+        ds_mode 1: text with number in text format
+        ds_mode 2: just the number in numeric format
+        '''
         self.data_dir = data_dir
         with open(os.path.join(data_dir, 'graphs.pkl'), 'rb') as f:
             self.adj_matrix = pickle.load(f)
         with open(os.path.join(data_dir, 'properties.pkl'), 'rb') as f:
             self.properties = pickle.load(f)
-        # with open(os.path.join(data_dir, 'descs.pkl'), 'rb') as f:
-        #     self.descs = pickle.load(f)
+
         assert len(self.adj_matrix) == len(self.properties)
-        # assert len(self.adj_matrix) == len(self.descs)
 
         for i in range(len(self.adj_matrix)):
             node_size = self.adj_matrix[i].shape[0]
             if node_size > max_node:
                 raise Exception('Node size is larger than max_node')
             self.adj_matrix[i] = np.pad(self.adj_matrix[i], (0, max_node - node_size), 'constant', constant_values=0)
+            node_inp = np.zeros((max_node,))
+            node_inp[:self.properties[i]['n']] = 1
+        
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
 
         self.max_len = max_len
         self.max_node = max_node
+        self.ds_mode = ds_mode
 
     @staticmethod
     def _get_property_list(property):
@@ -42,16 +51,15 @@ class SyntheticGraphDataset(data.Dataset):
     def _get_property_names(property):
         return property.keys()
 
-    @staticmethod
-    def _get_property_str_fn():
+    def _get_property_str_fn(self):
         return [
-            lambda x: f'{x} nodes',
-            lambda x: f'{x} edges',
-            lambda x: f'min degree {x}',
-            lambda x: f'max degree {x}',
-            lambda x: f'max diameter {x}',
-            lambda x: f'{x} connected component',
-            lambda x: 'with cycle' if x else 'without cycle'
+            lambda x: f'{x} nodes' if self.ds_mode == 0 else f'{p.number_to_words(x)} nodes' if self.ds_mode == 1 else f'{x}',
+            lambda x: f'{x} edges' if self.ds_mode == 0 else f'{p.number_to_words(x)} edges' if self.ds_mode == 1 else f'{x}',
+            lambda x: f'min degree {x}' if self.ds_mode == 0 else f'min degree {p.number_to_words(x)}' if self.ds_mode == 1 else f'{x}',
+            lambda x: f'max degree {x}' if self.ds_mode == 0 else f'max degree {p.number_to_words(x)}' if self.ds_mode == 1 else f'{x}',
+            lambda x: f'max diameter {x}' if self.ds_mode == 0 else f'max diameter {p.number_to_words(x)}' if self.ds_mode == 1 else f'{x}',
+            lambda x: f'{x} connected component' if self.ds_mode == 0 else f'{p.number_to_words(x)} connected component' if self.ds_mode == 1 else f'{x}',
+            lambda x: 'one or more cycle' if x else 'no cycle'
         ]
     
     @staticmethod
@@ -80,10 +88,10 @@ class SyntheticGraphDataset(data.Dataset):
     def _gen_text(self, property):
         # property_tuple[i] = None iff the property is not in the text
         property_list = self._get_property_list(property)
-        count = np.random.randint(2, 6)
+        count = np.random.randint(2, 8)
         # must keep node number and edges
         # XXX: preliminary experiment only use node number and edges
-        idx = [0, 1] + list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
+        idx = list(np.random.choice(len(property_list), count, replace=False))
         text = 'Undirected graph with '
         tag = [0] * len(property_list)
         np.random.shuffle(idx)
@@ -124,12 +132,12 @@ class SyntheticGraphDataset(data.Dataset):
         # tokens = [item[1].tokens for item in batch]
         return adj_matrix, node_inp, ids, attention_mask, desc, properties
 
-def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers=1):
+def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers=1, ds_mode=0):
     """Build and return a data loader."""
 
-    train = SyntheticGraphDataset(os.path.join(data_dir, 'train'), max_node, max_len, model_name)
-    val = SyntheticGraphDataset(os.path.join(data_dir, 'dev'), max_node, max_len, model_name)
-    test = SyntheticGraphDataset(os.path.join(data_dir, 'test'), max_node, max_len, model_name)
+    train = SyntheticGraphDataset(os.path.join(data_dir, 'train'), max_node, max_len, model_name, ds_mode)
+    val = SyntheticGraphDataset(os.path.join(data_dir, 'dev'), max_node, max_len, model_name, ds_mode)
+    test = SyntheticGraphDataset(os.path.join(data_dir, 'test'), max_node, max_len, model_name, ds_mode)
     
     train_loader = data.DataLoader(dataset=train,
                                    batch_size=batch_size,
@@ -156,13 +164,15 @@ if __name__ == '__main__':
     # print('len', len(ds))
     # dl = data.DataLoader(dataset=ds, batch_size=128, shuffle=True, num_workers=1
                         #  , collate_fn=SimpleSyntheticGraphDataset.collate_fn)
-    t, tt, v = get_loaders('./data', 50, 128, 'bert-base-uncased', 128)
-    print('len', len(v)) 
-    vi = iter(v)
-    batch = next(vi)
-    print(batch[3][:3], batch[4][:3])
-    new_batch = next(vi)
-    print(new_batch[3][:3], new_batch[4][:3])
+    train = SyntheticGraphDataset(os.path.join('data/graphgen', 'train'), 50, 128, 'bert-base-uncased', 0)
+    
+    # t, tt, v = get_loaders('./data', 50, 128, 'bert-base-uncased', 128)
+    # print('len', len(v)) 
+    # vi = iter(v)
+    # batch = next(vi)
+    # print(batch[3][:3], batch[4][:3])
+    # new_batch = next(vi)
+    # print(new_batch[3][:3], new_batch[4][:3])
     # print('adj_matrix', batch[0].shape)
     # print('ids', batch[1].shape)
     # print('attention_mask', batch[2].shape)

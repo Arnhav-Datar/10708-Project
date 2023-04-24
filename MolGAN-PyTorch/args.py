@@ -18,7 +18,7 @@ def get_GAN_config():
     parser.add_argument('--gen_dims', default=[[128, 256, 768], [512, 512]], help='hidden dimensions of MLP layer in G before and after attention')
     parser.add_argument('--disc_dims', default=[[128, 128], [512, 768], [512, 256, 128]], help='hidden dimensions of MLP layer in D before and after attention')
     parser.add_argument('--lambda_gp', type=float, default=5, help='weight for gradient penalty')
-    parser.add_argument('--lambda_rew', type=float, default=0.5, help='weight for reward loss')
+    parser.add_argument('--lambda_rew', type=float, default=0, help='weight for reward loss')
     parser.add_argument('--lambda_wgan', type=float, default=1, help='whether or not to use wgan loss')
     parser.add_argument('--post_method', type=str, default='hard_gumbel', choices=['sigmoid', 'soft_gumbel', 'hard_gumbel'])
 
@@ -55,10 +55,11 @@ def get_GAN_config():
     config.restore_D = None #'/home/abisheks/10708-Project/MolGAN-PyTorch/results/2023-04-10_14-55/models/40-D.ckpt'
     config.restore_B_D = None
     config.restore_B_G = None
-    config.model_mode = 2
+    config.model_mode = 1
+    config.ds_mode = 0
 
     # Wandb
-    config.name = 'symm_fcn_final_ds_gumbel_roberta_rew_m2'
+    config.name = 'symm_fcn_final_ds_any_prop_gumbel_roberta_m1_mask'
     
     # Involve bert unfreeze
     config.bert_unfreeze = 0

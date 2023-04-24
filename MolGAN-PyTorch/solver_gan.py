@@ -28,12 +28,14 @@ class Solver(object):
         self.log = log
 
         # Data loader.
+        self.ds_mode = config.ds_mode
         self.train_data, self.val_data, self.test_data = get_loaders(config.data_dir, 
-                                                                     config.N, 
-                                                                     config.max_len, 
-                                                                     config.lm_model, 
-                                                                     config.batch_size,
-                                                                     num_workers=1)
+                                                                    config.N, 
+                                                                    config.max_len, 
+                                                                    config.lm_model, 
+                                                                    config.batch_size,
+                                                                    num_workers=1,
+                                                                    ds_mode=self.ds_mode)
 
         # Model configurations.
         self.N = config.N
@@ -393,6 +395,8 @@ class Solver(object):
             # Postprocess with sigmoid
             adjM_hat = self.postprocess(adjM_logits, self.post_method)
             node_hat = self.postprocess(node_logits, self.post_method)
+            node_mask = node_hat.view(node_hat.size(0), -1, 1) @ node_hat.view(node_hat.size(0), 1, -1)
+            adjm_hat = adjM_hat * node_mask
             if train_val_test != 'train':
                 with torch.no_grad():
                     logits_fake, features_fake = self.D(adjM_hat, node_hat, bert_D_out)
@@ -434,6 +438,8 @@ class Solver(object):
             # Postprocess with sigmoid
             node_hat = self.postprocess(node_logits, self.post_method)
             adjM_hat = self.postprocess(adjM_logits, self.post_method)
+            node_mask = node_hat.view(node_hat.size(0), -1, 1) @ node_hat.view(node_hat.size(0), 1, -1)
+            adjm_hat = adjM_hat * node_mask
             if self.bert_unfreeze:
                 bert_D_out = self.bert_D(ids, attention_mask=mask).last_hidden_state[:,:self.N,:]
             logits_fake, features_fake = self.D(adjM_hat, node_hat, bert_D_out)
@@ -443,7 +449,8 @@ class Solver(object):
             # nodes_pred shape: [abtch_size,]
             # assume undirected graph adj_mat is symmetric
             # `adj_mat` has shape [batch_size, self.N, self.N]
-            node_true = torch.tensor([p[0]/self.N for p in props], dtype=torch.float).to(self.device)
+            node_true = node_inp.sum(dim=1)/self.N
+            #torch.tensor([/self.N for p in props], dtype=torch.float).to(self.device)
             node_loss = F.mse_loss(node_pred, node_true)
             
             edge_loss = (adj_mat.sum(dim=(1,2)) - adjM_hat.sum(dim=(1,2))) / (self.N * (self.N - 1))
@@ -547,7 +554,7 @@ class Solver(object):
                         is_first = True
                         for tag, value in scores.items():
                             if tag in mask_props:
-                                res = np.sum(value) / np.sum(mask_props[tag])
+                                res = np.sum(value) / np.clip(np.sum(mask_props[tag]), 1)
                             else:
                                 res = np.mean(value)
                             if is_first:
