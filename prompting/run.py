@@ -118,7 +118,8 @@ def main(opt, skip=0):
         data_dir=os.path.join(opt.data_dir, 'test'),
         max_node=50, 
         max_len=0, # we don't need text here
-        model_name='bert-base-uncased' # dummy
+        model_name='bert-base-uncased', # dummy
+        base_seed=0
     )
 
     n_jobs = len(eval(os.getenv('OPENAI_API_KEYS')))
