@@ -133,7 +133,4 @@ if __name__ == '__main__':
     parser.add_argument('--skip', type=int, default=0)
     opt = parser.parse_args()
 
-    np.random.seed(0)
-    random.seed(0)
-
     main(opt, skip=opt.skip)
