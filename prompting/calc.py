@@ -6,19 +6,38 @@ from collections import defaultdict
 def analyze(score, properties, pred, error, idxs):
     keys = ['node', 'edge', 'min deg', 'max deg', 'max diameter', 'cc num', 'cycle']
     score_, matches = [], defaultdict(lambda: [])
+    ne_clossness = []
+    closeness = []
     for idx in idxs:
         if idx in error:
             score_.append(0)
             for i, key in enumerate(keys):
                 if properties[idx][i] is not None:
                     matches[key].append(0)
+            ne_clossness.append(0)
+            closeness.append(0)
         else:
             score_.append(score[idx])
+            ne_close = 0
+            ne_close_denom = 0
+            close = 0
+            close_denom = 0
             for i, key in enumerate(keys):
                 if properties[idx][i] is not None:
                     matches[key].append(1 if properties[idx][i] == pred[idx][i] else 0)
+                    if key in ['node', 'edge']:
+                        ne_close += np.exp(-(properties[idx][i] - pred[idx][i])**2)
+                        ne_close_denom += 1
+                    if key not in ['cycle']:
+                        close += np.exp(-(properties[idx][i] - pred[idx][i])**2)
+                        close_denom += 1
+            ne_clossness.append(ne_close / ne_close_denom)
+            closeness.append(close / close_denom)
+
 
     print(f'mean score of {len(score_)} graphs = {np.mean(score_)}')
+    print(f'mean ne_closeness of {len(score_)} graphs = {np.mean(ne_clossness)}')
+    print(f'mean closeness of {len(score_)} graphs = {np.mean(closeness)}')
     for key in keys:
         if len(matches[key]) > 0:
             print(f'{key} match = {np.mean(matches[key])}')
