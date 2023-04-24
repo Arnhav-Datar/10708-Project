@@ -12,23 +12,14 @@ import recognize
 
 class SyntheticGraphDataset(data.Dataset):
     """Dataset Class for synthetic graph dataset."""
-    
-    # def filter(self):
-    #     idx = [i for i in range(len(self.adj_matrix)) if self.properties[i]['n'] == np.count_nonzero(np.sum(self.adj_matrix[i], axis=0))]
-    #     self.adj_matrix = [self.adj_matrix[i] for i in idx]
-    #     self.properties = [self.properties[i] for i in idx]
 
-    def __init__(self, data_dir, max_node, max_len, model_name='bert-base-uncased'):
+    def __init__(self, data_dir, max_node, max_len, model_name='bert-base-uncased', base_seed=None):
         self.data_dir = data_dir
         with open(os.path.join(data_dir, 'graphs.pkl'), 'rb') as f:
             self.adj_matrix = pickle.load(f)
         with open(os.path.join(data_dir, 'properties.pkl'), 'rb') as f:
             self.properties = pickle.load(f)
-        # with open(os.path.join(data_dir, 'descs.pkl'), 'rb') as f:
-        #     self.descs = pickle.load(f)
-        # self.filter()
         assert len(self.adj_matrix) == len(self.properties)
-        # assert len(self.adj_matrix) == len(self.descs)
 
         for i in range(len(self.adj_matrix)):
             node_size = self.adj_matrix[i].shape[0]
@@ -39,6 +30,7 @@ class SyntheticGraphDataset(data.Dataset):
 
         self.max_len = max_len
         self.max_node = max_node
+        self.base_seed = base_seed
 
     @staticmethod
     def _get_property_list(property):
@@ -83,16 +75,21 @@ class SyntheticGraphDataset(data.Dataset):
                 succ.append(None)
         return succ
 
-    def _gen_text(self, property):
+    def _gen_text(self, property, rng=None):
         # property_tuple[i] = None iff the property is not in the text
         property_list = self._get_property_list(property)
-        count = np.random.randint(2, 6)
         # must keep node number and edges
-        # XXX: preliminary experiment only use node number and edges
-        idx = [0, 1] + list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
+        if rng is None:
+            count = np.random.randint(2, 6) # [l, r)
+            idx = [0, 1] + list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
+            np.random.shuffle(idx)
+        else:
+            count = rng.random_integers(2, 5) # [l, r]
+            idx = [0, 1] + list(rng.choice(len(property_list) - 2, count, replace=False) + 2)
+            rng.shuffle(idx)
+
         text = 'Undirected graph with '
         tag = [0] * len(property_list)
-        np.random.shuffle(idx)
         for i in idx:
             tag[i] = 1
             text += self._get_property_str_fn()[i](property_list[i]) + ', '
@@ -109,7 +106,11 @@ class SyntheticGraphDataset(data.Dataset):
 
     def __getitem__(self, index):
         adj_matrix = self.adj_matrix[index]
-        text_desc, properties = self._gen_text(self.properties[index])
+        if self.base_seed is not None:
+            rng = np.random.RandomState(self.base_seed + index)
+        else:
+            rng = None
+        text_desc, properties = self._gen_text(self.properties[index], rng)
         encoded_text = self._encode_text(text_desc)
         node_inp = np.zeros((self.max_node,))
         node_inp[:properties[0]] = 1
@@ -127,35 +128,11 @@ class SyntheticGraphDataset(data.Dataset):
         attention_mask = torch.from_numpy(np.stack([item[2].attention_mask for item in batch]))
         desc = [item[3] for item in batch]
         properties = [item[4] for item in batch]
-        # tokens = [item[1].tokens for item in batch]
         return adj_matrix, node_inp, ids, attention_mask, desc, properties
 
 def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers=1):
     """Build and return a data loader."""
 
-    # train = SyntheticGraphDataset(os.path.join(data_dir, 'train'), max_node, max_len, model_name)
-    # print('train size: ', len(train))
-    # val = SyntheticGraphDataset(os.path.join(data_dir, 'dev'), max_node, max_len, model_name)
-    # print('val size: ', len(val))
-    # test = SyntheticGraphDataset(os.path.join(data_dir, 'test'), max_node, max_len, model_name)
-    # print('test size: ', len(test))
-    
-    # train_loader = data.DataLoader(dataset=train,
-    #                                batch_size=batch_size,
-    #                                shuffle=True,
-    #                                num_workers=num_workers,
-    #                                collate_fn=SyntheticGraphDataset.collate_fn)
-    # val_loader = data.DataLoader(dataset=val,
-    #                              batch_size=batch_size*2,
-    #                              shuffle=False,
-    #                              num_workers=num_workers,
-    #                              collate_fn=SyntheticGraphDataset.collate_fn)
-    # test_loader = data.DataLoader(dataset=test,
-    #                               batch_size=batch_size*2,
-    #                               shuffle=False,
-    #                               num_workers=num_workers,
-    #                               collate_fn=SyntheticGraphDataset.collate_fn)
-    # return train_loader, val_loader, test_loader
     dataset = SyntheticGraphDataset(data_dir, max_node, max_len, model_name)
     train, val, test = torch.utils.data.random_split(dataset, [0.65, 0.15, 0.2])
     train_loader = data.DataLoader(dataset=train,
@@ -176,22 +153,15 @@ def get_loaders(data_dir, max_node, max_len, model_name, batch_size, num_workers
     return train_loader, val_loader, test_loader
 
 if __name__ == '__main__':
-    # ds = SyntheticGraphDataset('./data', 50, 128)
-    # print('-'*10, 'test dataset', '-'*10)
-    # print(ds[0])
-    # print('-'*10, 'test dataloader', '-'*10)
-    # print('len', len(ds))
-    # dl = data.DataLoader(dataset=ds, batch_size=128, shuffle=True, num_workers=1
-                        #  , collate_fn=SimpleSyntheticGraphDataset.collate_fn)
-    t, tt, v = get_loaders('./data/graphgen', 50, 128, 'bert-base-uncased', 128)
-    # print('len', len(v)) 
-    # vi = iter(v)
-    # batch = next(vi)
-    # print(batch[3][:3], batch[4][:3])
-    # new_batch = next(vi)
-    # print(new_batch[3][:3], new_batch[4][:3])
-    # print('adj_matrix', batch[0].shape)
-    # print('ids', batch[1].shape)
-    # print('attention_mask', batch[2].shape)
-    # print('tokens', batch[3])
-    # print('properties', batch[4])
+    # t, tt, v = get_loaders('./data/graphgen', 50, 128, 'bert-base-uncased', 128)
+    dataset = SyntheticGraphDataset('./data/graphgen/test', 50, 128, 'bert-base-uncased', base_seed=0)
+    print(dataset[0][3])
+    print(dataset[1][3])
+    print(dataset[0][3])
+    print(dataset[1][3])
+    print('-'*20)
+    dataset = SyntheticGraphDataset('./data/graphgen/test', 50, 128, 'bert-base-uncased', base_seed=None)
+    print(dataset[0][3])
+    print(dataset[1][3])
+    print(dataset[0][3])
+    print(dataset[1][3])
