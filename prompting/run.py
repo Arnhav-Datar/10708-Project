@@ -69,6 +69,7 @@ def run(api_idx, idx, data, lock):
     msg = ""
     msg += f'idx = {idx}\n'
     msg += f'text_desc = {text_desc}\n'
+    msg += f'properties = {properties}\n'
 
     try:
         graph_str = chatgpt(
@@ -98,7 +99,6 @@ def run(api_idx, idx, data, lock):
 
         correct = [pred[i] == properties[i] for i in range(len(pred)) if properties[i] is not None]
 
-        msg += f'properties = {properties}\n'
         msg += f'correct = {correct}\n'
         msg += f'score = {np.mean(correct)}\n'
         msg += '====================================='

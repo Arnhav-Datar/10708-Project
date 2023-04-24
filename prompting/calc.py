@@ -1,21 +1,27 @@
 import argparse
 import numpy as np
 
+from collections import defaultdict
+
 def analyze(score, properties, pred, error, idxs):
-    score_, node_match, edge_match = [], [], []
+    keys = ['node', 'edge', 'min deg', 'max deg', 'max diameter', 'cc num', 'cycle']
+    score_, matches = [], defaultdict(lambda: [])
     for idx in idxs:
         if idx in error:
             score_.append(0)
-            node_match.append(0)
-            edge_match.append(0)
+            for i, key in enumerate(keys):
+                if properties[idx][i] is not None:
+                    matches[key].append(0)
         else:
             score_.append(score[idx])
-            node_match.append(1 if properties[idx][0] == pred[idx][0] else 0)
-            edge_match.append(1 if properties[idx][1] == pred[idx][1] else 0)
+            for i, key in enumerate(keys):
+                if properties[idx][i] is not None:
+                    matches[key].append(1 if properties[idx][i] == pred[idx][i] else 0)
 
     print(f'mean score of {len(score_)} graphs = {np.mean(score_)}')
-    print(f'node match = {np.mean(node_match)}')
-    print(f'edge match = {np.mean(edge_match)}')
+    for key in keys:
+        if len(matches[key]) > 0:
+            print(f'{key} match = {np.mean(matches[key])}')
     print()
 
 def main(opt):
