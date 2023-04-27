@@ -1,0 +1,2807 @@
+INFO:root:Namespace(lm_model='roberta-base', N=50, max_len=128, z_dim=8, mha_dim=768, n_heads=8, gen_dims=[[128, 256, 768], [512, 512]], disc_dims=[[128, 128], [512, 768], [512, 256, 128]], lambda_gp=5, lambda_rew=0.5, lambda_wgan=1, post_method='hard_gumbel', batch_size=128, num_epochs=100, g_lr=0.0002, d_lr=0.0002, b_lr=1e-05, dropout=0, n_critic=4, test_epochs=100, num_workers=1, mode='train', bert_unfreeze=0, data_dir='data/graphgen', saving_dir='results/2023-04-23_10-57', model_save_step=20, lr_update_step=1000, restore_G=None, restore_D=None, restore_B_D=None, restore_B_G=None, model_mode=1, ds_mode=1, name='symm_fcn_final_simple_text_ds_gumbel_roberta_rew_m1_mask', log_dir='results/2023-04-23_10-57/logs', model_dir='results/2023-04-23_10-57/models')
+INFO:root:Generator(
+  (activation_f): ReLU()
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=8, out_features=128, bias=True)
+      (1): Dropout(p=0, inplace=False)
+      (2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=256, bias=True)
+      (5): Dropout(p=0, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=768, bias=True)
+      (9): Dropout(p=0, inplace=False)
+      (10): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer_2): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=1536, out_features=512, bias=True)
+      (1): Dropout(p=0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=512, bias=True)
+      (5): Dropout(p=0, inplace=False)
+      (6): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (adjM_layer): Sequential(
+    (0): Linear(in_features=512, out_features=128, bias=True)
+    (1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+    (2): ReLU()
+    (3): Linear(in_features=128, out_features=2500, bias=True)
+  )
+  (node_layer): Sequential(
+    (0): Linear(in_features=512, out_features=64, bias=True)
+    (1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+    (2): ReLU()
+    (3): Linear(in_features=64, out_features=50, bias=True)
+  )
+)
+INFO:root:G
+INFO:root:The number of parameters: 4072502
+INFO:root:Discriminator(
+  (activation_f): ReLU()
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=50, out_features=128, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=128, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (node_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=50, out_features=64, bias=True)
+      (1): Dropout(p=0.2, inplace=False)
+      (2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=64, out_features=128, bias=True)
+      (5): Dropout(p=0.2, inplace=False)
+      (6): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (multi_dense_layer_2): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=6528, out_features=512, bias=True)
+      (1): Dropout(p=0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=768, bias=True)
+      (5): Dropout(p=0, inplace=False)
+      (6): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer_3): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=1536, out_features=512, bias=True)
+      (1): Dropout(p=0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=256, bias=True)
+      (5): Dropout(p=0, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=128, bias=True)
+      (9): Dropout(p=0, inplace=False)
+      (10): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (output_layer): Linear(in_features=128, out_features=1, bias=True)
+)
+INFO:root:D
+INFO:root:The number of parameters: 7090369
+INFO:root:RobertaModel(
+  (embeddings): RobertaEmbeddings(
+    (word_embeddings): Embedding(50265, 768, padding_idx=1)
+    (position_embeddings): Embedding(514, 768, padding_idx=1)
+    (token_type_embeddings): Embedding(1, 768)
+    (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (encoder): RobertaEncoder(
+    (layer): ModuleList(
+      (0-11): 12 x RobertaLayer(
+        (attention): RobertaAttention(
+          (self): RobertaSelfAttention(
+            (query): Linear(in_features=768, out_features=768, bias=True)
+            (key): Linear(in_features=768, out_features=768, bias=True)
+            (value): Linear(in_features=768, out_features=768, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (output): RobertaSelfOutput(
+            (dense): Linear(in_features=768, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (intermediate): RobertaIntermediate(
+          (dense): Linear(in_features=768, out_features=3072, bias=True)
+          (intermediate_act_fn): GELUActivation()
+        )
+        (output): RobertaOutput(
+          (dense): Linear(in_features=3072, out_features=768, bias=True)
+          (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+  )
+  (pooler): RobertaPooler(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (activation): Tanh()
+  )
+)
+INFO:root:roberta-base_G
+INFO:root:The number of parameters: 124645632
+INFO:root:RobertaModel(
+  (embeddings): RobertaEmbeddings(
+    (word_embeddings): Embedding(50265, 768, padding_idx=1)
+    (position_embeddings): Embedding(514, 768, padding_idx=1)
+    (token_type_embeddings): Embedding(1, 768)
+    (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (encoder): RobertaEncoder(
+    (layer): ModuleList(
+      (0-11): 12 x RobertaLayer(
+        (attention): RobertaAttention(
+          (self): RobertaSelfAttention(
+            (query): Linear(in_features=768, out_features=768, bias=True)
+            (key): Linear(in_features=768, out_features=768, bias=True)
+            (value): Linear(in_features=768, out_features=768, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (output): RobertaSelfOutput(
+            (dense): Linear(in_features=768, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (intermediate): RobertaIntermediate(
+          (dense): Linear(in_features=768, out_features=3072, bias=True)
+          (intermediate_act_fn): GELUActivation()
+        )
+        (output): RobertaOutput(
+          (dense): Linear(in_features=3072, out_features=768, bias=True)
+          (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+  )
+  (pooler): RobertaPooler(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (activation): Tanh()
+  )
+)
+INFO:root:roberta-base_D
+INFO:root:The number of parameters: 124645632
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [22, 606, 17, 32, 2, -27, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [21, 606, 15, 32, 2, -28, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [22, 629, 16, 31, 2, -27, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [28, 598, 15, 31, 2, -21, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [28, 625, 16, 33, 2, -21, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_10-57/models...
+INFO:root:Elapsed [0:00:35], Iteration [0/100]:
+l_D/R: -0.21, l_D/F: -0.16, l_D: 6.06, l_G: 0.17, l_R: 0.32, l_R/N: 0.09, l_R/M: 0.23
+property_match: 0.01, closeness: 0.02, n_match: 0.02, m_match: 0.00, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [35, 226, 2, 20, 4, -14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [34, 214, 1, 22, 4, -15, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [28, 209, 1, 23, 5, -21, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [35, 192, 2, 22, 4, -14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [23, 240, 3, 23, 3, -26, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:06:27], Iteration [1/100]:
+l_D/R: 9.88, l_D/F: -12.18, l_D: -18.34, l_G: 12.19, l_R: 0.12, l_R/N: 0.09, l_R/M: 0.02
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [22, 55, 0, 7, 7, -16, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [18, 66, 0, 9, 7, -25, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [30, 69, 0, 9, 7, -13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [23, 59, 0, 12, 7, -14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [25, 46, 0, 6, 9, -10, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:12:52], Iteration [2/100]:
+l_D/R: 4.87, l_D/F: -7.52, l_D: -7.62, l_G: 7.51, l_R: 0.07, l_R/N: 0.07, l_R/M: 0.00
+property_match: 0.01, closeness: 0.02, n_match: 0.02, m_match: 0.01, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [22, 26, 0, 6, 7, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [15, 29, 0, 8, 6, -6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [29, 54, 0, 6, 10, -11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [20, 20, 0, 5, 6, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [14, 34, 0, 6, 6, -9, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:19:18], Iteration [3/100]:
+l_D/R: 4.59, l_D/F: -0.78, l_D: -4.95, l_G: 0.77, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [15, 22, 0, 6, 5, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [12, 17, 0, 8, 5, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [37, 57, 0, 12, 6, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [11, 12, 0, 4, 4, -1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [12, 17, 0, 5, 7, -2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:25:52], Iteration [4/100]:
+l_D/R: 2.46, l_D/F: -3.99, l_D: -4.88, l_G: 4.00, l_R: 0.01, l_R/N: 0.01, l_R/M: 0.00
+property_match: 0.05, closeness: 0.09, n_match: 0.07, m_match: 0.04, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [10, 9, 0, 3, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [11, 20, 0, 6, 6, -6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [39, 59, 0, 14, 7, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [12, 10, 0, 4, 3, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [14, 30, 0, 8, 5, -4, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:32:21], Iteration [5/100]:
+l_D/R: 2.14, l_D/F: -4.28, l_D: -4.72, l_G: 4.27, l_R: 0.01, l_R/N: 0.01, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 20, 0, 8, 4, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 26, 0, 7, 4, -8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [37, 52, 0, 15, 6, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [9, 13, 0, 5, 6, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 24, 0, 6, 6, -4, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:39:00], Iteration [6/100]:
+l_D/R: 1.28, l_D/F: -3.41, l_D: -3.77, l_G: 3.43, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.09, closeness: 0.15, n_match: 0.13, m_match: 0.05, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 11, 0, 4, 5, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [10, 15, 0, 4, 6, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [40, 61, 0, 15, 5, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [8, 8, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 47, 0, 10, 8, -15, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:45:35], Iteration [7/100]:
+l_D/R: 1.20, l_D/F: -3.96, l_D: -3.72, l_G: 3.92, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [8, 10, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 19, 0, 6, 4, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [39, 66, 0, 16, 5, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [8, 8, 0, 3, 2, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 31, 0, 8, 6, -11, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:52:16], Iteration [8/100]:
+l_D/R: 1.11, l_D/F: -4.16, l_D: -3.23, l_G: 4.20, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.13, closeness: 0.21, n_match: 0.21, m_match: 0.05, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [10, 12, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 16, 0, 6, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [38, 46, 0, 16, 6, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [7, 4, 0, 3, 3, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [10, 29, 0, 8, 7, -9, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:58:46], Iteration [9/100]:
+l_D/R: 1.23, l_D/F: -2.94, l_D: -3.28, l_G: 2.93, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [11, 8, 0, 3, 5, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 15, 0, 5, 5, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [37, 57, 0, 13, 5, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [6, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 32, 0, 8, 4, -7, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:05:25], Iteration [10/100]:
+l_D/R: 1.31, l_D/F: -3.41, l_D: -3.20, l_G: 3.42, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.16, closeness: 0.26, n_match: 0.26, m_match: 0.06, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [8, 9, 0, 5, 4, -1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 14, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [38, 63, 0, 13, 6, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [6, 5, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 25, 0, 9, 3, -4, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:11:57], Iteration [11/100]:
+l_D/R: 1.59, l_D/F: -1.57, l_D: -2.48, l_G: 1.57, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 4, 0, 2, 2, 5, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 13, 0, 4, 5, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [43, 58, 0, 14, 5, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [6, 6, 0, 4, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [10, 22, 0, 7, 4, -1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:18:35], Iteration [12/100]:
+l_D/R: 0.98, l_D/F: -3.07, l_D: -3.08, l_G: 3.07, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.19, closeness: 0.29, n_match: 0.30, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 10, 0, 3, 6, -2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 18, 0, 7, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [41, 52, 0, 12, 6, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [6, 3, 0, 2, 2, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [8, 25, 0, 8, 4, -4, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:25:16], Iteration [13/100]:
+l_D/R: 1.23, l_D/F: -2.58, l_D: -3.27, l_G: 2.58, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [10, 11, 0, 5, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 19, 0, 5, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [32, 38, 0, 7, 8, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [7, 6, 0, 4, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 27, 0, 11, 2, -2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:32:05], Iteration [14/100]:
+l_D/R: 2.56, l_D/F: -2.00, l_D: -3.54, l_G: 2.01, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.34, m_match: 0.06, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [8, 11, 0, 4, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 15, 0, 5, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [40, 60, 0, 14, 8, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 4, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [10, 22, 0, 7, 3, -3, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:38:49], Iteration [15/100]:
+l_D/R: 2.33, l_D/F: -2.42, l_D: -3.36, l_G: 2.42, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 6, 0, 3, 5, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 15, 0, 6, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 52, 0, 15, 5, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 5, 0, 2, 3, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 16, 0, 5, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:45:41], Iteration [16/100]:
+l_D/R: 2.58, l_D/F: -1.04, l_D: -3.09, l_G: 1.04, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.23, closeness: 0.33, n_match: 0.38, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [8, 12, 0, 4, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 13, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 40, 0, 16, 5, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 6, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [10, 26, 0, 7, 3, -2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:52:27], Iteration [17/100]:
+l_D/R: 2.38, l_D/F: -2.45, l_D: -2.91, l_G: 2.45, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 9, 0, 3, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 18, 0, 7, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [41, 56, 0, 17, 6, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 6, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [8, 27, 0, 7, 3, -2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:59:19], Iteration [18/100]:
+l_D/R: 3.19, l_D/F: -2.10, l_D: -2.97, l_G: 2.12, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.26, closeness: 0.36, n_match: 0.43, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 8, 0, 3, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 12, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 51, 0, 14, 6, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [6, 5, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 19, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:06:04], Iteration [19/100]:
+l_D/R: 2.22, l_D/F: -1.76, l_D: -3.31, l_G: 1.78, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 9, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 16, 0, 5, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [41, 58, 0, 18, 6, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 7, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [8, 27, 0, 8, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_10-57/models...
+INFO:root:Elapsed [2:12:58], Iteration [20/100]:
+l_D/R: 2.38, l_D/F: -1.64, l_D: -3.48, l_G: 1.63, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.27, closeness: 0.37, n_match: 0.46, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with ten edges, five nodes.
+Results: [5, 6, 0, 3, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with three edges, five nodes.
+Results: [6, 1, 0, 1, 2, 5, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-six edges, twenty-two nodes.
+Results: [23, 47, 0, 8, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with sixteen nodes, fifty-two edges.
+Results: [17, 56, 0, 12, 4, -5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-three nodes, seventy-seven edges.
+Results: [23, 101, 0, 14, 4, -6, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_10-57/models...
+INFO:root:Elapsed [2:13:01], Iteration [20/100]:
+l_D/R: 2.41, l_D/F: -1.60, l_D: -3.48, l_G: 1.57, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.27, closeness: 0.37, n_match: 0.49, m_match: 0.06, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 11, 0, 5, 5, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 14, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [41, 53, 0, 13, 7, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 5, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 19, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:19:45], Iteration [21/100]:
+l_D/R: 3.11, l_D/F: -1.85, l_D: -3.09, l_G: 1.86, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 8, 0, 3, 6, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 18, 0, 6, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [43, 60, 0, 15, 5, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 5, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 16, 0, 6, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:26:38], Iteration [22/100]:
+l_D/R: 3.11, l_D/F: -2.42, l_D: -3.40, l_G: 2.41, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.26, closeness: 0.36, n_match: 0.44, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 5, 0, 3, 2, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 17, 0, 6, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 52, 0, 20, 7, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 4, 0, 3, 3, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 26, 0, 7, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:33:22], Iteration [23/100]:
+l_D/R: 2.10, l_D/F: -2.05, l_D: -3.50, l_G: 2.04, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [10, 11, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 9, 0, 3, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 54, 0, 17, 6, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 4, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 24, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:40:12], Iteration [24/100]:
+l_D/R: 1.36, l_D/F: -2.72, l_D: -3.39, l_G: 2.71, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.26, closeness: 0.36, n_match: 0.45, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 5, 0, 2, 3, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 12, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [43, 39, 0, 13, 4, 15, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 6, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 27, 0, 8, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:46:55], Iteration [25/100]:
+l_D/R: 3.37, l_D/F: -1.15, l_D: -3.37, l_G: 1.16, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 9, 0, 3, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 18, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [41, 53, 0, 13, 5, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 9, 0, 4, 2, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 25, 0, 8, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:53:41], Iteration [26/100]:
+l_D/R: 1.93, l_D/F: -2.09, l_D: -3.44, l_G: 2.06, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.29, closeness: 0.39, n_match: 0.49, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 10, 0, 3, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 8, 0, 3, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [43, 69, 0, 22, 5, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 9, 0, 4, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 28, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:00:20], Iteration [27/100]:
+l_D/R: 2.63, l_D/F: -1.35, l_D: -3.29, l_G: 1.35, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [11, 9, 0, 4, 6, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 16, 0, 7, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 49, 0, 14, 5, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [6, 7, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 22, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:06:59], Iteration [28/100]:
+l_D/R: 2.62, l_D/F: -1.97, l_D: -3.62, l_G: 1.98, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.27, closeness: 0.37, n_match: 0.47, m_match: 0.07, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 11, 0, 4, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 11, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 58, 0, 16, 5, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [6, 6, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 26, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:13:32], Iteration [29/100]:
+l_D/R: 3.15, l_D/F: 0.37, l_D: -2.45, l_G: -0.37, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [10, 9, 0, 3, 6, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 16, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 58, 0, 18, 5, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 4, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 20, 0, 6, 3, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:20:11], Iteration [30/100]:
+l_D/R: 3.46, l_D/F: -0.48, l_D: -3.21, l_G: 0.48, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.28, closeness: 0.39, n_match: 0.48, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 12, 0, 5, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 12, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [43, 58, 0, 15, 5, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [6, 6, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 23, 0, 8, 3, -1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:26:39], Iteration [31/100]:
+l_D/R: 3.70, l_D/F: -0.60, l_D: -3.52, l_G: 0.60, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [8, 14, 0, 4, 5, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 18, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 54, 0, 15, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 19, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:33:20], Iteration [32/100]:
+l_D/R: 2.75, l_D/F: -1.69, l_D: -3.77, l_G: 1.68, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.53, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [10, 11, 0, 4, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 13, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 54, 0, 17, 5, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 6, 0, 3, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [8, 22, 0, 7, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:39:59], Iteration [33/100]:
+l_D/R: 3.95, l_D/F: -1.78, l_D: -3.13, l_G: 1.75, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 10, 0, 3, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 16, 0, 7, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [43, 42, 0, 15, 4, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [6, 4, 0, 3, 3, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 29, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:46:50], Iteration [34/100]:
+l_D/R: 3.07, l_D/F: -1.23, l_D: -3.67, l_G: 1.25, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.30, closeness: 0.41, n_match: 0.52, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 6, 0, 2, 6, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 13, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 44, 0, 14, 5, 16, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [6, 6, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 27, 0, 8, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:53:35], Iteration [35/100]:
+l_D/R: 4.48, l_D/F: -2.31, l_D: -3.04, l_G: 2.29, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 8, 0, 4, 5, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 13, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 60, 0, 20, 4, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [6, 8, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 20, 0, 6, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:00:26], Iteration [36/100]:
+l_D/R: 3.82, l_D/F: 0.15, l_D: -3.13, l_G: -0.16, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.29, closeness: 0.39, n_match: 0.50, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 10, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 12, 0, 5, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 56, 0, 17, 5, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 6, 0, 3, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 22, 0, 7, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:07:09], Iteration [37/100]:
+l_D/R: 3.99, l_D/F: -1.87, l_D: -4.04, l_G: 1.86, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 7, 0, 3, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 10, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [41, 47, 0, 13, 5, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 2, 0, 1, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 21, 0, 6, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:13:57], Iteration [38/100]:
+l_D/R: 2.75, l_D/F: -1.28, l_D: -3.19, l_G: 1.27, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.52, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 14, 0, 5, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 11, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [43, 49, 0, 13, 5, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 8, 0, 4, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 20, 0, 6, 3, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:20:41], Iteration [39/100]:
+l_D/R: 3.09, l_D/F: -0.68, l_D: -3.33, l_G: 0.69, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [12, 13, 0, 4, 4, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 13, 0, 5, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [40, 52, 0, 15, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 8, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 22, 0, 7, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_10-57/models...
+INFO:root:Elapsed [4:27:33], Iteration [40/100]:
+l_D/R: 4.42, l_D/F: -2.39, l_D: -3.72, l_G: 2.44, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.30, closeness: 0.40, n_match: 0.51, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with ten edges, five nodes.
+Results: [5, 9, 0, 5, 2, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, three edges.
+Results: [6, 5, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-two nodes, forty-six edges.
+Results: [22, 66, 0, 9, 4, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with sixteen nodes, fifty-two edges.
+Results: [16, 61, 0, 11, 4, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with seventy-seven edges, twenty-three nodes.
+Results: [23, 64, 0, 9, 5, -1, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_10-57/models...
+INFO:root:Elapsed [4:27:36], Iteration [40/100]:
+l_D/R: 4.44, l_D/F: -2.39, l_D: -3.79, l_G: 2.46, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.52, m_match: 0.10, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [10, 13, 0, 5, 5, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 14, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [39, 50, 0, 14, 5, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 5, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [10, 27, 0, 8, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:34:17], Iteration [41/100]:
+l_D/R: 4.49, l_D/F: -1.92, l_D: -4.00, l_G: 1.88, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 7, 0, 4, 5, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 13, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [41, 59, 0, 17, 5, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 5, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 23, 0, 7, 4, -1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:41:04], Iteration [42/100]:
+l_D/R: 4.31, l_D/F: -2.16, l_D: -4.36, l_G: 2.14, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.28, closeness: 0.39, n_match: 0.49, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [8, 10, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 18, 0, 6, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [44, 57, 0, 17, 6, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 6, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 26, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:47:43], Iteration [43/100]:
+l_D/R: 3.97, l_D/F: -0.45, l_D: -3.72, l_G: 0.43, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 8, 0, 2, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [10, 11, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 41, 0, 13, 4, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 5, 0, 3, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 23, 0, 6, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:54:27], Iteration [44/100]:
+l_D/R: 3.04, l_D/F: -1.55, l_D: -3.69, l_G: 1.53, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.43, n_match: 0.55, m_match: 0.10, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 6, 0, 3, 4, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 14, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [43, 48, 0, 14, 7, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [6, 7, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 25, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:01:06], Iteration [45/100]:
+l_D/R: 4.41, l_D/F: -1.12, l_D: -4.19, l_G: 1.11, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 8, 0, 3, 5, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 17, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [41, 44, 0, 13, 6, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 9, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 22, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:07:46], Iteration [46/100]:
+l_D/R: 2.86, l_D/F: -1.19, l_D: -3.45, l_G: 1.19, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.43, n_match: 0.55, m_match: 0.10, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 5, 0, 3, 4, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 13, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [44, 40, 0, 15, 5, 18, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 4, 0, 3, 3, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 21, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:14:18], Iteration [47/100]:
+l_D/R: 3.96, l_D/F: -0.72, l_D: -3.85, l_G: 0.71, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [10, 9, 0, 4, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 10, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [41, 43, 0, 16, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [6, 6, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 22, 0, 7, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:20:56], Iteration [48/100]:
+l_D/R: 3.16, l_D/F: -0.96, l_D: -3.62, l_G: 0.96, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.30, closeness: 0.40, n_match: 0.52, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 10, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 15, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [41, 40, 0, 14, 5, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 8, 0, 5, 2, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 27, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:27:36], Iteration [49/100]:
+l_D/R: 4.33, l_D/F: -1.11, l_D: -4.32, l_G: 1.11, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [8, 11, 0, 5, 5, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 9, 0, 4, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [43, 50, 0, 17, 5, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 6, 0, 3, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 26, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:34:32], Iteration [50/100]:
+l_D/R: 5.07, l_D/F: -1.69, l_D: -3.58, l_G: 1.69, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.43, n_match: 0.56, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [10, 10, 0, 3, 6, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 8, 0, 3, 5, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [43, 46, 0, 15, 6, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 8, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 27, 0, 7, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:41:19], Iteration [51/100]:
+l_D/R: 4.67, l_D/F: -1.30, l_D: -4.45, l_G: 1.32, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [11, 9, 0, 4, 5, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 19, 0, 6, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 40, 0, 12, 5, 17, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 7, 0, 4, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 24, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:48:10], Iteration [52/100]:
+l_D/R: 5.09, l_D/F: -1.50, l_D: -4.07, l_G: 1.53, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.53, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 7, 0, 3, 4, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 22, 0, 8, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 45, 0, 17, 6, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 6, 0, 3, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 24, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:54:50], Iteration [53/100]:
+l_D/R: 4.87, l_D/F: -1.16, l_D: -4.36, l_G: 1.14, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 10, 0, 4, 6, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [8, 15, 0, 6, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [43, 40, 0, 14, 5, 16, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [6, 6, 0, 4, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 26, 0, 8, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:01:35], Iteration [54/100]:
+l_D/R: 4.90, l_D/F: -0.84, l_D: -4.47, l_G: 0.85, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.41, n_match: 0.54, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 11, 0, 4, 6, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [10, 19, 0, 7, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 55, 0, 15, 5, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [6, 5, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [10, 29, 0, 7, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:08:11], Iteration [55/100]:
+l_D/R: 5.01, l_D/F: -1.47, l_D: -4.39, l_G: 1.46, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 11, 0, 4, 5, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 17, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 48, 0, 15, 5, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 5, 0, 3, 4, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 23, 0, 7, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:14:58], Iteration [56/100]:
+l_D/R: 4.12, l_D/F: -0.76, l_D: -4.17, l_G: 0.75, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.42, n_match: 0.55, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 9, 0, 4, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 11, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 68, 0, 16, 5, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [6, 7, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 22, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:21:36], Iteration [57/100]:
+l_D/R: 5.36, l_D/F: -1.01, l_D: -4.54, l_G: 0.96, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [10, 5, 0, 2, 3, 5, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [8, 20, 0, 6, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [43, 45, 0, 13, 6, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 9, 0, 5, 2, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [10, 27, 0, 7, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:28:22], Iteration [58/100]:
+l_D/R: 5.32, l_D/F: -1.07, l_D: -4.36, l_G: 1.08, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.54, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 9, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 15, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [41, 52, 0, 17, 5, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 5, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 26, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:35:04], Iteration [59/100]:
+l_D/R: 4.17, l_D/F: -1.22, l_D: -4.01, l_G: 1.22, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 6, 0, 3, 4, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 15, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [41, 59, 0, 17, 5, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 4, 0, 3, 3, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 18, 0, 5, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_10-57/models...
+INFO:root:Elapsed [6:41:52], Iteration [60/100]:
+l_D/R: 6.09, l_D/F: -1.57, l_D: -3.59, l_G: 1.57, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.42, n_match: 0.55, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with ten edges, five nodes.
+Results: [6, 8, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with three edges, five nodes.
+Results: [5, 3, 0, 2, 2, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-two nodes, forty-six edges.
+Results: [22, 53, 0, 8, 5, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with sixteen nodes, fifty-two edges.
+Results: [18, 59, 0, 9, 4, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-three nodes, seventy-seven edges.
+Results: [24, 74, 0, 10, 4, 0, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_10-57/models...
+INFO:root:Elapsed [6:41:55], Iteration [60/100]:
+l_D/R: 6.10, l_D/F: -1.52, l_D: -3.96, l_G: 1.64, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.43, n_match: 0.55, m_match: 0.10, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 10, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 10, 0, 4, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 37, 0, 12, 6, 15, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 15, 0, 6, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:48:36], Iteration [61/100]:
+l_D/R: 5.61, l_D/F: -0.77, l_D: -4.62, l_G: 0.80, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 11, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 13, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [41, 43, 0, 16, 4, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 25, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:55:23], Iteration [62/100]:
+l_D/R: 5.85, l_D/F: -1.15, l_D: -4.44, l_G: 1.14, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.53, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 11, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [10, 9, 0, 3, 5, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 49, 0, 17, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 7, 0, 3, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 27, 0, 8, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:02:03], Iteration [63/100]:
+l_D/R: 5.58, l_D/F: -0.89, l_D: -4.51, l_G: 0.91, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 4, 0, 2, 3, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [10, 11, 0, 4, 3, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 54, 0, 16, 5, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 3, 0, 3, 2, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 27, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:08:50], Iteration [64/100]:
+l_D/R: 5.52, l_D/F: -0.98, l_D: -4.76, l_G: 0.99, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.54, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [8, 4, 0, 1, 2, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 14, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 44, 0, 16, 5, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 24, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:15:32], Iteration [65/100]:
+l_D/R: 5.78, l_D/F: -0.75, l_D: -4.27, l_G: 0.76, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 6, 0, 2, 3, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 16, 0, 6, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [41, 51, 0, 16, 6, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 9, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 25, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:22:19], Iteration [66/100]:
+l_D/R: 5.89, l_D/F: -1.66, l_D: -4.18, l_G: 1.66, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.52, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 13, 0, 5, 4, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 17, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [43, 37, 0, 13, 5, 15, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [6, 4, 0, 3, 3, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 27, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:28:52], Iteration [67/100]:
+l_D/R: 6.36, l_D/F: -0.51, l_D: -4.24, l_G: 0.52, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [11, 9, 0, 4, 2, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 17, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [41, 44, 0, 11, 6, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 6, 0, 3, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [10, 25, 0, 7, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:35:35], Iteration [68/100]:
+l_D/R: 5.79, l_D/F: -0.67, l_D: -4.41, l_G: 0.69, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.54, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [7, 9, 0, 3, 2, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 18, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 39, 0, 11, 6, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 6, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 22, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:42:08], Iteration [69/100]:
+l_D/R: 5.32, l_D/F: -0.81, l_D: -4.56, l_G: 0.80, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 8, 0, 3, 5, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 11, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [41, 45, 0, 17, 6, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 28, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:48:52], Iteration [70/100]:
+l_D/R: 6.04, l_D/F: -1.19, l_D: -4.85, l_G: 1.19, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.42, n_match: 0.57, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 9, 0, 4, 5, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 14, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [43, 37, 0, 11, 6, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 7, 0, 3, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 25, 0, 8, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:55:31], Iteration [71/100]:
+l_D/R: 6.09, l_D/F: -1.13, l_D: -4.38, l_G: 1.13, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 18, 0, 6, 4, -6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [10, 15, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [39, 49, 0, 15, 5, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 5, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [10, 29, 0, 8, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:02:14], Iteration [72/100]:
+l_D/R: 5.06, l_D/F: -1.38, l_D: -4.59, l_G: 1.37, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.42, n_match: 0.56, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [8, 8, 0, 2, 5, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 7, 0, 3, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [44, 55, 0, 16, 6, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 7, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 23, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:08:52], Iteration [73/100]:
+l_D/R: 6.74, l_D/F: -0.65, l_D: -4.59, l_G: 0.60, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 2, 0, 1, 2, 7, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 12, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 53, 0, 18, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 6, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 26, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:15:41], Iteration [74/100]:
+l_D/R: 6.53, l_D/F: -0.44, l_D: -4.48, l_G: 0.47, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.42, n_match: 0.55, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 8, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 9, 0, 3, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [40, 31, 0, 12, 5, 20, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 4, 0, 2, 4, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 29, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:22:21], Iteration [75/100]:
+l_D/R: 6.04, l_D/F: -0.31, l_D: -4.71, l_G: 0.33, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 6, 0, 3, 4, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 9, 0, 4, 3, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [43, 48, 0, 16, 3, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 8, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [8, 29, 0, 8, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:29:06], Iteration [76/100]:
+l_D/R: 5.46, l_D/F: 0.06, l_D: -4.58, l_G: -0.08, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.43, n_match: 0.57, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 11, 0, 4, 5, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 16, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [40, 35, 0, 10, 6, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 9, 0, 3, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 22, 0, 6, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:35:48], Iteration [77/100]:
+l_D/R: 5.03, l_D/F: -0.28, l_D: -4.50, l_G: 0.25, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 14, 0, 6, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 10, 0, 3, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [41, 45, 0, 11, 5, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 7, 0, 5, 2, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 22, 0, 6, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:42:39], Iteration [78/100]:
+l_D/R: 5.62, l_D/F: -0.44, l_D: -4.69, l_G: 0.45, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.43, n_match: 0.56, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [10, 7, 0, 2, 5, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 10, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [40, 35, 0, 12, 4, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [6, 4, 0, 3, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 25, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:49:18], Iteration [79/100]:
+l_D/R: 6.27, l_D/F: -0.83, l_D: -4.43, l_G: 0.87, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [7, 7, 0, 3, 3, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 13, 0, 6, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [40, 44, 0, 13, 5, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 5, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 26, 0, 7, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_10-57/models...
+INFO:root:Elapsed [8:56:06], Iteration [80/100]:
+l_D/R: 6.31, l_D/F: -0.77, l_D: -4.40, l_G: 0.76, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.54, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with five nodes, ten edges.
+Results: [6, 7, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, three edges.
+Results: [6, 3, 0, 2, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-six edges, twenty-two nodes.
+Results: [21, 49, 0, 9, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with sixteen nodes, fifty-two edges.
+Results: [16, 47, 0, 9, 5, -5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with seventy-seven edges, twenty-three nodes.
+Results: [23, 71, 0, 11, 4, -1, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_10-57/models...
+INFO:root:Elapsed [8:56:09], Iteration [80/100]:
+l_D/R: 6.27, l_D/F: -0.79, l_D: -4.74, l_G: 0.80, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.30, closeness: 0.40, n_match: 0.52, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [11, 7, 0, 3, 4, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 19, 0, 6, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [40, 51, 0, 16, 5, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 3, 0, 2, 3, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 21, 0, 6, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:02:32], Iteration [81/100]:
+l_D/R: 6.35, l_D/F: -0.47, l_D: -5.16, l_G: 0.48, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 11, 0, 4, 5, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 17, 0, 6, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [40, 49, 0, 15, 4, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 8, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [8, 21, 0, 6, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:08:24], Iteration [82/100]:
+l_D/R: 5.06, l_D/F: 0.34, l_D: -4.03, l_G: -0.36, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.42, n_match: 0.56, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [10, 8, 0, 3, 4, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [10, 14, 0, 5, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [41, 51, 0, 12, 5, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 19, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:14:03], Iteration [83/100]:
+l_D/R: 6.76, l_D/F: -2.07, l_D: -3.69, l_G: 2.04, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [10, 12, 0, 4, 9, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 14, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 43, 0, 12, 7, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 26, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:19:50], Iteration [84/100]:
+l_D/R: 5.03, l_D/F: -0.56, l_D: -4.76, l_G: 0.56, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.42, n_match: 0.55, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 10, 0, 3, 3, -1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 11, 0, 4, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 43, 0, 14, 5, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [9, 5, 0, 3, 3, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 19, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:25:30], Iteration [85/100]:
+l_D/R: 5.70, l_D/F: -0.38, l_D: -5.14, l_G: 0.35, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 12, 0, 6, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 12, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 52, 0, 14, 7, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [4, 4, 0, 3, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 23, 0, 8, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:31:17], Iteration [86/100]:
+l_D/R: 5.81, l_D/F: -0.70, l_D: -5.10, l_G: 0.72, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.29, closeness: 0.39, n_match: 0.51, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 9, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 10, 0, 5, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [43, 46, 0, 15, 5, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 11, 0, 6, 2, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 30, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:36:56], Iteration [87/100]:
+l_D/R: 5.00, l_D/F: -0.03, l_D: -4.22, l_G: 0.01, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 6, 0, 2, 2, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [8, 12, 0, 6, 5, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [44, 47, 0, 12, 8, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 8, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 21, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:42:45], Iteration [88/100]:
+l_D/R: 6.06, l_D/F: -0.51, l_D: -4.84, l_G: 0.50, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.42, n_match: 0.55, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 15, 0, 4, 5, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [10, 15, 0, 6, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [41, 38, 0, 11, 7, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [6, 9, 0, 4, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 26, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:48:26], Iteration [89/100]:
+l_D/R: 5.97, l_D/F: -0.96, l_D: -4.86, l_G: 0.96, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [8, 10, 0, 3, 5, -2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [10, 21, 0, 6, 5, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 34, 0, 11, 7, 17, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 8, 0, 6, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 28, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:54:14], Iteration [90/100]:
+l_D/R: 5.17, l_D/F: -0.75, l_D: -4.91, l_G: 0.75, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.42, n_match: 0.56, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [8, 8, 0, 4, 6, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [10, 14, 0, 4, 6, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [43, 39, 0, 12, 6, 16, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 9, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 25, 0, 7, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:59:54], Iteration [91/100]:
+l_D/R: 6.33, l_D/F: -0.87, l_D: -4.91, l_G: 0.89, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [8, 10, 0, 4, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 13, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 55, 0, 15, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 6, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [9, 28, 0, 7, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:05:41], Iteration [92/100]:
+l_D/R: 6.26, l_D/F: -0.34, l_D: -4.94, l_G: 0.37, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.53, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 11, 0, 4, 5, -2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [9, 23, 0, 6, 4, -5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 52, 0, 12, 7, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 7, 0, 4, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 23, 0, 7, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:11:21], Iteration [93/100]:
+l_D/R: 6.40, l_D/F: -2.36, l_D: -3.78, l_G: 2.39, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [10, 9, 0, 3, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 19, 0, 7, 6, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 47, 0, 12, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 5, 0, 3, 4, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 24, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:17:09], Iteration [94/100]:
+l_D/R: 5.01, l_D/F: -0.41, l_D: -4.67, l_G: 0.41, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.42, n_match: 0.55, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 12, 0, 4, 6, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 10, 0, 4, 6, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [41, 50, 0, 17, 5, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 27, 0, 7, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:22:45], Iteration [95/100]:
+l_D/R: 5.77, l_D/F: -1.73, l_D: -5.17, l_G: 1.76, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with eight edges, nine nodes.
+Results: [9, 6, 0, 3, 4, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 17, 0, 5, 5, -6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [43, 39, 0, 11, 5, 16, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 9, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 24, 0, 7, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:28:33], Iteration [96/100]:
+l_D/R: 5.49, l_D/F: -1.17, l_D: -5.32, l_G: 1.15, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.40, n_match: 0.53, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 7, 0, 3, 4, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 16, 0, 4, 5, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [43, 43, 0, 14, 8, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [9, 20, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:34:12], Iteration [97/100]:
+l_D/R: 5.20, l_D/F: -1.88, l_D: -4.76, l_G: 1.88, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [10, 3, 0, 2, 2, 7, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [8, 20, 0, 5, 6, -9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 56, 0, 17, 6, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 5, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [8, 23, 0, 6, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:39:59], Iteration [98/100]:
+l_D/R: 5.40, l_D/F: -1.27, l_D: -5.43, l_G: 1.28, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.55, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [9, 9, 0, 3, 6, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fourteen edges, nine nodes.
+Results: [10, 23, 0, 6, 4, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with fifty-two edges, forty-two nodes.
+Results: [42, 45, 0, 10, 6, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with six edges, five nodes.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-six edges, nine nodes.
+Results: [10, 23, 0, 6, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:45:39], Iteration [99/100]:
+l_D/R: 5.82, l_D/F: -1.33, l_D: -5.11, l_G: 1.37, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with nine nodes, eight edges.
+Results: [10, 7, 0, 3, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, fourteen edges.
+Results: [9, 27, 0, 6, 7, -10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-two nodes, fifty-two edges.
+Results: [42, 40, 0, 14, 5, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with five nodes, six edges.
+Results: [5, 7, 0, 3, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with nine nodes, twenty-six edges.
+Results: [8, 26, 0, 7, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_10-57/models...
+INFO:root:Elapsed [10:51:26], Iteration [100/100]:
+l_D/R: 5.57, l_D/F: -1.21, l_D: -5.21, l_G: 1.20, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.42, n_match: 0.55, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with ten edges, five nodes.
+Results: [5, 11, 0, 4, 3, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with three edges, five nodes.
+Results: [6, 2, 0, 2, 2, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with forty-six edges, twenty-two nodes.
+Results: [22, 40, 0, 7, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with sixteen nodes, fifty-two edges.
+Results: [16, 61, 0, 10, 5, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with twenty-three nodes, seventy-seven edges.
+Results: [23, 77, 0, 12, 4, -1, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_10-57/models...
+INFO:root:Elapsed [10:51:28], Iteration [100/100]:
+l_D/R: 5.60, l_D/F: -1.11, l_D: -5.14, l_G: 1.15, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.42, n_match: 0.54, m_match: 0.10, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00

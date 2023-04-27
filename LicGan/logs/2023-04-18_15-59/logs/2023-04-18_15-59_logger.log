@@ -1,0 +1,516 @@
+INFO:root:Namespace(lm_model='roberta-base', N=50, max_len=128, z_dim=8, mha_dim=768, n_heads=8, gen_dims=[[128, 256, 768], [512, 256, 128]], disc_dims=[[128, 128], [512, 768], [512, 256, 128]], lambda_gp=5, lambda_rew=0, lambda_wgan=1, post_method='hard_gumbel', batch_size=128, num_epochs=100, g_lr=0.0005, d_lr=0.0005, r_lr=0.001, dropout=0.0, n_critic=4, test_epochs=100, num_workers=1, mode='train', bert_unfreeze=0, b_lr=1e-05, data_dir='data', saving_dir='results/2023-04-18_15-59', model_save_step=20, lr_update_step=1000, restore_G=None, restore_D=None, restore_R=None, restore_B_D=None, restore_B_G=None, name='symm_fcn_simple_ds_gumbel_roberta_freezed', log_dir='results/2023-04-18_15-59/logs', model_dir='results/2023-04-18_15-59/models')
+INFO:root:Generator(
+  (activation_f): ReLU()
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=8, out_features=128, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=256, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=768, bias=True)
+      (9): Dropout(p=0.0, inplace=False)
+      (10): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer_2): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=768, out_features=512, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=256, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=128, bias=True)
+      (9): Dropout(p=0.0, inplace=False)
+      (10): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (adjM_layer): Linear(in_features=128, out_features=2500, bias=True)
+  (dropoout): Dropout(p=0.0, inplace=False)
+)
+INFO:root:G
+INFO:root:The number of parameters: 3478468
+INFO:root:Discriminator(
+  (activation_f): ReLU()
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=50, out_features=128, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=128, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (multi_dense_layer_2): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=6400, out_features=512, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=768, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer_3): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=768, out_features=512, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=256, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=128, bias=True)
+      (9): Dropout(p=0.0, inplace=False)
+      (10): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (output_layer): Linear(in_features=128, out_features=1, bias=True)
+)
+INFO:root:D
+INFO:root:The number of parameters: 6619649
+INFO:root:RewardNet(
+  (node_cnt): Sequential(
+    (0): Linear(in_features=2500, out_features=256, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=256, out_features=128, bias=True)
+    (3): ReLU()
+    (4): Linear(in_features=128, out_features=1, bias=True)
+    (5): Sigmoid()
+  )
+)
+INFO:root:R
+INFO:root:The number of parameters: 673281
+INFO:root:RobertaModel(
+  (embeddings): RobertaEmbeddings(
+    (word_embeddings): Embedding(50265, 768, padding_idx=1)
+    (position_embeddings): Embedding(514, 768, padding_idx=1)
+    (token_type_embeddings): Embedding(1, 768)
+    (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (encoder): RobertaEncoder(
+    (layer): ModuleList(
+      (0-11): 12 x RobertaLayer(
+        (attention): RobertaAttention(
+          (self): RobertaSelfAttention(
+            (query): Linear(in_features=768, out_features=768, bias=True)
+            (key): Linear(in_features=768, out_features=768, bias=True)
+            (value): Linear(in_features=768, out_features=768, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (output): RobertaSelfOutput(
+            (dense): Linear(in_features=768, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (intermediate): RobertaIntermediate(
+          (dense): Linear(in_features=768, out_features=3072, bias=True)
+          (intermediate_act_fn): GELUActivation()
+        )
+        (output): RobertaOutput(
+          (dense): Linear(in_features=3072, out_features=768, bias=True)
+          (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+  )
+  (pooler): RobertaPooler(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (activation): Tanh()
+  )
+)
+INFO:root:roberta-base_G
+INFO:root:The number of parameters: 124645632
+INFO:root:RobertaModel(
+  (embeddings): RobertaEmbeddings(
+    (word_embeddings): Embedding(50265, 768, padding_idx=1)
+    (position_embeddings): Embedding(514, 768, padding_idx=1)
+    (token_type_embeddings): Embedding(1, 768)
+    (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (encoder): RobertaEncoder(
+    (layer): ModuleList(
+      (0-11): 12 x RobertaLayer(
+        (attention): RobertaAttention(
+          (self): RobertaSelfAttention(
+            (query): Linear(in_features=768, out_features=768, bias=True)
+            (key): Linear(in_features=768, out_features=768, bias=True)
+            (value): Linear(in_features=768, out_features=768, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (output): RobertaSelfOutput(
+            (dense): Linear(in_features=768, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (intermediate): RobertaIntermediate(
+          (dense): Linear(in_features=768, out_features=3072, bias=True)
+          (intermediate_act_fn): GELUActivation()
+        )
+        (output): RobertaOutput(
+          (dense): Linear(in_features=3072, out_features=768, bias=True)
+          (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+  )
+  (pooler): RobertaPooler(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (activation): Tanh()
+  )
+)
+INFO:root:roberta-base_D
+INFO:root:The number of parameters: 124645632
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 50 | Num Edges: 629 | Edg: 1259.0 | Node: 0.48564305901527405
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 50 | Num Edges: 614 | Edg: 1229.0 | Node: 0.48951786756515503
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 50 | Num Edges: 628 | Edg: 1256.0 | Node: 0.4903024435043335
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 50 | Num Edges: 607 | Edg: 1214.0 | Node: 0.49055659770965576
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 50 | Num Edges: 596 | Edg: 1193.0 | Node: 0.48233598470687866
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-18_15-59/models...
+INFO:root:Elapsed [0:02:33], Iteration [0/100]:
+l_D/R: 0.17, l_D/F: 0.17, l_D: 4.93, l_G: -0.17, l_R: 0.36, l_R/N: 0.12, l_R/M: 0.23
+property_match: 0.13, closeness: 0.13, n_match: 0.25, m_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 39 | Num Edges: 60 | Edg: 120.0 | Node: 0.4919443726539612
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 46 | Num Edges: 61 | Edg: 123.0 | Node: 0.49161744117736816
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 46 | Num Edges: 59 | Edg: 119.0 | Node: 0.4942079782485962
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 41 | Num Edges: 48 | Edg: 96.0 | Node: 0.4922599792480469
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 45 | Num Edges: 66 | Edg: 132.0 | Node: 0.48887157440185547
+--------------------------------------------------
+
+INFO:root:Elapsed [0:15:42], Iteration [1/100]:
+l_D/R: 2.37, l_D/F: -2.82, l_D: -4.82, l_G: 2.81, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.00, closeness: 0.01, n_match: 0.00, m_match: 0.01
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 40 | Num Edges: 48 | Edg: 97.0 | Node: 0.4874112010002136
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 33 | Num Edges: 33 | Edg: 67.0 | Node: 0.4894579350948334
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 39 | Num Edges: 54 | Edg: 108.0 | Node: 0.48478880524635315
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 36 | Num Edges: 44 | Edg: 89.0 | Node: 0.4931572675704956
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 32 | Num Edges: 44 | Edg: 88.0 | Node: 0.49049606919288635
+--------------------------------------------------
+
+INFO:root:Elapsed [0:28:50], Iteration [2/100]:
+l_D/R: 2.20, l_D/F: -4.61, l_D: -5.51, l_G: 4.61, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.00, closeness: 0.00, n_match: 0.00, m_match: 0.01
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 34 | Num Edges: 28 | Edg: 56.0 | Node: 0.4866747260093689
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 11 | Num Edges: 11 | Edg: 22.0 | Node: 0.49017971754074097
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 27 | Num Edges: 25 | Edg: 50.0 | Node: 0.48943212628364563
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 12 | Num Edges: 11 | Edg: 22.0 | Node: 0.49192550778388977
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 24 | Num Edges: 19 | Edg: 39.0 | Node: 0.4921981692314148
+--------------------------------------------------
+
+INFO:root:Elapsed [0:41:58], Iteration [3/100]:
+l_D/R: 1.92, l_D/F: -2.15, l_D: -2.24, l_G: 2.13, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.04, closeness: 0.07, n_match: 0.04, m_match: 0.03
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 27 | Num Edges: 40 | Edg: 80.0 | Node: 0.48873814940452576
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 7 | Num Edges: 5 | Edg: 10.0 | Node: 0.4887508153915405
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 26 | Num Edges: 34 | Edg: 68.0 | Node: 0.4915756583213806
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 6 | Num Edges: 3 | Edg: 6.0 | Node: 0.4900069236755371
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 28 | Num Edges: 41 | Edg: 82.0 | Node: 0.49527937173843384
+--------------------------------------------------
+
+INFO:root:Elapsed [0:55:05], Iteration [4/100]:
+l_D/R: 2.56, l_D/F: 0.78, l_D: -1.53, l_G: -0.77, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.09, closeness: 0.13, n_match: 0.13, m_match: 0.04
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 24 | Num Edges: 26 | Edg: 52.0 | Node: 0.49142515659332275
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 4.0 | Node: 0.49017900228500366
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 21 | Num Edges: 19 | Edg: 38.0 | Node: 0.4895462393760681
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 8 | Num Edges: 8 | Edg: 16.0 | Node: 0.48700690269470215
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 22 | Num Edges: 26 | Edg: 53.0 | Node: 0.4944087862968445
+--------------------------------------------------
+
+INFO:root:Elapsed [1:08:13], Iteration [5/100]:
+l_D/R: -0.37, l_D/F: -2.45, l_D: -1.63, l_G: 2.45, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.14, closeness: 0.21, n_match: 0.19, m_match: 0.08
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 29 | Num Edges: 36 | Edg: 73.0 | Node: 0.48889631032943726
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 4.0 | Node: 0.49031758308410645
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 27 | Num Edges: 30 | Edg: 60.0 | Node: 0.4879419505596161
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 4 | Num Edges: 2 | Edg: 4.0 | Node: 0.4893939197063446
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 21 | Num Edges: 26 | Edg: 52.0 | Node: 0.4867192506790161
+--------------------------------------------------
+
+INFO:root:Elapsed [1:21:20], Iteration [6/100]:
+l_D/R: -1.52, l_D/F: -3.33, l_D: -1.45, l_G: 3.35, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.15, closeness: 0.23, n_match: 0.20, m_match: 0.09
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 31 | Num Edges: 41 | Edg: 82.0 | Node: 0.4928305149078369
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 4 | Num Edges: 4 | Edg: 8.0 | Node: 0.48908284306526184
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 24 | Num Edges: 21 | Edg: 42.0 | Node: 0.4883800446987152
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 2 | Num Edges: 1 | Edg: 2.0 | Node: 0.4901561141014099
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 22 | Num Edges: 29 | Edg: 58.0 | Node: 0.49182525277137756
+--------------------------------------------------
+
+INFO:root:Elapsed [1:34:28], Iteration [7/100]:
+l_D/R: 0.46, l_D/F: -1.95, l_D: -1.51, l_G: 1.95, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.15, closeness: 0.24, n_match: 0.21, m_match: 0.10
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 26 | Num Edges: 39 | Edg: 79.0 | Node: 0.49589380621910095
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 7 | Num Edges: 7 | Edg: 14.0 | Node: 0.48937511444091797
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 19 | Num Edges: 24 | Edg: 48.0 | Node: 0.489430695772171
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 6 | Num Edges: 5 | Edg: 10.0 | Node: 0.4898233413696289
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 25 | Num Edges: 34 | Edg: 68.0 | Node: 0.493228942155838
+--------------------------------------------------
+
+INFO:root:Elapsed [1:47:35], Iteration [8/100]:
+l_D/R: -0.81, l_D/F: -2.46, l_D: -1.42, l_G: 2.46, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.19, closeness: 0.28, n_match: 0.27, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 24 | Num Edges: 35 | Edg: 70.0 | Node: 0.4931972026824951
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.488456666469574
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 28 | Num Edges: 35 | Edg: 70.0 | Node: 0.48908373713493347
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 3 | Num Edges: 2 | Edg: 4.0 | Node: 0.48842480778694153
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 27 | Num Edges: 39 | Edg: 78.0 | Node: 0.4919149577617645
+--------------------------------------------------
+
+INFO:root:Elapsed [2:00:42], Iteration [9/100]:
+l_D/R: 0.43, l_D/F: -1.54, l_D: -1.40, l_G: 1.54, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.18, closeness: 0.27, n_match: 0.25, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 24 | Num Edges: 46 | Edg: 92.0 | Node: 0.4902980327606201
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 6 | Num Edges: 7 | Edg: 14.0 | Node: 0.48939430713653564
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 24 | Num Edges: 36 | Edg: 72.0 | Node: 0.48948580026626587
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 5 | Num Edges: 6 | Edg: 12.0 | Node: 0.489084392786026
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 23 | Num Edges: 32 | Edg: 64.0 | Node: 0.4885961711406708
+--------------------------------------------------
+
+INFO:root:Elapsed [2:13:49], Iteration [10/100]:
+l_D/R: -0.99, l_D/F: -2.80, l_D: -1.46, l_G: 2.82, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.20, closeness: 0.29, n_match: 0.30, m_match: 0.11
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 24 | Num Edges: 35 | Edg: 70.0 | Node: 0.48527222871780396
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 5 | Num Edges: 7 | Edg: 14.0 | Node: 0.48802074790000916
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 25 | Num Edges: 34 | Edg: 68.0 | Node: 0.48755568265914917
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 6.0 | Node: 0.48984187841415405
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 21 | Num Edges: 33 | Edg: 66.0 | Node: 0.48925894498825073
+--------------------------------------------------
+
+INFO:root:Elapsed [2:26:57], Iteration [11/100]:
+l_D/R: 0.39, l_D/F: -2.06, l_D: -1.52, l_G: 2.06, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.21, closeness: 0.29, n_match: 0.30, m_match: 0.12
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 39 edges.
+Num Nodes: 24 | Num Edges: 26 | Edg: 52.0 | Node: 0.4916034936904907
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 7 edges.
+Num Nodes: 5 | Num Edges: 4 | Edg: 8.0 | Node: 0.48786497116088867
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 28 edges.
+Num Nodes: 19 | Num Edges: 17 | Edg: 34.0 | Node: 0.49091434478759766
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 5 nodes and 4 edges.
+Num Nodes: 4 | Num Edges: 3 | Edg: 6.0 | Node: 0.48899999260902405
+--------------------------------------------------
+--------------------------------------------------
+Text: Generate undirected graph with 25 nodes and 34 edges.
+Num Nodes: 23 | Num Edges: 33 | Edg: 67.0 | Node: 0.4923918545246124
+--------------------------------------------------
+
+INFO:root:Elapsed [2:40:05], Iteration [12/100]:
+l_D/R: 0.70, l_D/F: -1.12, l_D: -1.61, l_G: 1.12, l_R: 0.12, l_R/N: 0.12, l_R/M: 0.00
+property_match: 0.12, closeness: 0.18, n_match: 0.17, m_match: 0.07

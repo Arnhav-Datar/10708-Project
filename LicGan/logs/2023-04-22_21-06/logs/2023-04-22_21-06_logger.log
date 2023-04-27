@@ -1,0 +1,2807 @@
+INFO:root:Namespace(lm_model='roberta-base', N=50, max_len=128, z_dim=8, mha_dim=768, n_heads=8, gen_dims=[[128, 256, 768], [512, 512]], disc_dims=[[128, 128], [512, 768], [512, 256, 128]], lambda_gp=5, lambda_rew=0.5, lambda_wgan=1, post_method='hard_gumbel', batch_size=128, num_epochs=100, g_lr=0.0002, d_lr=0.0002, b_lr=1e-05, dropout=0, n_critic=4, test_epochs=100, num_workers=1, mode='train', bert_unfreeze=0, data_dir='data/graphgen', saving_dir='results/2023-04-22_21-06', model_save_step=20, lr_update_step=1000, restore_G=None, restore_D=None, restore_B_D=None, restore_B_G=None, model_mode=1, name='symm_fcn_final_ds_gumbel_roberta_rew_m1_mask', log_dir='results/2023-04-22_21-06/logs', model_dir='results/2023-04-22_21-06/models')
+INFO:root:Generator(
+  (activation_f): ReLU()
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=8, out_features=128, bias=True)
+      (1): Dropout(p=0, inplace=False)
+      (2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=256, bias=True)
+      (5): Dropout(p=0, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=768, bias=True)
+      (9): Dropout(p=0, inplace=False)
+      (10): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer_2): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=1536, out_features=512, bias=True)
+      (1): Dropout(p=0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=512, bias=True)
+      (5): Dropout(p=0, inplace=False)
+      (6): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (adjM_layer): Sequential(
+    (0): Linear(in_features=512, out_features=128, bias=True)
+    (1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+    (2): ReLU()
+    (3): Linear(in_features=128, out_features=2500, bias=True)
+  )
+  (node_layer): Sequential(
+    (0): Linear(in_features=512, out_features=64, bias=True)
+    (1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+    (2): ReLU()
+    (3): Linear(in_features=64, out_features=50, bias=True)
+  )
+)
+INFO:root:G
+INFO:root:The number of parameters: 4072502
+INFO:root:Discriminator(
+  (activation_f): ReLU()
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=50, out_features=128, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=128, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (node_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=50, out_features=64, bias=True)
+      (1): Dropout(p=0.2, inplace=False)
+      (2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=64, out_features=128, bias=True)
+      (5): Dropout(p=0.2, inplace=False)
+      (6): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (multi_dense_layer_2): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=6528, out_features=512, bias=True)
+      (1): Dropout(p=0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=768, bias=True)
+      (5): Dropout(p=0, inplace=False)
+      (6): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer_3): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=1536, out_features=512, bias=True)
+      (1): Dropout(p=0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=256, bias=True)
+      (5): Dropout(p=0, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=128, bias=True)
+      (9): Dropout(p=0, inplace=False)
+      (10): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (output_layer): Linear(in_features=128, out_features=1, bias=True)
+)
+INFO:root:D
+INFO:root:The number of parameters: 7090369
+INFO:root:RobertaModel(
+  (embeddings): RobertaEmbeddings(
+    (word_embeddings): Embedding(50265, 768, padding_idx=1)
+    (position_embeddings): Embedding(514, 768, padding_idx=1)
+    (token_type_embeddings): Embedding(1, 768)
+    (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (encoder): RobertaEncoder(
+    (layer): ModuleList(
+      (0-11): 12 x RobertaLayer(
+        (attention): RobertaAttention(
+          (self): RobertaSelfAttention(
+            (query): Linear(in_features=768, out_features=768, bias=True)
+            (key): Linear(in_features=768, out_features=768, bias=True)
+            (value): Linear(in_features=768, out_features=768, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (output): RobertaSelfOutput(
+            (dense): Linear(in_features=768, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (intermediate): RobertaIntermediate(
+          (dense): Linear(in_features=768, out_features=3072, bias=True)
+          (intermediate_act_fn): GELUActivation()
+        )
+        (output): RobertaOutput(
+          (dense): Linear(in_features=3072, out_features=768, bias=True)
+          (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+  )
+  (pooler): RobertaPooler(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (activation): Tanh()
+  )
+)
+INFO:root:roberta-base_G
+INFO:root:The number of parameters: 124645632
+INFO:root:RobertaModel(
+  (embeddings): RobertaEmbeddings(
+    (word_embeddings): Embedding(50265, 768, padding_idx=1)
+    (position_embeddings): Embedding(514, 768, padding_idx=1)
+    (token_type_embeddings): Embedding(1, 768)
+    (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (encoder): RobertaEncoder(
+    (layer): ModuleList(
+      (0-11): 12 x RobertaLayer(
+        (attention): RobertaAttention(
+          (self): RobertaSelfAttention(
+            (query): Linear(in_features=768, out_features=768, bias=True)
+            (key): Linear(in_features=768, out_features=768, bias=True)
+            (value): Linear(in_features=768, out_features=768, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (output): RobertaSelfOutput(
+            (dense): Linear(in_features=768, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (intermediate): RobertaIntermediate(
+          (dense): Linear(in_features=768, out_features=3072, bias=True)
+          (intermediate_act_fn): GELUActivation()
+        )
+        (output): RobertaOutput(
+          (dense): Linear(in_features=3072, out_features=768, bias=True)
+          (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+  )
+  (pooler): RobertaPooler(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (activation): Tanh()
+  )
+)
+INFO:root:roberta-base_D
+INFO:root:The number of parameters: 124645632
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 8 edges, without cycle, 9 nodes, 1 connected component, max diameter 5.
+Results: [24, 616, 18, 32, 2, -25, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 9 nodes, 1 connected component, with cycle, min degree 1, 14 edges, max diameter 2.
+Results: [24, 639, 18, 38, 2, -25, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 42 nodes, min degree 1, 52 edges.
+Results: [29, 621, 16, 32, 2, -20, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, max diameter 3, 5 nodes, 1 connected component, min degree 1, with cycle, 6 edges.
+Results: [24, 585, 16, 31, 2, -25, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 26 edges, min degree 4, 1 connected component.
+Results: [18, 638, 19, 33, 2, -31, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-22_21-06/models...
+INFO:root:Elapsed [0:03:26], Iteration [0/100]:
+l_D/R: 0.27, l_D/F: 0.15, l_D: 5.40, l_G: -0.15, l_R: 0.32, l_R/N: 0.09, l_R/M: 0.23
+property_match: 0.12, closeness: 0.14, n_match: 0.02, m_match: 0.00, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.05, cc_match: 0.00, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, max degree 3, 9 nodes, 1 connected component, without cycle, max diameter 5, min degree 1.
+Results: [21, 229, 1, 22, 4, -28, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max diameter 2, with cycle, 14 edges.
+Results: [35, 245, 2, 23, 4, -14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, 42 nodes, max degree 19, min degree 1.
+Results: [30, 227, 0, 21, 4, -18, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, max degree 3, 5 nodes, min degree 1.
+Results: [23, 242, 0, 24, 4, -25, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 1 connected component, min degree 4, 26 edges, max diameter 2, 9 nodes, with cycle.
+Results: [23, 251, 1, 24, 4, -26, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:08:47], Iteration [1/100]:
+l_D/R: 11.63, l_D/F: -12.72, l_D: -19.47, l_G: 12.72, l_R: 0.12, l_R/N: 0.09, l_R/M: 0.03
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, min degree 1, 9 nodes, max diameter 5.
+Results: [28, 53, 0, 8, 7, -8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, max diameter 2, 14 edges, max degree 8, 9 nodes, min degree 1, with cycle.
+Results: [25, 60, 0, 8, 7, -13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 1 connected component, with cycle, 42 nodes, 52 edges, max degree 19.
+Results: [26, 60, 0, 11, 8, -13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max diameter 3, 5 nodes, 6 edges.
+Results: [24, 65, 0, 8, 7, -20, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, 26 edges, 1 connected component, with cycle, max degree 8, 9 nodes.
+Results: [28, 47, 0, 7, 9, -7, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:16:58], Iteration [2/100]:
+l_D/R: 4.76, l_D/F: -4.40, l_D: -8.19, l_G: 4.41, l_R: 0.08, l_R/N: 0.08, l_R/M: 0.00
+property_match: 0.13, closeness: 0.19, n_match: 0.02, m_match: 0.01, min_deg_match: 0.01, max_deg_match: 0.06, diam_match: 0.03, cc_match: 0.00, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 1 connected component, min degree 1, 8 edges, 9 nodes, without cycle.
+Results: [18, 30, 0, 8, 5, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 14 edges, min degree 1, max diameter 2, 9 nodes, max degree 8.
+Results: [18, 30, 0, 6, 7, -5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, 42 nodes, 52 edges, 1 connected component, with cycle, max diameter 5.
+Results: [34, 48, 0, 10, 8, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, min degree 1, 6 edges, 5 nodes, 1 connected component, with cycle, max diameter 3.
+Results: [19, 28, 0, 6, 6, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, max diameter 2, 26 edges, 9 nodes.
+Results: [21, 31, 0, 6, 6, -1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:22:20], Iteration [3/100]:
+l_D/R: 8.56, l_D/F: 0.87, l_D: -6.45, l_G: -0.87, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 8 edges, 1 connected component, without cycle.
+Results: [15, 13, 0, 3, 7, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, max degree 8, min degree 1, with cycle, 1 connected component, 9 nodes, max diameter 2.
+Results: [17, 20, 0, 7, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, max degree 19, with cycle, 1 connected component, 52 edges, min degree 1.
+Results: [36, 56, 0, 14, 5, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, min degree 1, 1 connected component, 6 edges, max diameter 3.
+Results: [15, 17, 0, 6, 6, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 9 nodes, max degree 8, 1 connected component, with cycle.
+Results: [16, 19, 0, 5, 9, -2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:31:17], Iteration [4/100]:
+l_D/R: 1.53, l_D/F: -5.40, l_D: -5.86, l_G: 5.41, l_R: 0.01, l_R/N: 0.01, l_R/M: 0.00
+property_match: 0.16, closeness: 0.25, n_match: 0.08, m_match: 0.01, min_deg_match: 0.03, max_deg_match: 0.08, diam_match: 0.09, cc_match: 0.03, cycle_match: 0.59
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, without cycle, 1 connected component, max degree 3, min degree 1, 9 nodes, 8 edges.
+Results: [11, 13, 0, 6, 4, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, 1 connected component, 9 nodes, min degree 1, max diameter 2, max degree 8.
+Results: [12, 14, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, 1 connected component, max diameter 5, 42 nodes, with cycle.
+Results: [40, 39, 0, 15, 4, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 5 nodes, 1 connected component, max degree 3, 6 edges.
+Results: [10, 7, 0, 2, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 9 nodes, 26 edges, min degree 4, with cycle.
+Results: [9, 21, 0, 6, 5, -6, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:36:39], Iteration [5/100]:
+l_D/R: 0.41, l_D/F: -3.45, l_D: -3.46, l_G: 3.41, l_R: 0.01, l_R/N: 0.01, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max degree 3, 9 nodes, 8 edges, 1 connected component, without cycle, max diameter 5.
+Results: [8, 11, 0, 4, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 14 edges, max degree 8, min degree 1.
+Results: [9, 17, 0, 5, 4, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, 52 edges, with cycle, max diameter 5, min degree 1, 1 connected component, max degree 19.
+Results: [41, 53, 0, 14, 4, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 6 edges, max degree 3, 5 nodes, max diameter 3, 1 connected component, min degree 1.
+Results: [7, 10, 0, 3, 6, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 26 edges, with cycle, min degree 4.
+Results: [10, 24, 0, 7, 4, -2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:46:29], Iteration [6/100]:
+l_D/R: 3.39, l_D/F: -1.10, l_D: -3.82, l_G: 1.10, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.21, closeness: 0.32, n_match: 0.18, m_match: 0.05, min_deg_match: 0.02, max_deg_match: 0.13, diam_match: 0.14, cc_match: 0.05, cycle_match: 0.58
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, 1 connected component, 9 nodes, max diameter 5, min degree 1.
+Results: [7, 8, 0, 3, 5, -1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 1 connected component, max diameter 2, max degree 8, 14 edges.
+Results: [9, 22, 0, 6, 4, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, 42 nodes, max degree 19, max diameter 5.
+Results: [41, 62, 0, 19, 5, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, min degree 1, with cycle, 1 connected component, 6 edges, max diameter 3.
+Results: [7, 5, 0, 2, 3, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 4, max degree 8, with cycle, 26 edges, max diameter 2, 9 nodes.
+Results: [7, 16, 0, 4, 4, -5, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:51:52], Iteration [7/100]:
+l_D/R: 4.05, l_D/F: -1.07, l_D: -3.79, l_G: 1.06, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 9 nodes, without cycle, 8 edges, 1 connected component.
+Results: [9, 10, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, with cycle, min degree 1, 9 nodes, max diameter 2, 14 edges.
+Results: [7, 15, 0, 5, 6, -5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 42 nodes, 1 connected component, with cycle, 52 edges, max diameter 5, max degree 19.
+Results: [40, 64, 0, 17, 4, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, with cycle, min degree 1, 6 edges.
+Results: [7, 9, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, 1 connected component, max diameter 2, 26 edges, 9 nodes.
+Results: [7, 23, 0, 9, 4, -7, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:00:14], Iteration [8/100]:
+l_D/R: 3.61, l_D/F: 0.14, l_D: -3.04, l_G: -0.14, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.23, closeness: 0.35, n_match: 0.24, m_match: 0.06, min_deg_match: 0.01, max_deg_match: 0.14, diam_match: 0.15, cc_match: 0.06, cycle_match: 0.60
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, 8 edges, max degree 3, 9 nodes.
+Results: [9, 5, 0, 2, 3, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, max degree 8, min degree 1, max diameter 2, 14 edges, 9 nodes.
+Results: [8, 22, 0, 7, 3, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, max degree 19, min degree 1, 1 connected component, 42 nodes, max diameter 5.
+Results: [41, 49, 0, 17, 4, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, with cycle, 6 edges, 5 nodes.
+Results: [5, 6, 0, 3, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 26 edges, 1 connected component, with cycle.
+Results: [10, 36, 0, 9, 6, -11, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:05:48], Iteration [9/100]:
+l_D/R: 5.46, l_D/F: 0.27, l_D: -3.14, l_G: -0.31, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, max diameter 5, min degree 1, max degree 3, without cycle, 1 connected component, 9 nodes.
+Results: [9, 6, 0, 2, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, 1 connected component, 9 nodes, min degree 1.
+Results: [8, 13, 0, 4, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, 52 edges, 42 nodes, with cycle, 1 connected component, min degree 1.
+Results: [42, 73, 0, 16, 6, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 5 nodes, 6 edges, max diameter 3, min degree 1.
+Results: [8, 11, 0, 5, 5, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, 26 edges, min degree 4, 9 nodes, max degree 8, 1 connected component, with cycle.
+Results: [8, 39, 0, 10, 4, -13, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:13:31], Iteration [10/100]:
+l_D/R: 7.84, l_D/F: 2.17, l_D: -2.20, l_G: -2.18, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.24, closeness: 0.37, n_match: 0.29, m_match: 0.06, min_deg_match: 0.02, max_deg_match: 0.14, diam_match: 0.18, cc_match: 0.06, cycle_match: 0.60
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, 1 connected component, 9 nodes, max degree 3, min degree 1, max diameter 5, 8 edges.
+Results: [10, 9, 0, 4, 4, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 1 connected component, max diameter 2, 14 edges, min degree 1, 9 nodes.
+Results: [9, 14, 0, 4, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 52 edges, 42 nodes, min degree 1, max degree 19.
+Results: [43, 72, 0, 17, 5, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 6 edges, 5 nodes, with cycle.
+Results: [7, 7, 0, 4, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 1 connected component, 9 nodes, min degree 4.
+Results: [9, 42, 0, 11, 6, -17, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:19:05], Iteration [11/100]:
+l_D/R: 6.14, l_D/F: 2.02, l_D: -3.32, l_G: -2.03, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 9 nodes, 8 edges, max degree 3.
+Results: [9, 7, 0, 3, 6, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, min degree 1, 14 edges, with cycle, max degree 8, 1 connected component, 9 nodes.
+Results: [10, 13, 0, 4, 5, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max diameter 5, 52 edges, max degree 19, 42 nodes.
+Results: [43, 71, 0, 15, 7, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, with cycle, max diameter 3, min degree 1, 5 nodes.
+Results: [6, 5, 0, 3, 4, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 9 nodes, min degree 4, 26 edges, max degree 8, max diameter 2.
+Results: [10, 62, 0, 12, 7, -22, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:26:53], Iteration [12/100]:
+l_D/R: 7.79, l_D/F: 4.17, l_D: -3.18, l_G: -4.19, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.26, closeness: 0.38, n_match: 0.37, m_match: 0.07, min_deg_match: 0.02, max_deg_match: 0.14, diam_match: 0.17, cc_match: 0.06, cycle_match: 0.60
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 1 connected component, max degree 3, 8 edges, min degree 1, without cycle, max diameter 5.
+Results: [9, 11, 0, 4, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, max degree 8, 9 nodes, 1 connected component, max diameter 2, min degree 1.
+Results: [9, 19, 0, 5, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 1 connected component, with cycle, min degree 1, 42 nodes, max degree 19, 52 edges.
+Results: [45, 69, 0, 18, 6, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 3, 6 edges, with cycle, 5 nodes.
+Results: [5, 6, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, with cycle, 26 edges, max diameter 2, 1 connected component.
+Results: [9, 21, 0, 5, 3, -2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:32:19], Iteration [13/100]:
+l_D/R: 7.86, l_D/F: 2.22, l_D: -2.76, l_G: -2.19, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, min degree 1, max degree 3, 1 connected component, 9 nodes.
+Results: [9, 9, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 8, 14 edges, 1 connected component.
+Results: [9, 14, 0, 5, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, with cycle, min degree 1, max diameter 5, max degree 19, 1 connected component, 42 nodes.
+Results: [42, 59, 0, 15, 7, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, min degree 1, with cycle, 5 nodes, 1 connected component, max diameter 3.
+Results: [4, 7, 0, 4, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 26 edges, min degree 4, with cycle, max diameter 2.
+Results: [9, 38, 0, 10, 4, -10, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:40:10], Iteration [14/100]:
+l_D/R: 8.08, l_D/F: 3.11, l_D: -3.47, l_G: -3.13, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.28, closeness: 0.40, n_match: 0.43, m_match: 0.06, min_deg_match: 0.02, max_deg_match: 0.14, diam_match: 0.20, cc_match: 0.09, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, min degree 1, max diameter 5, 9 nodes.
+Results: [10, 10, 0, 4, 5, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 14 edges, 9 nodes, with cycle, 1 connected component, max diameter 2, max degree 8.
+Results: [9, 12, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, max diameter 5, max degree 19, with cycle, 42 nodes.
+Results: [43, 58, 0, 15, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 5 nodes, 6 edges, with cycle.
+Results: [7, 6, 0, 4, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 4, max degree 8, with cycle, 9 nodes, 26 edges.
+Results: [9, 15, 0, 6, 4, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:45:36], Iteration [15/100]:
+l_D/R: 8.26, l_D/F: 3.53, l_D: -3.20, l_G: -3.52, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, min degree 1, 9 nodes, max degree 3, 8 edges.
+Results: [9, 6, 0, 3, 3, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 9 nodes, with cycle, min degree 1, 1 connected component, 14 edges.
+Results: [10, 15, 0, 6, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 1 connected component, 42 nodes, with cycle, 52 edges, min degree 1.
+Results: [43, 76, 0, 18, 5, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, max diameter 3, 6 edges, with cycle, 5 nodes.
+Results: [7, 4, 0, 3, 3, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 9 nodes, with cycle, 26 edges, min degree 4.
+Results: [9, 25, 0, 8, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:53:28], Iteration [16/100]:
+l_D/R: 7.66, l_D/F: 2.83, l_D: -3.53, l_G: -2.78, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.29, closeness: 0.42, n_match: 0.49, m_match: 0.06, min_deg_match: 0.02, max_deg_match: 0.13, diam_match: 0.22, cc_match: 0.10, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 1 connected component, 8 edges, min degree 1.
+Results: [9, 8, 0, 6, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 9 nodes, max diameter 2, min degree 1, with cycle, 14 edges, 1 connected component.
+Results: [9, 12, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, with cycle, 52 edges, max diameter 5, max degree 19, 42 nodes, min degree 1.
+Results: [44, 59, 0, 16, 5, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max degree 3, 5 nodes, 1 connected component, 6 edges.
+Results: [5, 5, 0, 2, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 1 connected component, min degree 4, max diameter 2, with cycle, 9 nodes.
+Results: [10, 13, 0, 5, 4, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:58:52], Iteration [17/100]:
+l_D/R: 7.25, l_D/F: 3.61, l_D: -3.16, l_G: -3.59, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, 9 nodes, 8 edges, max diameter 5, max degree 3.
+Results: [9, 9, 0, 4, 2, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 9 nodes, 14 edges, min degree 1, with cycle, 1 connected component.
+Results: [9, 12, 0, 7, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 52 edges, 42 nodes, max degree 19.
+Results: [46, 61, 0, 17, 6, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 5 nodes, max diameter 3, 6 edges.
+Results: [5, 4, 0, 3, 3, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 26 edges, max diameter 2, 9 nodes, with cycle.
+Results: [12, 20, 0, 5, 3, 4, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:08:57], Iteration [18/100]:
+l_D/R: 7.97, l_D/F: 3.36, l_D: -2.92, l_G: -3.40, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.44, n_match: 0.52, m_match: 0.07, min_deg_match: 0.02, max_deg_match: 0.15, diam_match: 0.21, cc_match: 0.12, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, max degree 3, without cycle, 1 connected component, 9 nodes.
+Results: [9, 7, 0, 3, 5, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 9 nodes, 14 edges, min degree 1.
+Results: [9, 17, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max diameter 5, 42 nodes, 52 edges, min degree 1, 1 connected component, max degree 19.
+Results: [44, 63, 0, 18, 4, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 5 nodes, 6 edges, min degree 1.
+Results: [5, 4, 0, 3, 3, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, max degree 8, 9 nodes, 26 edges, min degree 4.
+Results: [9, 25, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:14:35], Iteration [19/100]:
+l_D/R: 7.41, l_D/F: 2.92, l_D: -3.24, l_G: -2.92, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, 9 nodes, 8 edges, max diameter 5, max degree 3, min degree 1, 1 connected component.
+Results: [8, 15, 0, 6, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 9 nodes, max diameter 2, with cycle, max degree 8, 14 edges.
+Results: [10, 17, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 1 connected component, with cycle, max degree 19, 42 nodes, min degree 1, 52 edges.
+Results: [42, 61, 0, 17, 5, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 5 nodes, with cycle, min degree 1, 6 edges.
+Results: [5, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 26 edges, 9 nodes, 1 connected component, max diameter 2, min degree 4, with cycle.
+Results: [9, 26, 0, 8, 4, -1, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-22_21-06/models...
+INFO:root:Elapsed [2:25:29], Iteration [20/100]:
+l_D/R: 6.91, l_D/F: 3.32, l_D: -2.88, l_G: -3.29, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.43, n_match: 0.54, m_match: 0.05, min_deg_match: 0.02, max_deg_match: 0.14, diam_match: 0.22, cc_match: 0.12, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, with cycle, 10 edges, 5 nodes, 1 connected component.
+Results: [5, 8, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, without cycle, 3 edges, max degree 2, max diameter 2.
+Results: [5, 6, 0, 2, 6, -1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 22 nodes, max diameter 4, 46 edges, max degree 9.
+Results: [21, 69, 0, 11, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, max degree 11, 52 edges, with cycle, 16 nodes, 1 connected component.
+Results: [14, 63, 0, 10, 4, -9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, with cycle, 77 edges, 23 nodes, min degree 3, max degree 11, max diameter 5.
+Results: [23, 86, 0, 12, 4, -2, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-22_21-06/models...
+INFO:root:Elapsed [2:25:49], Iteration [20/100]:
+l_D/R: 6.90, l_D/F: 3.22, l_D: -2.98, l_G: -3.29, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.44, n_match: 0.56, m_match: 0.07, min_deg_match: 0.01, max_deg_match: 0.15, diam_match: 0.23, cc_match: 0.16, cycle_match: 0.63
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 8 edges, min degree 1, 9 nodes, without cycle, max degree 3, max diameter 5.
+Results: [8, 6, 0, 2, 3, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 1, max degree 8, 9 nodes, with cycle, 14 edges, max diameter 2.
+Results: [10, 14, 0, 5, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, 42 nodes, max diameter 5, with cycle.
+Results: [42, 51, 0, 15, 6, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 6 edges, 5 nodes, max diameter 3.
+Results: [5, 5, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 9 nodes, max diameter 2, with cycle, 1 connected component, max degree 8, min degree 4.
+Results: [9, 17, 0, 6, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:31:27], Iteration [21/100]:
+l_D/R: 7.96, l_D/F: 3.53, l_D: -3.06, l_G: -3.53, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, 9 nodes, max diameter 5, without cycle, max degree 3, 1 connected component, min degree 1.
+Results: [9, 6, 0, 3, 3, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, max degree 8, 9 nodes, with cycle, min degree 1, 1 connected component, max diameter 2.
+Results: [10, 15, 0, 7, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, 42 nodes, 1 connected component, 52 edges, with cycle, min degree 1, max diameter 5.
+Results: [43, 56, 0, 18, 6, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 1, 5 nodes, max degree 3, 6 edges.
+Results: [5, 4, 0, 2, 4, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 1 connected component, with cycle, 26 edges.
+Results: [9, 18, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:41:58], Iteration [22/100]:
+l_D/R: 6.95, l_D/F: 2.15, l_D: -3.07, l_G: -2.19, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.45, n_match: 0.54, m_match: 0.09, min_deg_match: 0.02, max_deg_match: 0.17, diam_match: 0.21, cc_match: 0.13, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, min degree 1, max degree 3, 9 nodes, 1 connected component, without cycle.
+Results: [9, 3, 0, 2, 3, 6, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 14 edges, max diameter 2, with cycle, min degree 1.
+Results: [9, 11, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, max diameter 5, 42 nodes, 52 edges, min degree 1.
+Results: [42, 50, 0, 17, 4, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 6 edges, min degree 1, 5 nodes.
+Results: [5, 2, 0, 2, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, max degree 8, 1 connected component, 9 nodes, 26 edges.
+Results: [10, 17, 0, 6, 3, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:47:50], Iteration [23/100]:
+l_D/R: 8.08, l_D/F: 3.84, l_D: -3.16, l_G: -3.83, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, min degree 1, without cycle, max diameter 5, 9 nodes, 8 edges.
+Results: [9, 8, 0, 3, 5, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, min degree 1, 1 connected component, 14 edges, max degree 8, 9 nodes, max diameter 2.
+Results: [9, 12, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 52 edges, with cycle, 42 nodes, max diameter 5, max degree 19, min degree 1.
+Results: [42, 56, 0, 16, 7, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 3, 1 connected component, max degree 3, 6 edges, with cycle, min degree 1, 5 nodes.
+Results: [5, 6, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, 1 connected component, 9 nodes, 26 edges, max diameter 2.
+Results: [9, 23, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:57:32], Iteration [24/100]:
+l_D/R: 8.02, l_D/F: 3.05, l_D: -3.91, l_G: -3.04, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.44, n_match: 0.58, m_match: 0.07, min_deg_match: 0.01, max_deg_match: 0.14, diam_match: 0.21, cc_match: 0.13, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, 8 edges, max diameter 5, 9 nodes.
+Results: [9, 10, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 9 nodes, 14 edges, min degree 1, with cycle.
+Results: [9, 8, 0, 3, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, 1 connected component, 42 nodes, max degree 19.
+Results: [44, 58, 0, 18, 5, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 5 nodes, with cycle, 6 edges.
+Results: [5, 4, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 26 edges, min degree 4, 9 nodes.
+Results: [9, 10, 0, 4, 5, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:03:36], Iteration [25/100]:
+l_D/R: 9.00, l_D/F: 3.63, l_D: -3.41, l_G: -3.64, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 1 connected component, 9 nodes, max diameter 5, 8 edges.
+Results: [8, 8, 0, 3, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, min degree 1, 14 edges, max degree 8, max diameter 2, with cycle.
+Results: [9, 18, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 52 edges, max diameter 5, max degree 19, 42 nodes.
+Results: [41, 41, 0, 14, 4, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, 5 nodes, min degree 1, max diameter 3.
+Results: [5, 8, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 9 nodes, min degree 4, with cycle, 26 edges, max diameter 2.
+Results: [9, 25, 0, 7, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:13:03], Iteration [26/100]:
+l_D/R: 8.65, l_D/F: 4.41, l_D: -3.47, l_G: -4.40, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.45, n_match: 0.53, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.21, cc_match: 0.13, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, max diameter 5, min degree 1, 8 edges, 9 nodes.
+Results: [9, 11, 0, 5, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, with cycle, 9 nodes, max diameter 2.
+Results: [9, 11, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, 42 nodes, max diameter 5, with cycle, 52 edges.
+Results: [41, 49, 0, 14, 5, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, max degree 3, with cycle, 6 edges, 5 nodes.
+Results: [5, 5, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, min degree 4, 9 nodes, with cycle, max diameter 2, max degree 8.
+Results: [10, 24, 0, 7, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:19:01], Iteration [27/100]:
+l_D/R: 8.68, l_D/F: 4.64, l_D: -3.38, l_G: -4.67, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, without cycle, 9 nodes, max degree 3, min degree 1, 8 edges.
+Results: [9, 9, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, max diameter 2, 9 nodes, max degree 8, min degree 1.
+Results: [9, 11, 0, 6, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, 42 nodes, with cycle, max diameter 5, 1 connected component, max degree 19.
+Results: [42, 66, 0, 23, 5, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 6 edges, max diameter 3, with cycle, 5 nodes, max degree 3, 1 connected component.
+Results: [5, 3, 0, 2, 3, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 1 connected component, with cycle, max diameter 2, 26 edges.
+Results: [9, 23, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:28:43], Iteration [28/100]:
+l_D/R: 9.91, l_D/F: 4.34, l_D: -3.54, l_G: -4.34, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.44, n_match: 0.54, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.22, cc_match: 0.12, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 3, 8 edges, 1 connected component, max diameter 5, without cycle.
+Results: [9, 6, 0, 4, 3, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, with cycle, 9 nodes, 1 connected component, max degree 8, 14 edges.
+Results: [9, 11, 0, 5, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, min degree 1, 52 edges, with cycle, 42 nodes.
+Results: [42, 42, 0, 16, 3, 15, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, min degree 1, 6 edges, max diameter 3, with cycle, 1 connected component, max degree 3.
+Results: [5, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 26 edges, min degree 4, 9 nodes, 1 connected component.
+Results: [9, 22, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:34:21], Iteration [29/100]:
+l_D/R: 10.50, l_D/F: 5.68, l_D: -3.79, l_G: -5.69, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 1 connected component, 9 nodes, 8 edges.
+Results: [9, 7, 0, 4, 4, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, 1 connected component, min degree 1, 9 nodes, max degree 8.
+Results: [9, 20, 0, 7, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 1 connected component, 52 edges, max diameter 5, 42 nodes.
+Results: [43, 56, 0, 19, 7, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, min degree 1, with cycle, max degree 3, 6 edges.
+Results: [5, 7, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 1 connected component, with cycle, max degree 8, max diameter 2, min degree 4, 26 edges.
+Results: [9, 32, 0, 8, 3, -1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:44:12], Iteration [30/100]:
+l_D/R: 9.20, l_D/F: 4.42, l_D: -3.90, l_G: -4.40, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.45, n_match: 0.57, m_match: 0.07, min_deg_match: 0.01, max_deg_match: 0.15, diam_match: 0.23, cc_match: 0.13, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max degree 3, 9 nodes, 1 connected component, 8 edges.
+Results: [9, 6, 0, 3, 4, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 14 edges, with cycle, 9 nodes, max diameter 2.
+Results: [9, 18, 0, 6, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, with cycle, 42 nodes, max diameter 5.
+Results: [41, 61, 0, 18, 5, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max diameter 3, min degree 1, 1 connected component, 6 edges, max degree 3, 5 nodes.
+Results: [5, 3, 0, 2, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 26 edges, with cycle, 9 nodes, min degree 4, 1 connected component.
+Results: [9, 26, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:49:45], Iteration [31/100]:
+l_D/R: 9.66, l_D/F: 4.44, l_D: -2.98, l_G: -4.45, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, 8 edges, 9 nodes, max diameter 5, max degree 3.
+Results: [8, 8, 0, 3, 6, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, with cycle, 9 nodes, max diameter 2, max degree 8, 14 edges, 1 connected component.
+Results: [10, 11, 0, 4, 5, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, with cycle, min degree 1, 42 nodes, max diameter 5.
+Results: [42, 49, 0, 14, 5, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, max diameter 3, with cycle, 5 nodes, 6 edges, max degree 3.
+Results: [5, 5, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 9 nodes, 26 edges, min degree 4.
+Results: [9, 25, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:59:47], Iteration [32/100]:
+l_D/R: 9.32, l_D/F: 5.97, l_D: -2.94, l_G: -5.98, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.45, n_match: 0.56, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.16, diam_match: 0.22, cc_match: 0.12, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 8 edges, 1 connected component, max degree 3, 9 nodes.
+Results: [9, 8, 0, 3, 6, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, min degree 1, 14 edges, 9 nodes.
+Results: [9, 14, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, min degree 1, 42 nodes, max diameter 5.
+Results: [42, 60, 0, 17, 5, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, min degree 1, max degree 3, max diameter 3, 5 nodes.
+Results: [5, 6, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, with cycle, 1 connected component, 9 nodes, max degree 8, max diameter 2, 26 edges.
+Results: [9, 24, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:05:18], Iteration [33/100]:
+l_D/R: 10.42, l_D/F: 5.08, l_D: -3.94, l_G: -5.11, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 9 nodes, 8 edges, 1 connected component, min degree 1.
+Results: [9, 10, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, 9 nodes, max degree 8, 14 edges.
+Results: [9, 18, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, 1 connected component, 52 edges, with cycle.
+Results: [42, 61, 0, 17, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 3, max degree 3, 6 edges, 5 nodes, 1 connected component, with cycle, min degree 1.
+Results: [6, 5, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 26 edges, max diameter 2, 1 connected component, max degree 8, 9 nodes, min degree 4.
+Results: [10, 22, 0, 6, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:15:51], Iteration [34/100]:
+l_D/R: 10.64, l_D/F: 6.07, l_D: -3.68, l_G: -6.10, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.44, n_match: 0.52, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.22, cc_match: 0.11, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, max degree 3, 8 edges, 9 nodes, 1 connected component, min degree 1, max diameter 5.
+Results: [9, 9, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, 9 nodes, min degree 1, 1 connected component.
+Results: [9, 20, 0, 8, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, 52 edges, max diameter 5, with cycle.
+Results: [42, 53, 0, 16, 6, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 5 nodes, 1 connected component, 6 edges, max diameter 3, with cycle.
+Results: [5, 8, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, max degree 8, 9 nodes, 1 connected component, min degree 4.
+Results: [9, 22, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:21:22], Iteration [35/100]:
+l_D/R: 10.50, l_D/F: 4.96, l_D: -3.99, l_G: -4.95, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 9 nodes, max degree 3, 8 edges.
+Results: [9, 10, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 8, 14 edges, 1 connected component.
+Results: [9, 16, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 1, max degree 19, 52 edges, 42 nodes, max diameter 5.
+Results: [42, 47, 0, 16, 5, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, with cycle, 6 edges, min degree 1, 1 connected component.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 26 edges, 9 nodes, max degree 8, 1 connected component.
+Results: [9, 26, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:31:32], Iteration [36/100]:
+l_D/R: 11.16, l_D/F: 4.32, l_D: -2.87, l_G: -4.32, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.61, m_match: 0.07, min_deg_match: 0.01, max_deg_match: 0.15, diam_match: 0.22, cc_match: 0.13, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, min degree 1, 8 edges, max degree 3, 9 nodes.
+Results: [10, 9, 0, 4, 5, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, with cycle, 14 edges, 9 nodes, max degree 8.
+Results: [9, 17, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max degree 19, min degree 1, max diameter 5, 52 edges, 42 nodes, 1 connected component.
+Results: [40, 67, 0, 18, 5, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 1 connected component, max diameter 3, 5 nodes, 6 edges, min degree 1.
+Results: [6, 3, 0, 2, 3, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, with cycle, 1 connected component, 26 edges.
+Results: [9, 25, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:36:59], Iteration [37/100]:
+l_D/R: 10.62, l_D/F: 5.25, l_D: -3.87, l_G: -5.27, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 1 connected component, max diameter 5, 8 edges, 9 nodes, without cycle.
+Results: [9, 14, 0, 6, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, max diameter 2, 9 nodes, 14 edges.
+Results: [9, 9, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 42 nodes, 52 edges, max degree 19, 1 connected component, min degree 1.
+Results: [41, 51, 0, 19, 4, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max diameter 3, min degree 1, 1 connected component, 5 nodes, 6 edges.
+Results: [5, 6, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max degree 8, 26 edges, 9 nodes, max diameter 2.
+Results: [10, 23, 0, 7, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:46:10], Iteration [38/100]:
+l_D/R: 9.25, l_D/F: 6.62, l_D: -2.23, l_G: -6.62, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.34, closeness: 0.46, n_match: 0.63, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.18, diam_match: 0.22, cc_match: 0.13, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 9 nodes, 1 connected component, without cycle, 8 edges.
+Results: [8, 17, 0, 4, 5, -5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, 14 edges, 9 nodes, min degree 1.
+Results: [9, 14, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 52 edges, 42 nodes, max degree 19, 1 connected component.
+Results: [43, 56, 0, 16, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max diameter 3, with cycle, max degree 3, 5 nodes, 6 edges.
+Results: [5, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max degree 8, max diameter 2, 9 nodes, 26 edges, min degree 4.
+Results: [9, 20, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:51:39], Iteration [39/100]:
+l_D/R: 9.83, l_D/F: 4.71, l_D: -4.01, l_G: -4.73, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, 8 edges, max diameter 5, 9 nodes.
+Results: [9, 9, 0, 4, 4, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 14 edges, max degree 8, max diameter 2.
+Results: [9, 15, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, 52 edges, min degree 1, 1 connected component, max degree 19.
+Results: [39, 54, 0, 18, 5, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, 5 nodes, 1 connected component, max degree 3.
+Results: [5, 5, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, min degree 4, max degree 8, 9 nodes, max diameter 2, 1 connected component, 26 edges.
+Results: [9, 28, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-22_21-06/models...
+INFO:root:Elapsed [5:00:21], Iteration [40/100]:
+l_D/R: 10.12, l_D/F: 5.48, l_D: -3.78, l_G: -5.48, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.34, closeness: 0.47, n_match: 0.64, m_match: 0.10, min_deg_match: 0.01, max_deg_match: 0.16, diam_match: 0.21, cc_match: 0.14, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 5 nodes, 10 edges, max degree 4, max diameter 2, with cycle.
+Results: [5, 13, 0, 5, 2, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, min degree 1, without cycle, 2 connected component, max degree 2, 3 edges.
+Results: [6, 2, 0, 2, 2, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 2, 1 connected component, max degree 9, 22 nodes, max diameter 4, with cycle, 46 edges.
+Results: [22, 49, 0, 7, 5, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 16 nodes, 1 connected component, 52 edges, max degree 11, with cycle, min degree 1.
+Results: [16, 62, 0, 10, 5, -5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 77 edges, min degree 3, 23 nodes, max degree 11, 1 connected component.
+Results: [23, 78, 0, 14, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-22_21-06/models...
+INFO:root:Elapsed [5:00:34], Iteration [40/100]:
+l_D/R: 10.14, l_D/F: 5.49, l_D: -3.73, l_G: -5.42, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.46, n_match: 0.62, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.19, diam_match: 0.19, cc_match: 0.13, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 9 nodes, 1 connected component, 8 edges, max degree 3, min degree 1, without cycle.
+Results: [10, 13, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 1, with cycle, 14 edges, max degree 8, max diameter 2, 9 nodes.
+Results: [9, 12, 0, 4, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, with cycle, max diameter 5, min degree 1, 42 nodes, 1 connected component.
+Results: [41, 35, 0, 14, 5, 17, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 6 edges, max diameter 3, 1 connected component, max degree 3, with cycle, 5 nodes.
+Results: [5, 3, 0, 2, 3, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, max diameter 2, with cycle, min degree 4, 9 nodes, max degree 8.
+Results: [9, 25, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:06:11], Iteration [41/100]:
+l_D/R: 10.92, l_D/F: 5.53, l_D: -3.84, l_G: -5.52, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, max degree 3, 1 connected component, 9 nodes.
+Results: [9, 15, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 1 connected component, with cycle, 9 nodes, max diameter 2, 14 edges.
+Results: [9, 20, 0, 6, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, 42 nodes, min degree 1, 52 edges, with cycle, max diameter 5.
+Results: [44, 55, 0, 19, 4, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 6 edges, 5 nodes, 1 connected component.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, min degree 4, 26 edges, with cycle, max diameter 2.
+Results: [9, 28, 0, 8, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:14:50], Iteration [42/100]:
+l_D/R: 10.22, l_D/F: 4.86, l_D: -4.04, l_G: -4.85, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.59, m_match: 0.08, min_deg_match: 0.02, max_deg_match: 0.16, diam_match: 0.22, cc_match: 0.13, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, min degree 1, max degree 3, 8 edges, max diameter 5, 9 nodes.
+Results: [8, 3, 0, 2, 2, 5, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, 1 connected component, 9 nodes, max diameter 2.
+Results: [9, 12, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, with cycle, 42 nodes, 1 connected component.
+Results: [43, 57, 0, 18, 5, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 1, max diameter 3, 6 edges, 5 nodes, max degree 3.
+Results: [4, 7, 0, 4, 2, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, min degree 4, 9 nodes, 1 connected component, max degree 8, max diameter 2, 26 edges.
+Results: [9, 23, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:20:22], Iteration [43/100]:
+l_D/R: 11.72, l_D/F: 5.89, l_D: -4.03, l_G: -5.86, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, 9 nodes, 1 connected component, without cycle, min degree 1, max degree 3.
+Results: [9, 10, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max diameter 2, 14 edges, with cycle.
+Results: [9, 16, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, 42 nodes, max diameter 5, min degree 1, max degree 19, 1 connected component, with cycle.
+Results: [42, 55, 0, 17, 4, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 3, 6 edges, 5 nodes, with cycle.
+Results: [5, 5, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, 26 edges, with cycle, 9 nodes.
+Results: [9, 29, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:29:18], Iteration [44/100]:
+l_D/R: 10.14, l_D/F: 5.45, l_D: -3.79, l_G: -5.43, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.34, closeness: 0.47, n_match: 0.63, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.18, diam_match: 0.21, cc_match: 0.15, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max diameter 5, 9 nodes, 8 edges.
+Results: [9, 8, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, with cycle, 14 edges, 1 connected component, min degree 1, max degree 8, max diameter 2.
+Results: [9, 13, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, 1 connected component, max degree 19, 42 nodes.
+Results: [41, 42, 0, 14, 4, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 6 edges, max degree 3, max diameter 3, with cycle, 5 nodes, 1 connected component.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, with cycle, 9 nodes, max degree 8, 26 edges.
+Results: [10, 27, 0, 8, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:34:40], Iteration [45/100]:
+l_D/R: 9.89, l_D/F: 5.81, l_D: -3.64, l_G: -5.80, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, 9 nodes, 1 connected component, max degree 3, without cycle, min degree 1, max diameter 5.
+Results: [10, 5, 0, 2, 2, 5, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, 9 nodes, max degree 8, 1 connected component, 14 edges, with cycle, min degree 1.
+Results: [9, 13, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 52 edges, min degree 1, 42 nodes, with cycle, max degree 19.
+Results: [43, 52, 0, 18, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 1 connected component, max degree 3, max diameter 3, 5 nodes, 6 edges, min degree 1.
+Results: [5, 3, 0, 2, 2, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max degree 8, max diameter 2, min degree 4, 26 edges, 9 nodes.
+Results: [9, 23, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:43:48], Iteration [46/100]:
+l_D/R: 11.51, l_D/F: 5.02, l_D: -3.33, l_G: -4.99, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.60, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.22, cc_match: 0.12, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 8 edges, without cycle, 9 nodes, max degree 3, min degree 1, max diameter 5.
+Results: [9, 9, 0, 2, 3, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, max degree 8, min degree 1, max diameter 2, with cycle, 9 nodes.
+Results: [9, 12, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, 52 edges, 42 nodes, with cycle.
+Results: [43, 47, 0, 18, 4, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, 5 nodes, min degree 1, with cycle, max degree 3.
+Results: [5, 6, 0, 3, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 1 connected component, 26 edges, min degree 4.
+Results: [9, 27, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:49:11], Iteration [47/100]:
+l_D/R: 11.29, l_D/F: 4.95, l_D: -3.58, l_G: -4.94, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, min degree 1, 8 edges, max degree 3, 1 connected component, 9 nodes.
+Results: [9, 14, 0, 4, 5, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, with cycle, max degree 8, min degree 1, 14 edges, 9 nodes, max diameter 2.
+Results: [9, 14, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, with cycle, max degree 19, 42 nodes.
+Results: [41, 45, 0, 14, 4, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, max diameter 3, 5 nodes, 6 edges, min degree 1.
+Results: [5, 9, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 8, 26 edges, 1 connected component, max diameter 2, min degree 4.
+Results: [11, 28, 0, 8, 2, 3, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [5:58:55], Iteration [48/100]:
+l_D/R: 11.40, l_D/F: 5.01, l_D: -2.55, l_G: -5.00, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.57, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.22, cc_match: 0.12, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 9 nodes, max diameter 5, 1 connected component, 8 edges.
+Results: [10, 10, 0, 4, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, max diameter 2, 1 connected component, with cycle, min degree 1, 9 nodes, 14 edges.
+Results: [9, 10, 0, 5, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 42 nodes, max diameter 5, 52 edges, max degree 19, 1 connected component.
+Results: [44, 49, 0, 17, 5, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, 1 connected component, with cycle, min degree 1, 5 nodes, max degree 3.
+Results: [5, 5, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 26 edges, with cycle, 9 nodes, max diameter 2.
+Results: [9, 25, 0, 7, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:04:18], Iteration [49/100]:
+l_D/R: 11.45, l_D/F: 6.05, l_D: -4.35, l_G: -6.03, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, 8 edges, max diameter 5, max degree 3, 9 nodes.
+Results: [9, 4, 0, 2, 3, 5, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 14 edges, max diameter 2, 9 nodes.
+Results: [10, 10, 0, 4, 4, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, min degree 1, max diameter 5, max degree 19, with cycle, 52 edges.
+Results: [42, 58, 0, 17, 4, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, with cycle, 5 nodes, min degree 1, max diameter 3, 6 edges.
+Results: [5, 3, 0, 2, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 1 connected component, min degree 4, max degree 8, max diameter 2, 9 nodes, 26 edges.
+Results: [10, 25, 0, 8, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:13:42], Iteration [50/100]:
+l_D/R: 11.05, l_D/F: 6.56, l_D: -3.83, l_G: -6.57, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.46, n_match: 0.60, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.21, cc_match: 0.13, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, min degree 1, 9 nodes, max degree 3, 8 edges, 1 connected component, max diameter 5.
+Results: [9, 11, 0, 4, 7, -2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, min degree 1, 9 nodes, 14 edges, with cycle, 1 connected component.
+Results: [9, 11, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 1, max degree 19, max diameter 5, with cycle, 42 nodes, 52 edges.
+Results: [43, 50, 0, 18, 4, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 6 edges, with cycle, 1 connected component.
+Results: [5, 8, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max diameter 2, min degree 4, 26 edges.
+Results: [10, 24, 0, 7, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:19:05], Iteration [51/100]:
+l_D/R: 11.11, l_D/F: 5.94, l_D: -4.42, l_G: -5.95, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 1 connected component, 8 edges, max diameter 5, without cycle, 9 nodes.
+Results: [9, 1, 0, 1, 2, 8, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, 1 connected component, min degree 1, 9 nodes.
+Results: [9, 13, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 42 nodes, 52 edges, min degree 1.
+Results: [43, 60, 0, 16, 5, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 5 nodes, 6 edges, 1 connected component, with cycle.
+Results: [5, 5, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, 9 nodes, max diameter 2, 26 edges.
+Results: [9, 25, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:28:00], Iteration [52/100]:
+l_D/R: 11.41, l_D/F: 5.78, l_D: -4.51, l_G: -5.76, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.45, n_match: 0.57, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.21, cc_match: 0.11, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, without cycle, 8 edges, 9 nodes.
+Results: [9, 7, 0, 2, 3, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, max degree 8, max diameter 2, with cycle, 1 connected component, 9 nodes.
+Results: [9, 14, 0, 6, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, 52 edges, 1 connected component, max diameter 5, with cycle, min degree 1, max degree 19.
+Results: [41, 42, 0, 13, 5, 17, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 5 nodes, min degree 1, 6 edges, 1 connected component.
+Results: [5, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 9 nodes, min degree 4, max degree 8.
+Results: [9, 25, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:33:26], Iteration [53/100]:
+l_D/R: 11.75, l_D/F: 6.20, l_D: -4.47, l_G: -6.20, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, 8 edges, 1 connected component, 9 nodes, max degree 3.
+Results: [9, 8, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 8, 14 edges, max diameter 2.
+Results: [9, 15, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, 52 edges, max degree 19, min degree 1, with cycle, 1 connected component, max diameter 5.
+Results: [41, 43, 0, 14, 4, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, with cycle, min degree 1, 1 connected component, max degree 3, 6 edges, max diameter 3.
+Results: [6, 6, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, max degree 8, min degree 4, 9 nodes.
+Results: [9, 23, 0, 8, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:42:10], Iteration [54/100]:
+l_D/R: 11.13, l_D/F: 6.03, l_D: -4.28, l_G: -6.04, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.59, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.18, diam_match: 0.21, cc_match: 0.12, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, max degree 3, 9 nodes, 1 connected component.
+Results: [10, 6, 0, 4, 4, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, max diameter 2, with cycle, max degree 8, 9 nodes.
+Results: [9, 10, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 1 connected component, max diameter 5, 52 edges, 42 nodes, max degree 19, with cycle.
+Results: [43, 46, 0, 15, 6, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, min degree 1, 6 edges, max degree 3.
+Results: [5, 2, 0, 1, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, 9 nodes, with cycle, max degree 8, 1 connected component, 26 edges.
+Results: [9, 24, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:47:37], Iteration [55/100]:
+l_D/R: 11.18, l_D/F: 6.23, l_D: -4.28, l_G: -6.23, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, max degree 3, 8 edges, 9 nodes.
+Results: [10, 9, 0, 4, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 14 edges, 9 nodes, max diameter 2, min degree 1, 1 connected component.
+Results: [9, 11, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, 42 nodes, min degree 1, 52 edges, max diameter 5.
+Results: [42, 59, 0, 21, 4, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 3, 5 nodes, with cycle, 6 edges, 1 connected component, min degree 1.
+Results: [5, 8, 0, 4, 2, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, 9 nodes, min degree 4, 1 connected component, 26 edges.
+Results: [9, 27, 0, 8, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [6:56:35], Iteration [56/100]:
+l_D/R: 12.38, l_D/F: 5.80, l_D: -4.32, l_G: -5.76, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.34, closeness: 0.46, n_match: 0.63, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.22, cc_match: 0.11, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 8 edges, 1 connected component, without cycle, min degree 1, 9 nodes.
+Results: [9, 10, 0, 5, 5, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, 1 connected component, max degree 8, min degree 1, 9 nodes, with cycle, 14 edges.
+Results: [9, 16, 0, 7, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, max degree 19, max diameter 5, min degree 1, 42 nodes, with cycle.
+Results: [42, 41, 0, 14, 5, 16, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 6 edges, 5 nodes, with cycle.
+Results: [5, 3, 0, 2, 3, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, min degree 4, 9 nodes, 26 edges.
+Results: [11, 24, 0, 8, 2, 3, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:01:58], Iteration [57/100]:
+l_D/R: 11.56, l_D/F: 5.45, l_D: -4.53, l_G: -5.46, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, min degree 1, 8 edges, 9 nodes, max diameter 5, 1 connected component.
+Results: [9, 8, 0, 4, 4, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, max diameter 2, 14 edges, min degree 1, 9 nodes.
+Results: [9, 13, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, 42 nodes, max diameter 5, 52 edges, min degree 1.
+Results: [42, 40, 0, 14, 4, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 3, 6 edges, with cycle, 5 nodes, min degree 1, 1 connected component.
+Results: [5, 6, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, max degree 8, min degree 4, 26 edges, 9 nodes.
+Results: [9, 29, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:09:45], Iteration [58/100]:
+l_D/R: 11.72, l_D/F: 4.93, l_D: -4.72, l_G: -4.91, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.63, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.21, cc_match: 0.11, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 3, 1 connected component, 8 edges, without cycle, max diameter 5, min degree 1.
+Results: [8, 15, 0, 5, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 14 edges, min degree 1, max diameter 2, with cycle, max degree 8, 1 connected component.
+Results: [9, 11, 0, 4, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, max degree 19, min degree 1, 1 connected component, max diameter 5, with cycle, 52 edges.
+Results: [43, 54, 0, 16, 5, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, with cycle, max diameter 3, 6 edges, max degree 3, 5 nodes.
+Results: [5, 4, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 26 edges, 1 connected component, max diameter 2, 9 nodes, with cycle, min degree 4.
+Results: [9, 24, 0, 6, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:15:04], Iteration [59/100]:
+l_D/R: 11.26, l_D/F: 6.24, l_D: -4.17, l_G: -6.24, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 9 nodes, 1 connected component, 8 edges, max diameter 5, min degree 1.
+Results: [9, 13, 0, 5, 6, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 9 nodes, 1 connected component, 14 edges.
+Results: [10, 13, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 42 nodes, 52 edges, with cycle, 1 connected component, max degree 19.
+Results: [42, 55, 0, 20, 4, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 5 nodes, 6 edges, 1 connected component.
+Results: [5, 6, 0, 3, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, with cycle, max diameter 2, 9 nodes, max degree 8, 1 connected component.
+Results: [10, 27, 0, 8, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-22_21-06/models...
+INFO:root:Elapsed [7:23:13], Iteration [60/100]:
+l_D/R: 11.39, l_D/F: 5.50, l_D: -4.51, l_G: -5.47, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.46, n_match: 0.62, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.16, diam_match: 0.21, cc_match: 0.11, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 10 edges, 5 nodes, min degree 4, 1 connected component.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 2, 3 edges, without cycle, 5 nodes.
+Results: [6, 3, 0, 2, 3, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 22 nodes, with cycle, max diameter 4, 46 edges, max degree 9.
+Results: [22, 52, 0, 9, 6, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 16 nodes, with cycle, max diameter 5, max degree 11, 52 edges, min degree 1.
+Results: [16, 46, 0, 8, 4, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 77 edges, with cycle, 1 connected component, min degree 3, max degree 11, 23 nodes, max diameter 5.
+Results: [23, 80, 0, 11, 4, -4, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-22_21-06/models...
+INFO:root:Elapsed [7:23:22], Iteration [60/100]:
+l_D/R: 11.39, l_D/F: 5.41, l_D: -4.06, l_G: -5.43, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.34, closeness: 0.45, n_match: 0.63, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.18, diam_match: 0.18, cc_match: 0.14, cycle_match: 0.64
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, min degree 1, 8 edges, without cycle.
+Results: [9, 11, 0, 4, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 14 edges, max diameter 2, 9 nodes, with cycle, 1 connected component, min degree 1.
+Results: [9, 16, 0, 5, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, 52 edges, min degree 1, max diameter 5, 42 nodes.
+Results: [41, 42, 0, 13, 5, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, max degree 3, max diameter 3, 5 nodes, with cycle.
+Results: [5, 6, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 26 edges, with cycle, 1 connected component.
+Results: [9, 26, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:28:41], Iteration [61/100]:
+l_D/R: 11.52, l_D/F: 6.06, l_D: -4.59, l_G: -6.11, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, 9 nodes, min degree 1, without cycle.
+Results: [9, 6, 0, 4, 4, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max diameter 2, max degree 8, 1 connected component, 14 edges, 9 nodes.
+Results: [9, 13, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, with cycle, 42 nodes, max diameter 5, 52 edges.
+Results: [44, 52, 0, 19, 5, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, with cycle, 1 connected component, max diameter 3, max degree 3, 6 edges.
+Results: [5, 6, 0, 3, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, max diameter 2, min degree 4, 1 connected component, 9 nodes.
+Results: [9, 23, 0, 7, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:37:28], Iteration [62/100]:
+l_D/R: 11.08, l_D/F: 6.65, l_D: -3.70, l_G: -6.64, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.63, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.16, diam_match: 0.22, cc_match: 0.11, cycle_match: 0.60
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 1, without cycle, max diameter 5, 8 edges, 9 nodes, max degree 3.
+Results: [8, 8, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 8, max diameter 2, min degree 1, 1 connected component, 14 edges, with cycle.
+Results: [9, 8, 0, 4, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, min degree 1, 1 connected component, max degree 19, 52 edges, 42 nodes.
+Results: [42, 40, 0, 14, 5, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 3, 6 edges, max degree 3, 5 nodes, with cycle, 1 connected component.
+Results: [5, 5, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, min degree 4, 9 nodes, max degree 8, 1 connected component.
+Results: [9, 24, 0, 6, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:42:47], Iteration [63/100]:
+l_D/R: 11.91, l_D/F: 5.74, l_D: -4.75, l_G: -5.73, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, without cycle, 9 nodes, 8 edges.
+Results: [9, 5, 0, 3, 4, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, with cycle, max degree 8, 9 nodes, max diameter 2, min degree 1.
+Results: [9, 16, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 42 nodes, max degree 19, 1 connected component, max diameter 5, min degree 1, 52 edges.
+Results: [42, 49, 0, 17, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, max degree 3, 5 nodes, max diameter 3.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 4, max diameter 2, with cycle, 9 nodes, 26 edges.
+Results: [9, 24, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:53:02], Iteration [64/100]:
+l_D/R: 11.89, l_D/F: 5.46, l_D: -4.73, l_G: -5.50, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.34, closeness: 0.46, n_match: 0.62, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.21, cc_match: 0.12, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 9 nodes, min degree 1, 8 edges, max diameter 5.
+Results: [9, 8, 0, 3, 6, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 1 connected component, 9 nodes, 14 edges.
+Results: [10, 14, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, 52 edges, max degree 19, max diameter 5.
+Results: [43, 58, 0, 18, 4, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 5 nodes, 1 connected component, with cycle, 6 edges, max diameter 3.
+Results: [5, 4, 0, 3, 2, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 9 nodes, 1 connected component, max diameter 2, 26 edges.
+Results: [9, 26, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [7:58:20], Iteration [65/100]:
+l_D/R: 11.86, l_D/F: 5.41, l_D: -4.95, l_G: -5.42, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 8 edges, max degree 3, without cycle, 1 connected component, max diameter 5.
+Results: [9, 12, 0, 4, 7, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max diameter 2, 14 edges, min degree 1, 1 connected component, 9 nodes.
+Results: [9, 12, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, max degree 19, 52 edges, max diameter 5.
+Results: [43, 41, 0, 13, 6, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max degree 3, with cycle, max diameter 3, 5 nodes, 1 connected component, 6 edges.
+Results: [5, 8, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, max diameter 2, with cycle, 26 edges, 9 nodes.
+Results: [9, 30, 0, 8, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:08:28], Iteration [66/100]:
+l_D/R: 11.88, l_D/F: 5.28, l_D: -5.31, l_G: -5.25, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.43, n_match: 0.59, m_match: 0.07, min_deg_match: 0.01, max_deg_match: 0.16, diam_match: 0.19, cc_match: 0.09, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max degree 3, 8 edges, 9 nodes, without cycle, 1 connected component, max diameter 5.
+Results: [9, 13, 0, 5, 5, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 8, 1 connected component, 14 edges, min degree 1.
+Results: [9, 13, 0, 5, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, 42 nodes, 52 edges, min degree 1, with cycle, 1 connected component, max diameter 5.
+Results: [40, 57, 0, 17, 5, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 1 connected component, min degree 1, max degree 3, 6 edges.
+Results: [5, 6, 0, 3, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 26 edges, max degree 8, 9 nodes, with cycle.
+Results: [9, 27, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:13:50], Iteration [67/100]:
+l_D/R: 12.11, l_D/F: 5.52, l_D: -4.97, l_G: -5.54, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 9 nodes, max degree 3, 8 edges, min degree 1.
+Results: [9, 14, 0, 5, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, min degree 1, max diameter 2, 14 edges, 9 nodes, max degree 8.
+Results: [9, 14, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 42 nodes, with cycle, 52 edges, 1 connected component.
+Results: [43, 52, 0, 15, 6, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 3, 5 nodes, 1 connected component, min degree 1, with cycle, max degree 3, 6 edges.
+Results: [5, 5, 0, 3, 3, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, min degree 4, max diameter 2, 9 nodes.
+Results: [9, 26, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:23:02], Iteration [68/100]:
+l_D/R: 11.53, l_D/F: 4.96, l_D: -4.80, l_G: -4.96, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.45, n_match: 0.59, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.21, cc_match: 0.11, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, max degree 3, max diameter 5, min degree 1, without cycle, 9 nodes, 1 connected component.
+Results: [8, 7, 0, 3, 4, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 14 edges, 9 nodes, max degree 8.
+Results: [9, 16, 0, 6, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max degree 19, 42 nodes, max diameter 5, 52 edges, 1 connected component.
+Results: [42, 42, 0, 11, 8, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, with cycle, 5 nodes, min degree 1.
+Results: [5, 7, 0, 3, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, max diameter 2, 9 nodes, with cycle, 26 edges.
+Results: [9, 22, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:28:26], Iteration [69/100]:
+l_D/R: 11.76, l_D/F: 4.46, l_D: -4.93, l_G: -4.45, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, min degree 1, without cycle, 8 edges, 1 connected component, max degree 3.
+Results: [9, 14, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, max degree 8, 14 edges, 9 nodes, min degree 1.
+Results: [9, 10, 0, 5, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 42 nodes, with cycle, 52 edges.
+Results: [43, 45, 0, 12, 6, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 1 connected component, 6 edges, max degree 3, 5 nodes.
+Results: [5, 4, 0, 2, 3, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, with cycle, min degree 4, 26 edges, 9 nodes, 1 connected component.
+Results: [9, 25, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:37:03], Iteration [70/100]:
+l_D/R: 11.11, l_D/F: 5.00, l_D: -4.90, l_G: -4.99, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.62, m_match: 0.08, min_deg_match: 0.02, max_deg_match: 0.17, diam_match: 0.21, cc_match: 0.11, cycle_match: 0.60
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 3, min degree 1, max diameter 5, without cycle, 8 edges, 1 connected component.
+Results: [8, 14, 0, 4, 8, -6, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, 9 nodes, max degree 8, min degree 1, with cycle, max diameter 2, 1 connected component.
+Results: [9, 11, 0, 6, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 52 edges, with cycle, 42 nodes.
+Results: [43, 57, 0, 19, 4, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, with cycle, max diameter 3, 6 edges, max degree 3.
+Results: [5, 6, 0, 3, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, max degree 8, 9 nodes, max diameter 2, with cycle, 1 connected component.
+Results: [10, 23, 0, 8, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:42:29], Iteration [71/100]:
+l_D/R: 12.08, l_D/F: 5.17, l_D: -4.98, l_G: -5.15, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 9 nodes, 8 edges, max diameter 5.
+Results: [10, 13, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max diameter 2, with cycle, 1 connected component, max degree 8, 14 edges, 9 nodes.
+Results: [9, 19, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max degree 19, max diameter 5, 52 edges, 1 connected component, min degree 1, 42 nodes.
+Results: [41, 54, 0, 12, 5, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 5 nodes, 6 edges, max degree 3.
+Results: [5, 4, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, min degree 4, max degree 8, 26 edges, 1 connected component, max diameter 2.
+Results: [9, 25, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:50:51], Iteration [72/100]:
+l_D/R: 11.45, l_D/F: 5.45, l_D: -4.79, l_G: -5.42, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.46, n_match: 0.62, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.21, cc_match: 0.11, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, max degree 3, 9 nodes, 8 edges, min degree 1.
+Results: [9, 9, 0, 3, 6, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 9 nodes, max degree 8, 14 edges, max diameter 2, min degree 1, 1 connected component.
+Results: [9, 14, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, min degree 1, 42 nodes, max diameter 5, 52 edges, with cycle.
+Results: [41, 33, 0, 10, 6, 15, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max degree 3, max diameter 3, 5 nodes, 6 edges, min degree 1, 1 connected component.
+Results: [5, 5, 0, 2, 5, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 1 connected component, min degree 4, max degree 8, 9 nodes.
+Results: [9, 21, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [8:56:17], Iteration [73/100]:
+l_D/R: 12.38, l_D/F: 5.28, l_D: -4.39, l_G: -5.28, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, 9 nodes, min degree 1, max diameter 5.
+Results: [9, 10, 0, 3, 5, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 9 nodes, 1 connected component, 14 edges.
+Results: [9, 13, 0, 6, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, 52 edges, max diameter 5, with cycle, 1 connected component.
+Results: [42, 48, 0, 14, 5, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max diameter 3, 5 nodes, 6 edges, 1 connected component, min degree 1.
+Results: [5, 6, 0, 3, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, 9 nodes, with cycle, 26 edges, min degree 4, 1 connected component, max degree 8.
+Results: [10, 26, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:04:30], Iteration [74/100]:
+l_D/R: 11.58, l_D/F: 5.06, l_D: -5.07, l_G: -5.05, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.62, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.16, diam_match: 0.21, cc_match: 0.10, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 1 connected component, max degree 3, 8 edges, max diameter 5, without cycle.
+Results: [9, 5, 0, 3, 4, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, min degree 1, max degree 8, 14 edges, max diameter 2.
+Results: [9, 15, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, 52 edges, max diameter 5, min degree 1.
+Results: [42, 50, 0, 16, 5, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, max degree 3, max diameter 3, 5 nodes, min degree 1.
+Results: [5, 5, 0, 2, 5, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, max diameter 2, min degree 4, 9 nodes, 1 connected component, max degree 8.
+Results: [9, 24, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:09:55], Iteration [75/100]:
+l_D/R: 11.88, l_D/F: 5.50, l_D: -5.07, l_G: -5.50, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 9 nodes, max degree 3, 8 edges, 1 connected component, without cycle, min degree 1.
+Results: [9, 7, 0, 4, 4, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 9 nodes, 1 connected component, max diameter 2, 14 edges.
+Results: [9, 8, 0, 3, 6, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 52 edges, max degree 19, 42 nodes.
+Results: [43, 43, 0, 13, 5, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, max diameter 3, 5 nodes, 1 connected component.
+Results: [5, 9, 0, 4, 2, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, with cycle, max diameter 2, 26 edges, 9 nodes.
+Results: [9, 24, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:17:55], Iteration [76/100]:
+l_D/R: 10.53, l_D/F: 6.04, l_D: -3.98, l_G: -6.04, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.34, closeness: 0.46, n_match: 0.66, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.21, cc_match: 0.11, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, min degree 1, 1 connected component, 9 nodes, 8 edges, max degree 3, without cycle.
+Results: [9, 11, 0, 3, 8, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 8, min degree 1, 14 edges.
+Results: [9, 20, 0, 7, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, 1 connected component, 52 edges, min degree 1, 42 nodes.
+Results: [43, 40, 0, 12, 5, 15, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 5 nodes, 6 edges, with cycle.
+Results: [5, 7, 0, 3, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, 1 connected component, max degree 8, 9 nodes.
+Results: [9, 22, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:23:18], Iteration [77/100]:
+l_D/R: 12.03, l_D/F: 5.26, l_D: -5.12, l_G: -5.27, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, 1 connected component, max diameter 5, 9 nodes, max degree 3, 8 edges, min degree 1.
+Results: [9, 14, 0, 4, 7, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 9 nodes, 14 edges, max diameter 2, max degree 8, 1 connected component, with cycle.
+Results: [9, 12, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, 1 connected component, with cycle, 52 edges.
+Results: [41, 60, 0, 16, 4, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 1 connected component, 6 edges, max degree 3, max diameter 3, with cycle, 5 nodes.
+Results: [5, 9, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 26 edges, max degree 8, max diameter 2.
+Results: [9, 23, 0, 7, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:31:04], Iteration [78/100]:
+l_D/R: 12.37, l_D/F: 5.21, l_D: -4.88, l_G: -5.19, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.46, n_match: 0.62, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.16, diam_match: 0.21, cc_match: 0.11, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, max degree 3, 8 edges, 1 connected component, min degree 1, 9 nodes, without cycle.
+Results: [10, 9, 0, 2, 4, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max diameter 2, 14 edges, with cycle, max degree 8, 1 connected component, min degree 1.
+Results: [9, 10, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, min degree 1, max diameter 5, 52 edges, 1 connected component.
+Results: [42, 45, 0, 14, 4, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, max diameter 3, with cycle, min degree 1, max degree 3, 5 nodes, 6 edges.
+Results: [5, 8, 0, 3, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, max diameter 2, min degree 4, 1 connected component, 9 nodes, with cycle.
+Results: [9, 27, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:36:29], Iteration [79/100]:
+l_D/R: 12.07, l_D/F: 5.29, l_D: -5.29, l_G: -5.27, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 3, without cycle, 8 edges, 1 connected component, min degree 1, max diameter 5.
+Results: [10, 9, 0, 4, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 1, 14 edges, max diameter 2, with cycle, 9 nodes.
+Results: [9, 10, 0, 3, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max degree 19, with cycle, 1 connected component, 52 edges, 42 nodes.
+Results: [44, 54, 0, 14, 3, 17, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, 1 connected component, 6 edges, min degree 1.
+Results: [5, 5, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, max degree 8, 26 edges, with cycle, max diameter 2, min degree 4, 9 nodes.
+Results: [9, 27, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-22_21-06/models...
+INFO:root:Elapsed [9:44:29], Iteration [80/100]:
+l_D/R: 12.36, l_D/F: 4.18, l_D: -5.07, l_G: -4.21, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.44, n_match: 0.58, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.16, diam_match: 0.20, cc_match: 0.10, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 4, 5 nodes, max diameter 2, 1 connected component, 10 edges, min degree 4.
+Results: [5, 10, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 2, 2 connected component, min degree 1, 5 nodes, 3 edges.
+Results: [5, 5, 0, 2, 3, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 22 nodes, max diameter 4, 46 edges, with cycle.
+Results: [21, 66, 0, 9, 6, -8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, min degree 1, 1 connected component, 16 nodes, max degree 11, max diameter 5, with cycle.
+Results: [17, 64, 0, 10, 4, -5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 77 edges, 23 nodes, 1 connected component, with cycle.
+Results: [24, 97, 0, 12, 5, -9, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-22_21-06/models...
+INFO:root:Elapsed [9:44:39], Iteration [80/100]:
+l_D/R: 12.38, l_D/F: 4.23, l_D: -5.50, l_G: -4.13, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.43, n_match: 0.56, m_match: 0.09, min_deg_match: 0.02, max_deg_match: 0.16, diam_match: 0.21, cc_match: 0.10, cycle_match: 0.60
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, max diameter 5, 8 edges, 9 nodes.
+Results: [9, 8, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 14 edges, max degree 8, 1 connected component, with cycle, max diameter 2.
+Results: [9, 11, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 52 edges, max diameter 5, min degree 1, with cycle, 42 nodes.
+Results: [43, 49, 0, 15, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, max degree 3, with cycle, 6 edges, max diameter 3, min degree 1, 1 connected component.
+Results: [5, 6, 0, 4, 3, -1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, max degree 8, with cycle, max diameter 2, 9 nodes, 1 connected component, min degree 4.
+Results: [9, 23, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:50:03], Iteration [81/100]:
+l_D/R: 11.45, l_D/F: 4.60, l_D: -4.78, l_G: -4.58, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, 9 nodes, min degree 1, max diameter 5, without cycle, 1 connected component.
+Results: [8, 5, 0, 2, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, with cycle, min degree 1, 1 connected component, 14 edges, 9 nodes, max degree 8.
+Results: [9, 11, 0, 5, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, 52 edges, max diameter 5, min degree 1, 1 connected component, max degree 19.
+Results: [42, 48, 0, 16, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max diameter 3, 1 connected component, 5 nodes, 6 edges, min degree 1.
+Results: [5, 7, 0, 3, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, max diameter 2, max degree 8, 26 edges, min degree 4, with cycle, 9 nodes.
+Results: [9, 23, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [9:59:43], Iteration [82/100]:
+l_D/R: 12.27, l_D/F: 4.97, l_D: -5.19, l_G: -4.96, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.62, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.16, diam_match: 0.21, cc_match: 0.10, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 8 edges, min degree 1, 9 nodes, without cycle, max degree 3.
+Results: [9, 6, 0, 2, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, 9 nodes, 1 connected component, min degree 1, 14 edges, with cycle.
+Results: [9, 17, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 52 edges, 42 nodes, max diameter 5, min degree 1, 1 connected component.
+Results: [43, 44, 0, 14, 6, 16, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, with cycle, max degree 3, max diameter 3, 1 connected component, min degree 1, 5 nodes.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, 26 edges, 9 nodes, with cycle, 1 connected component.
+Results: [9, 26, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:05:04], Iteration [83/100]:
+l_D/R: 11.51, l_D/F: 5.77, l_D: -4.84, l_G: -5.77, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 3, 1 connected component, max diameter 5, without cycle, 8 edges.
+Results: [9, 11, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 9 nodes, 14 edges, max degree 8.
+Results: [9, 15, 0, 8, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, min degree 1, 52 edges, max diameter 5.
+Results: [42, 51, 0, 15, 6, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, min degree 1, 1 connected component, 5 nodes.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, max diameter 2, max degree 8, 1 connected component, 9 nodes, 26 edges.
+Results: [9, 26, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:13:37], Iteration [84/100]:
+l_D/R: 11.90, l_D/F: 5.26, l_D: -4.90, l_G: -5.25, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.62, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.20, cc_match: 0.10, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 9 nodes, without cycle, max diameter 5, min degree 1, 8 edges, max degree 3.
+Results: [9, 14, 0, 4, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max diameter 2, max degree 8, 1 connected component, 14 edges.
+Results: [9, 8, 0, 5, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, 52 edges, min degree 1, 42 nodes, with cycle.
+Results: [43, 53, 0, 12, 6, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, 5 nodes, max diameter 3, max degree 3.
+Results: [5, 7, 0, 3, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26 edges, max degree 8, 1 connected component, 9 nodes.
+Results: [10, 28, 0, 8, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:19:10], Iteration [85/100]:
+l_D/R: 12.19, l_D/F: 4.79, l_D: -4.46, l_G: -4.83, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, max diameter 5, 8 edges, 1 connected component, without cycle, min degree 1, 9 nodes.
+Results: [9, 14, 0, 4, 7, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, max degree 8, max diameter 2, with cycle, 9 nodes, 1 connected component.
+Results: [10, 20, 0, 8, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, min degree 1, 42 nodes, with cycle, max diameter 5, max degree 19, 1 connected component.
+Results: [41, 43, 0, 12, 7, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, max diameter 3, with cycle, 5 nodes, 6 edges, 1 connected component.
+Results: [6, 9, 0, 6, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, with cycle, 9 nodes, min degree 4, max degree 8, 1 connected component, 26 edges.
+Results: [9, 26, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:26:33], Iteration [86/100]:
+l_D/R: 11.55, l_D/F: 5.32, l_D: -4.88, l_G: -5.30, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.44, n_match: 0.57, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.20, cc_match: 0.10, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, max diameter 5, 8 edges, 9 nodes.
+Results: [9, 9, 0, 3, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 9 nodes, 14 edges, 1 connected component, with cycle.
+Results: [9, 9, 0, 3, 5, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, 1 connected component, max diameter 5, min degree 1, 52 edges, max degree 19, with cycle.
+Results: [42, 50, 0, 13, 5, 15, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 6 edges, max degree 3, 5 nodes.
+Results: [5, 2, 0, 1, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, max degree 8, 1 connected component, max diameter 2, with cycle, 9 nodes, 26 edges.
+Results: [9, 20, 0, 6, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:31:55], Iteration [87/100]:
+l_D/R: 12.55, l_D/F: 5.75, l_D: -5.34, l_G: -5.79, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max diameter 5, without cycle, 8 edges, min degree 1.
+Results: [9, 11, 0, 4, 6, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, with cycle, 9 nodes, max diameter 2.
+Results: [9, 13, 0, 6, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, with cycle, 42 nodes, 52 edges.
+Results: [42, 60, 0, 17, 5, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 3, 6 edges, max degree 3, 1 connected component, 5 nodes, with cycle, min degree 1.
+Results: [5, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, with cycle, 1 connected component, max degree 8, 9 nodes, max diameter 2, 26 edges.
+Results: [9, 28, 0, 7, 2, -1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:39:18], Iteration [88/100]:
+l_D/R: 12.32, l_D/F: 5.12, l_D: -4.88, l_G: -5.14, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.63, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.21, cc_match: 0.10, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, 9 nodes, max diameter 5, min degree 1, max degree 3.
+Results: [9, 10, 0, 4, 6, -1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 14 edges, 1 connected component, 9 nodes.
+Results: [9, 10, 0, 6, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, 42 nodes, max degree 19, max diameter 5.
+Results: [43, 47, 0, 15, 6, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 1, max diameter 3, with cycle, max degree 3, 5 nodes, 6 edges.
+Results: [6, 5, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max diameter 2, max degree 8, with cycle, 26 edges, min degree 4.
+Results: [9, 22, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:44:37], Iteration [89/100]:
+l_D/R: 11.66, l_D/F: 6.16, l_D: -4.72, l_G: -6.16, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 9 nodes, without cycle, max diameter 5, max degree 3, 8 edges.
+Results: [9, 12, 0, 3, 5, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, 14 edges, 9 nodes, with cycle, max degree 8.
+Results: [9, 15, 0, 6, 5, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, 42 nodes, max degree 19, with cycle.
+Results: [43, 43, 0, 12, 5, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 5 nodes, 6 edges, min degree 1.
+Results: [5, 8, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 9 nodes, 26 edges, max diameter 2.
+Results: [8, 25, 0, 8, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:52:03], Iteration [90/100]:
+l_D/R: 13.06, l_D/F: 6.33, l_D: -5.15, l_G: -6.31, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.62, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.17, diam_match: 0.20, cc_match: 0.11, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, 1 connected component, 8 edges, min degree 1, 9 nodes.
+Results: [9, 8, 0, 3, 4, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, 9 nodes, with cycle, 14 edges.
+Results: [9, 19, 0, 5, 5, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max diameter 5, 52 edges, with cycle, max degree 19, 42 nodes.
+Results: [43, 60, 0, 18, 6, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 3, 6 edges, max degree 3, 5 nodes.
+Results: [5, 7, 0, 5, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, 1 connected component, 26 edges, with cycle, 9 nodes.
+Results: [9, 30, 0, 8, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [10:57:22], Iteration [91/100]:
+l_D/R: 12.63, l_D/F: 5.50, l_D: -5.44, l_G: -5.50, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max diameter 5, 8 edges, max degree 3, min degree 1.
+Results: [9, 9, 0, 4, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 9 nodes, 14 edges, min degree 1, max diameter 2.
+Results: [9, 13, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 42 nodes, 52 edges, with cycle, max degree 19, max diameter 5.
+Results: [43, 42, 0, 13, 5, 15, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 1 connected component, 6 edges, 5 nodes.
+Results: [5, 5, 0, 3, 4, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 26 edges, max diameter 2, 9 nodes, 1 connected component.
+Results: [9, 24, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [11:04:49], Iteration [92/100]:
+l_D/R: 11.96, l_D/F: 7.38, l_D: -3.97, l_G: -7.41, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.61, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.16, diam_match: 0.21, cc_match: 0.10, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 5, min degree 1, 9 nodes, 8 edges, without cycle.
+Results: [10, 15, 0, 4, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, min degree 1, 1 connected component, 14 edges, max diameter 2, 9 nodes.
+Results: [8, 14, 0, 6, 5, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42 nodes, max diameter 5, 52 edges, 1 connected component, min degree 1.
+Results: [42, 55, 0, 15, 6, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 6 edges, 5 nodes, min degree 1.
+Results: [5, 7, 0, 4, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, 26 edges, 1 connected component, with cycle, max degree 8, max diameter 2, 9 nodes.
+Results: [9, 28, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [11:10:07], Iteration [93/100]:
+l_D/R: 13.17, l_D/F: 5.92, l_D: -5.61, l_G: -5.92, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 1, 9 nodes, 8 edges, max diameter 5.
+Results: [9, 9, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 8, 14 edges, max diameter 2, 9 nodes.
+Results: [10, 17, 0, 6, 5, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max degree 19, max diameter 5, 1 connected component, 42 nodes, 52 edges.
+Results: [40, 48, 0, 15, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, 1 connected component, min degree 1, 5 nodes, with cycle, max diameter 3, max degree 3.
+Results: [5, 4, 0, 2, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 9 nodes, max degree 8, max diameter 2, with cycle, min degree 4, 26 edges.
+Results: [9, 29, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [11:18:08], Iteration [94/100]:
+l_D/R: 13.48, l_D/F: 5.73, l_D: -5.43, l_G: -5.74, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.44, n_match: 0.56, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.16, diam_match: 0.18, cc_match: 0.09, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with without cycle, 8 edges, 9 nodes, 1 connected component.
+Results: [9, 7, 0, 3, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, max degree 8, 1 connected component, 9 nodes.
+Results: [9, 15, 0, 6, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 19, 1 connected component, 42 nodes, 52 edges, min degree 1.
+Results: [41, 38, 0, 12, 6, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 1, with cycle, max degree 3, 5 nodes, 6 edges, max diameter 3.
+Results: [5, 7, 0, 3, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max diameter 2, with cycle, min degree 4, 1 connected component, max degree 8, 26 edges.
+Results: [9, 25, 0, 8, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [11:23:26], Iteration [95/100]:
+l_D/R: 13.10, l_D/F: 5.67, l_D: -5.50, l_G: -5.63, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 9 nodes, max degree 3, min degree 1, max diameter 5, 8 edges.
+Results: [9, 9, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, min degree 1, 14 edges, max diameter 2, 9 nodes, max degree 8.
+Results: [10, 26, 0, 7, 2, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, 1 connected component, with cycle, max degree 19, 52 edges, max diameter 5, 42 nodes.
+Results: [42, 50, 0, 12, 6, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 5 nodes, min degree 1, with cycle, 6 edges, 1 connected component, max diameter 3.
+Results: [5, 6, 0, 3, 4, -1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 4, 26 edges, 1 connected component, max diameter 2, 9 nodes.
+Results: [9, 26, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [11:31:58], Iteration [96/100]:
+l_D/R: 13.01, l_D/F: 4.99, l_D: -5.01, l_G: -4.95, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.45, n_match: 0.61, m_match: 0.09, min_deg_match: 0.02, max_deg_match: 0.16, diam_match: 0.21, cc_match: 0.10, cycle_match: 0.60
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max degree 3, 9 nodes, 8 edges, max diameter 5, 1 connected component.
+Results: [9, 8, 0, 3, 6, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14 edges, with cycle, min degree 1, 9 nodes, max degree 8.
+Results: [9, 15, 0, 6, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max diameter 5, 42 nodes, with cycle, 52 edges, max degree 19, 1 connected component.
+Results: [44, 40, 0, 14, 6, 16, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 3, 5 nodes, max degree 3, 1 connected component, with cycle, 6 edges, min degree 1.
+Results: [5, 7, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 26 edges, with cycle, max degree 8, max diameter 2, 1 connected component, min degree 4.
+Results: [9, 26, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [11:37:16], Iteration [97/100]:
+l_D/R: 13.02, l_D/F: 5.38, l_D: -5.33, l_G: -5.40, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8 edges, max diameter 5, 1 connected component, without cycle, 9 nodes.
+Results: [9, 7, 0, 3, 5, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max diameter 2, 14 edges, with cycle, min degree 1, 1 connected component, max degree 8.
+Results: [9, 14, 0, 6, 4, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52 edges, 42 nodes, max diameter 5, min degree 1, max degree 19, with cycle.
+Results: [43, 41, 0, 13, 4, 19, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with min degree 1, max degree 3, 6 edges, 1 connected component, with cycle, 5 nodes.
+Results: [5, 9, 0, 4, 4, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max degree 8, min degree 4, 26 edges.
+Results: [8, 33, 0, 9, 4, -5, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [11:44:21], Iteration [98/100]:
+l_D/R: 13.23, l_D/F: 5.86, l_D: -5.20, l_G: -5.89, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.44, n_match: 0.61, m_match: 0.09, min_deg_match: 0.01, max_deg_match: 0.16, diam_match: 0.19, cc_match: 0.07, cycle_match: 0.62
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, max diameter 5, 9 nodes, 8 edges, min degree 1, without cycle.
+Results: [9, 8, 0, 3, 6, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 1 connected component, min degree 1, 14 edges.
+Results: [9, 17, 0, 4, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, max degree 19, 52 edges, 42 nodes, max diameter 5.
+Results: [42, 52, 0, 13, 5, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6 edges, 5 nodes, min degree 1, with cycle.
+Results: [5, 7, 0, 3, 4, -2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, 1 connected component, min degree 4, max diameter 2, 26 edges, max degree 8.
+Results: [9, 28, 0, 8, 4, -2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [11:49:37], Iteration [99/100]:
+l_D/R: 13.31, l_D/F: 6.18, l_D: -5.18, l_G: -6.20, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9 nodes, max diameter 5, 8 edges, without cycle, max degree 3.
+Results: [8, 3, 0, 3, 2, 5, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, 1 connected component, max degree 8, 9 nodes, 14 edges.
+Results: [9, 15, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 52 edges, max diameter 5, max degree 19, 42 nodes, 1 connected component, min degree 1.
+Results: [43, 42, 0, 14, 5, 15, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, 5 nodes, max diameter 3, 1 connected component, 6 edges.
+Results: [5, 10, 0, 5, 2, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 26 edges, max diameter 2, with cycle, max degree 8, 9 nodes.
+Results: [9, 22, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-22_21-06/models...
+INFO:root:Elapsed [11:56:45], Iteration [100/100]:
+l_D/R: 12.74, l_D/F: 6.54, l_D: -5.18, l_G: -6.54, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.45, n_match: 0.61, m_match: 0.09, min_deg_match: 0.02, max_deg_match: 0.17, diam_match: 0.19, cc_match: 0.11, cycle_match: 0.61
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with max diameter 2, max degree 4, min degree 4, 5 nodes, 10 edges.
+Results: [5, 11, 0, 5, 2, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5 nodes, min degree 1, without cycle, 3 edges, max degree 2.
+Results: [5, 1, 0, 1, 2, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 22 nodes, max degree 9, min degree 2, with cycle, 1 connected component, max diameter 4, 46 edges.
+Results: [22, 43, 0, 6, 5, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 1 connected component, 16 nodes, min degree 1, max diameter 5, with cycle, 52 edges, max degree 11.
+Results: [16, 56, 0, 11, 4, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with with cycle, min degree 3, 1 connected component, max degree 11, max diameter 5, 77 edges, 23 nodes.
+Results: [23, 85, 0, 11, 4, -3, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-22_21-06/models...
+INFO:root:Elapsed [11:56:53], Iteration [100/100]:
+l_D/R: 12.73, l_D/F: 6.49, l_D: -5.30, l_G: -6.51, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.44, n_match: 0.60, m_match: 0.08, min_deg_match: 0.01, max_deg_match: 0.14, diam_match: 0.18, cc_match: 0.10, cycle_match: 0.60

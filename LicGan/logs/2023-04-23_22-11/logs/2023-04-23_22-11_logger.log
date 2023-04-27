@@ -1,0 +1,1403 @@
+INFO:root:Namespace(lm_model='roberta-base', N=50, max_len=128, z_dim=8, mha_dim=768, n_heads=8, gen_dims=[[128, 256, 768], [512, 512]], disc_dims=[[128, 128], [512, 768], [512, 256, 128]], lambda_gp=5, lambda_rew=0.5, lambda_wgan=1, post_method='hard_gumbel', batch_size=128, num_epochs=100, g_lr=0.0002, d_lr=0.0002, b_lr=1e-05, dropout=0, n_critic=4, test_epochs=100, num_workers=1, mode='train', bert_unfreeze=0, data_dir='data/graphgen', saving_dir='results/2023-04-23_22-11', model_save_step=20, lr_update_step=1000, restore_G=None, restore_D=None, restore_B_D=None, restore_B_G=None, model_mode=1, ds_mode=2, name='symm_fcn_final_simple_ds_just_num_shuffle_gumbel_roberta_rew_m1_mask', log_dir='results/2023-04-23_22-11/logs', model_dir='results/2023-04-23_22-11/models')
+INFO:root:Generator(
+  (activation_f): ReLU()
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=8, out_features=128, bias=True)
+      (1): Dropout(p=0, inplace=False)
+      (2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=256, bias=True)
+      (5): Dropout(p=0, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=768, bias=True)
+      (9): Dropout(p=0, inplace=False)
+      (10): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer_2): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=1536, out_features=512, bias=True)
+      (1): Dropout(p=0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=512, bias=True)
+      (5): Dropout(p=0, inplace=False)
+      (6): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (adjM_layer): Sequential(
+    (0): Linear(in_features=512, out_features=128, bias=True)
+    (1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+    (2): ReLU()
+    (3): Linear(in_features=128, out_features=2500, bias=True)
+  )
+  (node_layer): Sequential(
+    (0): Linear(in_features=512, out_features=64, bias=True)
+    (1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+    (2): ReLU()
+    (3): Linear(in_features=64, out_features=50, bias=True)
+  )
+)
+INFO:root:G
+INFO:root:The number of parameters: 4072502
+INFO:root:Discriminator(
+  (activation_f): ReLU()
+  (multi_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=50, out_features=128, bias=True)
+      (1): Dropout(p=0.0, inplace=False)
+      (2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=128, bias=True)
+      (5): Dropout(p=0.0, inplace=False)
+      (6): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (node_dense_layer): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=50, out_features=64, bias=True)
+      (1): Dropout(p=0.2, inplace=False)
+      (2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=64, out_features=128, bias=True)
+      (5): Dropout(p=0.2, inplace=False)
+      (6): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (multi_dense_layer_2): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=6528, out_features=512, bias=True)
+      (1): Dropout(p=0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=768, bias=True)
+      (5): Dropout(p=0, inplace=False)
+      (6): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+    )
+  )
+  (mha): MultiheadAttention(
+    (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+  )
+  (multi_dense_layer_3): MultiDenseLayer(
+    (linear_layer): Sequential(
+      (0): Linear(in_features=1536, out_features=512, bias=True)
+      (1): Dropout(p=0, inplace=False)
+      (2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=256, bias=True)
+      (5): Dropout(p=0, inplace=False)
+      (6): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (7): ReLU()
+      (8): Linear(in_features=256, out_features=128, bias=True)
+      (9): Dropout(p=0, inplace=False)
+      (10): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (11): ReLU()
+    )
+  )
+  (output_layer): Linear(in_features=128, out_features=1, bias=True)
+)
+INFO:root:D
+INFO:root:The number of parameters: 7090369
+INFO:root:RobertaModel(
+  (embeddings): RobertaEmbeddings(
+    (word_embeddings): Embedding(50265, 768, padding_idx=1)
+    (position_embeddings): Embedding(514, 768, padding_idx=1)
+    (token_type_embeddings): Embedding(1, 768)
+    (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (encoder): RobertaEncoder(
+    (layer): ModuleList(
+      (0-11): 12 x RobertaLayer(
+        (attention): RobertaAttention(
+          (self): RobertaSelfAttention(
+            (query): Linear(in_features=768, out_features=768, bias=True)
+            (key): Linear(in_features=768, out_features=768, bias=True)
+            (value): Linear(in_features=768, out_features=768, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (output): RobertaSelfOutput(
+            (dense): Linear(in_features=768, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (intermediate): RobertaIntermediate(
+          (dense): Linear(in_features=768, out_features=3072, bias=True)
+          (intermediate_act_fn): GELUActivation()
+        )
+        (output): RobertaOutput(
+          (dense): Linear(in_features=3072, out_features=768, bias=True)
+          (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+  )
+  (pooler): RobertaPooler(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (activation): Tanh()
+  )
+)
+INFO:root:roberta-base_G
+INFO:root:The number of parameters: 124645632
+INFO:root:RobertaModel(
+  (embeddings): RobertaEmbeddings(
+    (word_embeddings): Embedding(50265, 768, padding_idx=1)
+    (position_embeddings): Embedding(514, 768, padding_idx=1)
+    (token_type_embeddings): Embedding(1, 768)
+    (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (encoder): RobertaEncoder(
+    (layer): ModuleList(
+      (0-11): 12 x RobertaLayer(
+        (attention): RobertaAttention(
+          (self): RobertaSelfAttention(
+            (query): Linear(in_features=768, out_features=768, bias=True)
+            (key): Linear(in_features=768, out_features=768, bias=True)
+            (value): Linear(in_features=768, out_features=768, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (output): RobertaSelfOutput(
+            (dense): Linear(in_features=768, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (intermediate): RobertaIntermediate(
+          (dense): Linear(in_features=768, out_features=3072, bias=True)
+          (intermediate_act_fn): GELUActivation()
+        )
+        (output): RobertaOutput(
+          (dense): Linear(in_features=3072, out_features=768, bias=True)
+          (LayerNorm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+  )
+  (pooler): RobertaPooler(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (activation): Tanh()
+  )
+)
+INFO:root:roberta-base_D
+INFO:root:The number of parameters: 124645632
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [26, 661, 18, 34, 2, -23, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [23, 613, 17, 34, 2, -26, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [26, 638, 13, 34, 2, -23, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [24, 655, 15, 33, 2, -25, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [30, 607, 17, 34, 2, -19, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_22-11/models...
+INFO:root:Elapsed [0:00:34], Iteration [0/100]:
+l_D/R: -0.07, l_D/F: -0.13, l_D: 5.90, l_G: 0.13, l_R: 0.32, l_R/N: 0.09, l_R/M: 0.23
+property_match: 0.01, closeness: 0.01, n_match: 0.02, m_match: 0.00, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [29, 153, 0, 15, 5, -18, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [28, 198, 1, 17, 5, -21, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [27, 158, 1, 15, 5, -22, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [32, 172, 2, 19, 4, -17, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [37, 137, 0, 14, 4, -10, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:06:04], Iteration [1/100]:
+l_D/R: 7.83, l_D/F: -8.84, l_D: -14.80, l_G: 8.85, l_R: 0.11, l_R/N: 0.10, l_R/M: 0.01
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [26, 46, 0, 5, 17, -17, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [22, 48, 0, 6, 7, -14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [27, 56, 0, 9, 6, -8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [23, 44, 0, 11, 7, -11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [25, 60, 0, 11, 8, -12, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:11:42], Iteration [2/100]:
+l_D/R: 5.61, l_D/F: -2.98, l_D: -7.42, l_G: 2.97, l_R: 0.07, l_R/N: 0.07, l_R/M: 0.00
+property_match: 0.02, closeness: 0.03, n_match: 0.02, m_match: 0.02, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [18, 24, 0, 8, 7, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [17, 20, 0, 3, 5, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [35, 56, 0, 9, 7, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [24, 25, 0, 6, 6, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [16, 25, 0, 6, 8, -5, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:17:18], Iteration [3/100]:
+l_D/R: -1.46, l_D/F: -6.65, l_D: -4.69, l_G: 6.64, l_R: 0.03, l_R/N: 0.03, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [13, 15, 0, 5, 5, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [14, 20, 0, 4, 6, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [40, 67, 0, 17, 6, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [13, 20, 0, 6, 7, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [14, 61, 0, 9, 5, -16, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:22:58], Iteration [4/100]:
+l_D/R: -2.81, l_D/F: -7.25, l_D: -3.67, l_G: 7.25, l_R: 0.01, l_R/N: 0.01, l_R/M: 0.00
+property_match: 0.05, closeness: 0.08, n_match: 0.08, m_match: 0.02, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [9, 10, 0, 4, 5, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [12, 19, 0, 8, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [42, 57, 0, 14, 7, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [10, 8, 0, 3, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [11, 18, 0, 4, 5, -3, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:28:32], Iteration [5/100]:
+l_D/R: -2.04, l_D/F: -6.32, l_D: -3.68, l_G: 6.32, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [8, 8, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [10, 19, 0, 6, 5, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [46, 51, 0, 13, 7, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [10, 6, 0, 3, 2, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [7, 14, 0, 4, 4, -2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:34:29], Iteration [6/100]:
+l_D/R: 1.21, l_D/F: -2.78, l_D: -3.34, l_G: 2.77, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.12, closeness: 0.20, n_match: 0.17, m_match: 0.07, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [10, 11, 0, 5, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 20, 0, 7, 5, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [44, 71, 0, 21, 6, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [8, 7, 0, 3, 6, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [10, 31, 0, 8, 5, -6, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:40:03], Iteration [7/100]:
+l_D/R: -0.92, l_D/F: -3.91, l_D: -2.40, l_G: 3.93, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [7, 11, 0, 4, 5, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [10, 13, 0, 4, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [41, 54, 0, 17, 5, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 10, 0, 4, 3, -2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [8, 27, 0, 7, 4, -4, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:45:58], Iteration [8/100]:
+l_D/R: 0.37, l_D/F: -3.03, l_D: -2.94, l_G: 3.03, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.16, closeness: 0.26, n_match: 0.25, m_match: 0.07, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [9, 9, 0, 3, 5, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 16, 0, 6, 4, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [41, 53, 0, 20, 5, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 9, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 24, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:51:35], Iteration [9/100]:
+l_D/R: 1.73, l_D/F: -2.12, l_D: -2.99, l_G: 2.11, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [9, 7, 0, 3, 4, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 9, 0, 3, 4, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [41, 69, 0, 11, 7, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [7, 9, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 23, 0, 8, 3, -2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [0:57:23], Iteration [10/100]:
+l_D/R: -0.93, l_D/F: -3.93, l_D: -2.53, l_G: 3.93, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.20, closeness: 0.31, n_match: 0.33, m_match: 0.07, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [9, 5, 0, 2, 5, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 15, 0, 4, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [43, 58, 0, 14, 6, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [5, 8, 0, 2, 3, -3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 29, 0, 7, 3, -3, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:03:04], Iteration [11/100]:
+l_D/R: 1.43, l_D/F: -3.50, l_D: -3.27, l_G: 3.51, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [8, 9, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 10, 0, 3, 6, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [44, 80, 0, 20, 7, 5, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [5, 6, 0, 3, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [8, 19, 0, 6, 4, -1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:08:51], Iteration [12/100]:
+l_D/R: 1.31, l_D/F: -2.49, l_D: -2.94, l_G: 2.51, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.22, closeness: 0.33, n_match: 0.37, m_match: 0.07, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [8, 8, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [10, 15, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [42, 49, 0, 14, 6, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [7, 4, 0, 2, 2, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 26, 0, 7, 2, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:14:28], Iteration [13/100]:
+l_D/R: 1.25, l_D/F: -2.45, l_D: -2.99, l_G: 2.48, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [9, 11, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 12, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [44, 77, 0, 20, 5, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 5, 0, 4, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 17, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:20:16], Iteration [14/100]:
+l_D/R: 1.56, l_D/F: -2.93, l_D: -3.04, l_G: 2.93, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.26, closeness: 0.37, n_match: 0.44, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [9, 8, 0, 5, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 13, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [42, 66, 0, 19, 4, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 6, 0, 4, 4, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [11, 22, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:25:54], Iteration [15/100]:
+l_D/R: 2.91, l_D/F: -1.21, l_D: -3.12, l_G: 1.21, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [9, 9, 0, 4, 2, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [8, 11, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [46, 63, 0, 20, 5, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 5, 0, 4, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 23, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:31:42], Iteration [16/100]:
+l_D/R: 0.43, l_D/F: -2.39, l_D: -2.27, l_G: 2.41, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.26, closeness: 0.37, n_match: 0.44, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [8, 6, 0, 2, 4, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 10, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [42, 61, 0, 20, 4, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 3, 0, 2, 3, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 20, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:37:24], Iteration [17/100]:
+l_D/R: 2.02, l_D/F: -0.42, l_D: -2.06, l_G: 0.41, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [8, 5, 0, 3, 4, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [8, 19, 0, 6, 3, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [43, 56, 0, 18, 5, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 8, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 25, 0, 7, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:43:08], Iteration [18/100]:
+l_D/R: 2.01, l_D/F: -1.31, l_D: -2.46, l_G: 1.30, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.26, closeness: 0.37, n_match: 0.43, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [9, 10, 0, 5, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 13, 0, 5, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [44, 73, 0, 17, 6, 9, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [5, 4, 0, 2, 4, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 27, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [1:48:56], Iteration [19/100]:
+l_D/R: 2.03, l_D/F: -2.12, l_D: -3.44, l_G: 2.11, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [9, 9, 0, 4, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 20, 0, 7, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [44, 63, 0, 20, 5, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 12, 0, 5, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [10, 28, 0, 7, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_22-11/models...
+INFO:root:Elapsed [1:54:41], Iteration [20/100]:
+l_D/R: 2.40, l_D/F: -1.86, l_D: -3.21, l_G: 1.85, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.29, closeness: 0.39, n_match: 0.51, m_match: 0.07, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 5, 10.
+Results: [5, 10, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 3, 5.
+Results: [5, 1, 0, 1, 2, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 22, 46.
+Results: [22, 43, 0, 7, 5, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 16, 52.
+Results: [16, 57, 0, 12, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 23, 77.
+Results: [22, 115, 0, 15, 3, -3, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_22-11/models...
+INFO:root:Elapsed [1:54:44], Iteration [20/100]:
+l_D/R: 2.41, l_D/F: -1.96, l_D: -3.33, l_G: 1.83, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.28, closeness: 0.38, n_match: 0.48, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [8, 8, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 12, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [41, 63, 0, 20, 4, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [6, 6, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [10, 21, 0, 7, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:00:20], Iteration [21/100]:
+l_D/R: 2.56, l_D/F: -2.56, l_D: -3.48, l_G: 2.57, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [9, 8, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 9, 0, 4, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [42, 56, 0, 17, 6, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [5, 7, 0, 3, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [8, 17, 0, 6, 3, 0, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:06:16], Iteration [22/100]:
+l_D/R: 1.75, l_D/F: -2.15, l_D: -3.07, l_G: 2.16, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.29, closeness: 0.39, n_match: 0.49, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [8, 6, 0, 4, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 8, 0, 4, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [41, 64, 0, 22, 5, 6, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 5, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 23, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:11:51], Iteration [23/100]:
+l_D/R: 2.49, l_D/F: -3.06, l_D: -2.79, l_G: 3.04, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [9, 14, 0, 6, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [10, 11, 0, 5, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [42, 55, 0, 16, 5, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 7, 0, 4, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 23, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:17:39], Iteration [24/100]:
+l_D/R: 2.02, l_D/F: -2.57, l_D: -3.50, l_G: 2.60, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.30, closeness: 0.40, n_match: 0.52, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [8, 8, 0, 5, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 14, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [43, 60, 0, 17, 5, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [6, 4, 0, 3, 3, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 22, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:23:18], Iteration [25/100]:
+l_D/R: 2.41, l_D/F: -2.44, l_D: -3.24, l_G: 2.45, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [9, 12, 0, 6, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 17, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [42, 66, 0, 17, 5, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [6, 4, 0, 2, 2, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 22, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:29:06], Iteration [26/100]:
+l_D/R: 1.95, l_D/F: -2.87, l_D: -3.34, l_G: 2.84, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.30, closeness: 0.40, n_match: 0.51, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [8, 5, 0, 3, 2, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 9, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [43, 63, 0, 19, 4, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [6, 3, 0, 3, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 21, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:34:45], Iteration [27/100]:
+l_D/R: 2.20, l_D/F: -2.71, l_D: -3.60, l_G: 2.71, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [8, 10, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 13, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [43, 44, 0, 14, 5, 12, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [10, 22, 0, 7, 3, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:40:36], Iteration [28/100]:
+l_D/R: 1.61, l_D/F: -1.21, l_D: -2.49, l_G: 1.21, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.42, n_match: 0.54, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [9, 12, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 14, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [42, 51, 0, 16, 5, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [6, 3, 0, 2, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 22, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:46:14], Iteration [29/100]:
+l_D/R: 1.55, l_D/F: -2.74, l_D: -3.19, l_G: 2.73, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [9, 13, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 13, 0, 4, 5, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [43, 52, 0, 14, 6, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 4, 0, 2, 4, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 26, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:52:04], Iteration [30/100]:
+l_D/R: 3.26, l_D/F: -2.41, l_D: -3.70, l_G: 2.42, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.42, n_match: 0.54, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [11, 12, 0, 4, 5, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 16, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [43, 66, 0, 18, 5, 7, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 8, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 22, 0, 7, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [2:57:43], Iteration [31/100]:
+l_D/R: 2.22, l_D/F: -2.81, l_D: -3.86, l_G: 2.83, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [8, 12, 0, 4, 3, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 10, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [41, 53, 0, 18, 4, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [6, 5, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 24, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:03:30], Iteration [32/100]:
+l_D/R: 0.87, l_D/F: -2.71, l_D: -3.05, l_G: 2.70, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.31, closeness: 0.41, n_match: 0.53, m_match: 0.08, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [9, 5, 0, 3, 4, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 16, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [40, 57, 0, 22, 5, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [7, 4, 0, 2, 4, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 25, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:09:31], Iteration [33/100]:
+l_D/R: 2.72, l_D/F: -2.89, l_D: -3.61, l_G: 2.87, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [9, 9, 0, 3, 7, 0, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 15, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [43, 36, 0, 12, 5, 14, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [5, 4, 0, 3, 3, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 25, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:15:24], Iteration [34/100]:
+l_D/R: 1.04, l_D/F: -2.29, l_D: -2.95, l_G: 2.30, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.33, closeness: 0.43, n_match: 0.58, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [8, 18, 0, 6, 5, -3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 10, 0, 4, 6, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [41, 38, 0, 13, 4, 17, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 25, 0, 6, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:21:02], Iteration [35/100]:
+l_D/R: 2.80, l_D/F: -3.12, l_D: -4.03, l_G: 3.10, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [8, 7, 0, 3, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 19, 0, 6, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [43, 56, 0, 14, 6, 4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [5, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 27, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:26:55], Iteration [36/100]:
+l_D/R: 2.38, l_D/F: -2.82, l_D: -3.53, l_G: 2.79, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.42, n_match: 0.55, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [9, 9, 0, 3, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 14, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [43, 47, 0, 16, 5, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 2, 0, 1, 2, 4, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 23, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:32:31], Iteration [37/100]:
+l_D/R: 2.55, l_D/F: -1.02, l_D: -2.92, l_G: 1.05, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [8, 11, 0, 4, 5, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 9, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [43, 54, 0, 17, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [6, 4, 0, 2, 4, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 22, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:38:24], Iteration [38/100]:
+l_D/R: 2.77, l_D/F: -2.69, l_D: -3.81, l_G: 2.68, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.34, closeness: 0.43, n_match: 0.60, m_match: 0.07, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [8, 9, 0, 3, 4, 0, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 14.
+Results: [9, 17, 0, 6, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [43, 58, 0, 15, 5, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 5, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 25, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:44:02], Iteration [39/100]:
+l_D/R: 2.44, l_D/F: -2.55, l_D: -3.66, l_G: 2.48, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [8, 10, 0, 3, 5, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 14, 0, 5, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [42, 44, 0, 15, 6, 11, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [5, 5, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 16, 0, 6, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_22-11/models...
+INFO:root:Elapsed [3:50:02], Iteration [40/100]:
+l_D/R: 3.22, l_D/F: -1.59, l_D: -3.84, l_G: 1.61, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.35, closeness: 0.45, n_match: 0.62, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 5, 10.
+Results: [7, 8, 0, 4, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 3.
+Results: [5, 4, 0, 2, 3, 1, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 22, 46.
+Results: [22, 52, 0, 9, 4, -1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 16.
+Results: [16, 66, 0, 10, 3, -4, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 77, 23.
+Results: [23, 71, 0, 10, 4, 0, True]
+--------------------------------------------------
+
+INFO:root:Saved model checkpoints into results/2023-04-23_22-11/models...
+INFO:root:Elapsed [3:50:05], Iteration [40/100]:
+l_D/R: 3.25, l_D/F: -1.65, l_D: -3.98, l_G: 1.57, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.35, closeness: 0.45, n_match: 0.59, m_match: 0.11, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [9, 13, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [10, 12, 0, 4, 3, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [43, 48, 0, 16, 4, 15, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [6, 5, 0, 3, 2, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 32, 0, 8, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [3:55:52], Iteration [41/100]:
+l_D/R: 2.82, l_D/F: -2.42, l_D: -3.99, l_G: 2.43, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 8, 9.
+Results: [8, 7, 0, 4, 2, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 8, 0, 3, 5, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [44, 47, 0, 14, 4, 13, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [5, 6, 0, 4, 2, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [10, 28, 0, 7, 2, 2, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:01:43], Iteration [42/100]:
+l_D/R: 2.00, l_D/F: -1.51, l_D: -3.10, l_G: 1.50, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.34, closeness: 0.44, n_match: 0.59, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [8, 9, 0, 4, 4, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 13, 0, 5, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [43, 50, 0, 15, 5, 10, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 5, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 21, 0, 6, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:07:21], Iteration [43/100]:
+l_D/R: 3.40, l_D/F: -2.25, l_D: -4.11, l_G: 2.26, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [8, 5, 0, 5, 2, 3, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 13, 0, 4, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [42, 42, 0, 16, 5, 15, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 6, 5.
+Results: [6, 6, 0, 3, 3, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 22, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:13:24], Iteration [44/100]:
+l_D/R: 3.56, l_D/F: -2.07, l_D: -3.97, l_G: 2.08, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.35, closeness: 0.44, n_match: 0.62, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [9, 7, 0, 4, 4, 3, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [9, 12, 0, 4, 4, 1, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 52, 42.
+Results: [42, 61, 0, 17, 5, 8, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [6, 5, 0, 3, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 26, 9.
+Results: [9, 20, 0, 6, 3, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:19:08], Iteration [45/100]:
+l_D/R: 3.53, l_D/F: -1.75, l_D: -4.07, l_G: 1.74, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+INFO:root:5 sample adjacenecy matrices
+--------------------------------------------------
+Text: Undirected graph with 9, 8.
+Results: [11, 4, 0, 2, 2, 7, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 14, 9.
+Results: [10, 15, 0, 6, 3, 2, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 42, 52.
+Results: [43, 42, 0, 16, 4, 16, True]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 5, 6.
+Results: [5, 3, 0, 2, 3, 2, False]
+--------------------------------------------------
+--------------------------------------------------
+Text: Undirected graph with 9, 26.
+Results: [9, 25, 0, 7, 2, 1, True]
+--------------------------------------------------
+
+INFO:root:Elapsed [4:24:55], Iteration [46/100]:
+l_D/R: 2.21, l_D/F: -1.27, l_D: -3.11, l_G: 1.27, l_R: 0.00, l_R/N: 0.00, l_R/M: 0.00
+property_match: 0.32, closeness: 0.42, n_match: 0.56, m_match: 0.09, min_deg_match: 0.00, max_deg_match: 0.00, diam_match: 0.00, cc_match: 0.00, cycle_match: 0.00

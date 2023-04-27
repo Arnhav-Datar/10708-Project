@@ -1,5 +1,5 @@
 import numpy as np
-import utils
+from graph_utils import *
 
 def get_node_num(adj: np.ndarray):
     return adj.shape[0]
@@ -30,7 +30,7 @@ def get_max_diameter(adj: np.ndarray):
     return int(dist[dist < np.inf].max())
 
 def get_connected_component_num(adj: np.ndarray):
-    dsu = utils.DSU()
+    dsu = DSU()
 
     n = get_node_num(adj)
     for i in range(n):
@@ -40,7 +40,7 @@ def get_connected_component_num(adj: np.ndarray):
 
     cc = set()
     for i in range(n):
-        cc.add(dsu.size(dsu.query(i)))
+        cc.add(dsu.query(i))
 
     return len(list(cc))
 
