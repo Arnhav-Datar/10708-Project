@@ -1,5 +1,5 @@
 # 10708-Project: Language Information Conditioned Graph Generative GAN Model
-By Abishek Sridhar, Arnhav Datar, Chifan Lo
+By **Abishek Sridhar, Arnhav Datar, Chifan Lo**
 
 This repository contains code for the LIC-GAN project that was done as a part of 10-708: Probabilistic Graphical Models course at CMU in Spring 2023.
 
