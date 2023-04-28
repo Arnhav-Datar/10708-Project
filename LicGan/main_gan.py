@@ -55,7 +55,7 @@ def main(config):
         os.makedirs(config.model_dir)
 
     # Logger
-    if config.mode in ['train', 'test']:
+    if config.mode in 'train':
         log_p_name = os.path.join(config.log_dir, get_date_postfix(True) + '_test_logger.log' if config.mode == 'test' else '_logger.log')
         logging.basicConfig(filename=log_p_name, level=logging.INFO)
         logging.info(config)
@@ -64,7 +64,7 @@ def main(config):
     if config.mode == 'train':
         solver = Solver(config, logging)
     elif config.mode == 'test':
-        solver = None
+        solver = Solver(config, None)
     else:
         raise NotImplementedError
 

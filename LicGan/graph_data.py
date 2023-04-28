@@ -90,11 +90,11 @@ class SyntheticGraphDataset(data.Dataset):
         property_list = self._get_property_list(property)
         # keeps node number and edges compulsorily (can change behavior by changing idx line alone)
         if rng is None:
-            count = np.random.randint(2, 6) # [l, r)
+            count = np.random.randint(2, 8) # [l, r)
             idx = [0,1] + list(np.random.choice(len(property_list) - 2, count, replace=False) + 2)
             np.random.shuffle(idx)
         else:
-            count = rng.random_integers(2, 5) # [l, r]
+            count = rng.random_integers(2, 7) # [l, r]
             idx = [0,1] + list(rng.choice(len(property_list) - 2, count, replace=False) + 2)
             rng.shuffle(idx)
 
@@ -120,10 +120,10 @@ class SyntheticGraphDataset(data.Dataset):
             rng = np.random.RandomState(self.base_seed + index)
         else:
             rng = None
+        node_inp = np.zeros((self.max_node,))
+        node_inp[:self.properties[index]['n']] = 1
         text_desc, properties = self._gen_text(self.properties[index], rng=rng)
         encoded_text = self._encode_text(text_desc)
-        node_inp = np.zeros((self.max_node,))
-        node_inp[:properties[0]] = 1
 
         return adj_matrix, node_inp, encoded_text, text_desc, properties
     
